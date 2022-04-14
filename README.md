@@ -3,7 +3,7 @@
 ## Game_Name
 
 ## Description
-Game desription
+Game description
 
 ## Authors
 Team 25/25:
