@@ -4,15 +4,21 @@
 #include "weapon.hpp"
 #include "wearable.hpp"
 
+#include <optional>
+
 class Hero
 {
 public:
+    Hero();
+    Hero(unsigned int maxHealth);
+    Hero(unsigned int maxHealth, Weapon weapon, Wearable wearable);
+
     unsigned int getMaxHealth() const;
     unsigned int getCurrentHealth() const;
-    Weapon getWeapon() const;
-    Wearable getWearable() const;
+    std::optional<Weapon> getWeapon() const;
+    std::optional<Wearable> getWearable() const;
 
-    void setMaxHealth(unsigned int health) ;
+    void setMaxHealth(unsigned int health);
     void setCurrentHealth(unsigned int health);
     void setWeapon(Weapon weapon);
     void setWearable(Wearable wearable);
@@ -25,8 +31,8 @@ public:
 private:
     unsigned int maxHealth;
     unsigned int currentHealth;
-    Weapon weapon;
-    Wearable wearable;
+    std::optional<Weapon> weapon;
+    std::optional<Wearable> wearable;
 };
 
 #endif

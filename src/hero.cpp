@@ -1,5 +1,26 @@
 #include "hero.hpp"
 #include <algorithm> //std::min
+#include <optional>
+
+Hero::Hero()
+{
+    this->maxHealth = 0;
+    this->currentHealth = 0;
+}
+
+Hero::Hero(unsigned int maxHealth)
+{
+    this->maxHealth = maxHealth;
+    this->currentHealth = maxHealth;
+}
+
+Hero::Hero(unsigned int maxHealth, Weapon weapon, Wearable wearable)
+{
+    this->maxHealth = maxHealth;
+    this->currentHealth = maxHealth;
+    this->weapon = weapon;
+    this->wearable = wearable;
+}
 
 unsigned int Hero::getMaxHealth() const
 {
@@ -11,12 +32,12 @@ unsigned int Hero::getCurrentHealth() const
     return currentHealth;
 }
 
-Weapon Hero::getWeapon() const
+std::optional<Weapon> Hero::getWeapon() const
 {
     return weapon;
 }
 
-Wearable Hero::getWearable() const
+std::optional<Wearable> Hero::getWearable() const
 {
     return wearable;
 }
