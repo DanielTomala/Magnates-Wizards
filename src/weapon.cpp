@@ -1,6 +1,20 @@
 #include "weapon.hpp"
 #include <algorithm> //std::min
 
+Weapon::Weapon()
+{
+    damage = 0;
+    durability = 0;
+    range = 0;
+}
+
+Weapon::Weapon(unsigned int damage, unsigned int durability, unsigned int range)
+{
+    this->damage = damage;
+    this->durability = durability;
+    this->range = range;
+}
+
 unsigned int Weapon::getDamage() const
 {
     return damage;
