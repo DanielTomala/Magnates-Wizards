@@ -1,6 +1,6 @@
 #include "hero.hpp"
 #include <algorithm> //std::min
-#include <optional>
+#include <optional>  //std::optional
 
 Hero::Hero()
 {
