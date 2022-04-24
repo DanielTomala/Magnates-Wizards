@@ -17,7 +17,8 @@ public:
 
     vector <Weapon> GetWeapons() const;
     string GetName() const;
-    string GetHp() const;
+    int GetHp() const;
 
-    void ChangeHp(const int damage);
+    void GetDamage(const int damage);
+    void AddWeapon(Weapon weapon);
 };
