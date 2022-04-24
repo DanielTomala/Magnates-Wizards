@@ -19,6 +19,8 @@ public:
     string GetName() const;
     int GetHp() const;
 
-    void GetDamage(const int damage);
+    void GetDamage(int damage);
     void AddWeapon(Weapon weapon);
+
+    bool IsAlive() const;
 };

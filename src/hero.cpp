@@ -39,8 +39,12 @@ int Hero::GetHp() const
     return this->hp;
 }
 
-void Hero::GetDamage(const int damage)
+void Hero::GetDamage(int damage)
 {
+    if (damage > this->hp)
+    {
+        damage = this->hp;
+    }
     this->hp -= damage;
 }
 
@@ -49,3 +53,7 @@ void Hero::AddWeapon(Weapon weapon)
     this->weapons.push_back(weapon);
 }
 
+bool Hero::IsAlive() const
+{
+    if 
+}
