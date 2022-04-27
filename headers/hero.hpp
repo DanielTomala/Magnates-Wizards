@@ -1,26 +1,38 @@
-#include <iostream>
-#include <vector>
+#ifndef HERO_HPP
+#define HERO
+
 #include "weapon.hpp"
+#include "wearable.hpp"
 
-using namespace std;
+#include <optional>
 
-class Hero {
-private:
-    vector <Weapon> weapons;
-    string name;
-    int hp;
+class Hero
+{
 public:
-    Hero ();
-    Hero (vector <Weapon> weapons, string name, int hp);
-    void SetName(string name);
-    void SetHp(int hp);
+    Hero();
+    Hero(unsigned int maxHealth);
+    Hero(unsigned int maxHealth, Weapon weapon, Wearable wearable);
 
-    vector <Weapon> GetWeapons() const;
-    string GetName() const;
-    int GetHp() const;
+    unsigned int getMaxHealth() const;
+    unsigned int getCurrentHealth() const;
+    std::optional<Weapon> getWeapon() const;
+    std::optional<Wearable> getWearable() const;
 
-    void GetDamage(int damage);
-    void AddWeapon(Weapon weapon);
+    void setMaxHealth(unsigned int health);
+    void setCurrentHealth(unsigned int health);
+    void setWeapon(Weapon weapon);
+    void setWearable(Wearable wearable);
 
-    bool IsAlive() const;
+    void heal(unsigned int healHealth);
+    void takeDamage(unsigned int damage);
+
+    bool isAlive() const;
+
+private:
+    unsigned int maxHealth;
+    unsigned int currentHealth;
+    std::optional<Weapon> weapon;
+    std::optional<Wearable> wearable;
 };
+
+#endif
