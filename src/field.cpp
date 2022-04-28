@@ -2,27 +2,34 @@
 
 Field::Field(){}
 
-Field::Field(bool isAvailable, bool isBoosted)
+Field::Field(bool isFree, bool isBubbleBoosted, bool isFieldBoosted)
 {
-    this->isAvailable = isAvailable;
-    this->isBoosted = isBoosted;
+    this->isFree = isFree;
+    this->isBubbleBoosted = isBoosted;
 }
 
-Field::Field(bool isAvailable, bool isBoosted, Hero hero)
+Field::Field(bool isFree, bool isBoosted, Hero hero, FieldBooster fieldBooster, BubbleBooster bubbleBooster)
 {
-    this->isAvailable = isAvailable;
+    this->isFree = isFree;
     this->isBoosted = isBoosted;
     this->hero = hero;
+    this->fieldBooster = fieldBooster;
+    this->bubbleBooster = bubbleBooster;
 }
 
-bool Field::GetIsAvailable() const
+bool Field::GetIsFree() const
 {
-    return this->isAvailable;
+    return this->isFree;
 }
 
-bool Field::GetIsBoosted() const
+bool Field::GetIsBubbleBoosted() const
 {
-    return this->isBoosted;
+    return this->isBubbleBoosted;
+}
+
+bool Field::GetIsFieldBoosted() const
+{
+    return this->isFieldBoosted;
 }
 
 std::optional<Hero> Field::GetHero() const
@@ -30,21 +37,48 @@ std::optional<Hero> Field::GetHero() const
     return this->hero;
 }
 
-void Field::SetIsAvailable(bool isAvailable)
+std::optional<FieldBooster> Field::GetFieldBooster() const
 {
-    if (isAvailable == true)
-    {
-        this->hero = NULL;
-    }
-    this->isAvailable = isAvailable;
+    return this->fieldBooster;
 }
 
-void Field::SetIsBoosted(bool isBoosted)
+std::optional<BubbleBooster> Field::GetBubbleBooster() const
 {
-    this->isBoosted = isBoosted;
+    return this->bubbleBooster;
+}
+
+void Field::SetIsFree(bool isFree)
+{
+    if (isFree == true)
+        this->hero = NULL;
+    this->isFree = isFree;
+}
+
+void Field::SetIsBubbleBoosted(bool isBubbleBoosted)
+{
+    if (this->isFieldBoosted == false)
+        this->isBubbleBoosted = isBubbleBoosted;
+}
+
+void Field::SetIsFieldBoosted(bool isFieldBoosted)
+{
+    if (this->isBubbleBoosted == false)
+        this->isFieldBoosted = isFieldBoosted;
 }
 
 void Field::SetHero(Hero hero)
 {
     this->hero = hero;
+}
+
+void Field::SetFieldBooster(FieldBooster fieldBooster)
+{
+    if (this->isFieldBoosted == true)
+        this->fieldBooster = fieldBooster; /* ewentualnie moze tez zmieniać isFieldBoosted na true */
+}
+
+void Field::SetBubbleBooster(BubbleBooster bubbleBooster)
+{
+    if (this->isBubbleBoosted == true)
+        this->bubbleBooster = bubbleBooster; /* no i tu tez */
 }
