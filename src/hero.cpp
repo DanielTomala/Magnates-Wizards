@@ -42,7 +42,7 @@ std::optional<Wearable> Hero::getWearable() const
     return wearable;
 }
 
-void Hero::setCurrentHealth(unsigned int health)
+void Hero::setMaxHealth(unsigned int health)
 {
     this->maxHealth = health;
 }
@@ -62,9 +62,13 @@ void Hero::setWearable(Wearable wearable)
     this->wearable = wearable;
 }
 
+// Hero cannot be healed if his health already dropped to 0
 void Hero::heal(unsigned int healHealth)
 {
-    this->currentHealth = std::min(currentHealth + healHealth, maxHealth);
+    if (getCurrentHealth() > 0)
+    {
+        this->currentHealth = std::min(currentHealth + healHealth, maxHealth);
+    }
 }
 
 void Hero::takeDamage(unsigned int damage)
