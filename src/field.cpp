@@ -17,67 +17,67 @@ Field::Field(bool isFree, bool isBoosted, Hero hero, FieldBooster fieldBooster, 
     this->bubbleBooster = bubbleBooster;
 }
 
-bool Field::GetIsFree() const
+bool Field::isFree() const
 {
     return this->isFree;
 }
 
-bool Field::GetIsBubbleBoosted() const
+bool Field::isBubbleBoosted() const
 {
     return this->isBubbleBoosted;
 }
 
-bool Field::GetIsFieldBoosted() const
+bool Field::isFieldBoosted() const
 {
     return this->isFieldBoosted;
 }
 
-std::optional<Hero> Field::GetHero() const
+std::optional<Hero> Field::getHero() const
 {
     return this->hero;
 }
 
-std::optional<FieldBooster> Field::GetFieldBooster() const
+std::optional<FieldBooster> Field::getFieldBooster() const
 {
     return this->fieldBooster;
 }
 
-std::optional<BubbleBooster> Field::GetBubbleBooster() const
+std::optional<BubbleBooster> Field::getBubbleBooster() const
 {
     return this->bubbleBooster;
 }
 
-void Field::SetIsFree(bool isFree)
+void Field::setIsFree(bool isFree)
 {
     if (isFree == true)
         this->hero = NULL;
     this->isFree = isFree;
 }
 
-void Field::SetIsBubbleBoosted(bool isBubbleBoosted)
+void Field::setIsBubbleBoosted(bool isBubbleBoosted)
 {
     if (this->isFieldBoosted == false)
         this->isBubbleBoosted = isBubbleBoosted;
 }
 
-void Field::SetIsFieldBoosted(bool isFieldBoosted)
+void Field::setIsFieldBoosted(bool isFieldBoosted)
 {
     if (this->isBubbleBoosted == false)
         this->isFieldBoosted = isFieldBoosted;
 }
 
-void Field::SetHero(Hero hero)
+void Field::setHero(const & Hero hero)
 {
     this->hero = hero;
 }
 
-void Field::SetFieldBooster(FieldBooster fieldBooster)
+void Field::setFieldBooster(const & FieldBooster fieldBooster)
 {
     if (this->isFieldBoosted == true)
         this->fieldBooster = fieldBooster; /* ewentualnie moze tez zmieniać isFieldBoosted na true */
 }
 
-void Field::SetBubbleBooster(BubbleBooster bubbleBooster)
+void Field::setBubbleBooster(const & BubbleBooster bubbleBooster)
 {
     if (this->isBubbleBoosted == true)
         this->bubbleBooster = bubbleBooster; /* no i tu tez */

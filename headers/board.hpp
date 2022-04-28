@@ -1,14 +1,22 @@
 #ifndef BOARD_HPP
 #define BOARD_HPP
 
+#include <vector>
 #include "field.hpp"
 
 class Board {
 private:
-    Field fields[5][9];
+    int width;
+    int length;
+    Field fields[length][width];
 public:
-    Field GetField(unsigned int x, unsigned int y) const;
-    Field GetBoard() const;
+    int getWidth() const;
+    int getLength() const;
+    Field getFieldByCoordinate(unsigned int x, unsigned int y) const;
+    Field getFields() const;
+    vector<Field> getFieldsWithHeroes() const;
+    vector<Field> getFieldsWithBubbleBoost() const;
+    vector<Field> getFieldsWithFieldBoost() const;
 };
 
 #endif
