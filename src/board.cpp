@@ -31,5 +31,44 @@ vector<Field> Board::getFieldsWithHeroes() const
     for (int y=0, y<this->width, y++)
     {
         for (int x=0, x<this->length, x++)
+        {
+            if (this->fields[y][x].isFree == false)
+            {
+                fieldsWithHeroes.push_back(fields[y][x]);
+            }
+        }
     }
+    return fieldsWithHeroes;
+}
+
+vector<Field> Board::getFieldsWithBubbleBoost() const
+{
+    vector<Field> fieldsWithBubbleBoost;
+    for (int y=0, y<this->width, y++)
+    {
+        for (int x=0, x<this->length, x++)
+        {
+            if (this->fields[y][x].isBubbleBoosted == true)
+            {
+                fieldsWithBubbleBoost.push_back(fields[y][x]);
+            }
+        }
+    }
+    return fieldsWithBubbleBoost;
+}
+
+vector<Field> Board::getFieldsWithFieldBoost() const
+{
+    vector<Field> fieldsWithFieldBoost;
+    for (int y=0, y<this->width, y++)
+    {
+        for (int x=0, x<this->length, x++)
+        {
+            if (this->fields[y][x].isFieldBoosted == true)
+            {
+                fieldsWithFieldBoost.push_back(fields[y][x]);
+            }
+        }
+    }
+    return fieldsWithFieldBoost;
 }
