@@ -6,8 +6,8 @@
 
 class Board {
 private:
-    int width;
-    int length;
+    int width=5;
+    int length=9;
     Field fields[length][width];
 public:
     int getWidth() const;

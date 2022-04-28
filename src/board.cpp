@@ -1,6 +1,13 @@
 #include <vector>
 #include "board.hpp"
 
+Board::Board(){}
+
+Board::Board(Field fields[length][width])
+{
+    this->fields[length][width] = fields[length][width];
+}
+
 Field Board::getFieldByCoordinate(unsigned int x, unsigned int y) const
 {
     if (x > this->width or y > this->length)
