@@ -1,5 +1,5 @@
 #ifndef HERO_HPP
-#define HERO
+#define HERO_HPP
 
 #include "weapon.hpp"
 #include "wearable.hpp"

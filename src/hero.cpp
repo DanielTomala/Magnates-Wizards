@@ -1,4 +1,4 @@
-#include "hero.hpp"
+#include "../headers/hero.hpp"
 #include <algorithm> //std::min
 #include <optional>  //std::optional
 
@@ -52,12 +52,12 @@ void Hero::setCurrentHealth(unsigned int health)
     this->currentHealth = health;
 }
 
-void Hero::setWeapon(Weapon weapon)
+void Hero::setWeapon(const Weapon& weapon)
 {
     this->weapon = weapon;
 }
 
-void Hero::setWearable(Wearable wearable)
+void Hero::setWearable(const Wearable& wearable)
 {
     this->wearable = wearable;
 }
