@@ -1,4 +1,4 @@
-#include "weapon.hpp"
+#include "../headers/weapon.hpp"
 #include <algorithm> //std::min
 
 Weapon::Weapon()

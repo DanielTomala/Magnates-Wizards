@@ -1,4 +1,4 @@
-#include "hero.hpp"
+#include "../headers/hero.hpp"
 #include <algorithm> //std::min
 #include <optional>  //std::optional
 
@@ -42,7 +42,7 @@ std::optional<Wearable> Hero::getWearable() const
     return wearable;
 }
 
-void Hero::setCurrentHealth(unsigned int health)
+void Hero::setMaxHealth(unsigned int health)
 {
     this->maxHealth = health;
 }
@@ -52,19 +52,31 @@ void Hero::setCurrentHealth(unsigned int health)
     this->currentHealth = health;
 }
 
-void Hero::setWeapon(Weapon weapon)
+void Hero::addWeapon(const Weapon& weapon)
 {
     this->weapon = weapon;
 }
 
-void Hero::setWearable(Wearable wearable)
+void Hero::addWearable(const Wearable& wearable)
 {
     this->wearable = wearable;
 }
 
+void Hero::removeWeapon(){
+    this->weapon = std::nullopt;
+}
+
+void Hero::removeWearable(){
+    this->wearable = std::nullopt;
+}
+
+// Hero cannot be healed if his health already dropped to 0
 void Hero::heal(unsigned int healHealth)
 {
-    this->currentHealth = std::min(currentHealth + healHealth, maxHealth);
+    if (getCurrentHealth() > 0)
+    {
+        this->currentHealth = std::min(currentHealth + healHealth, maxHealth);
+    }
 }
 
 void Hero::takeDamage(unsigned int damage)
