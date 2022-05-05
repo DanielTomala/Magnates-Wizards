@@ -52,14 +52,22 @@ void Hero::setCurrentHealth(unsigned int health)
     this->currentHealth = health;
 }
 
-void Hero::setWeapon(const Weapon& weapon)
+void Hero::addWeapon(const Weapon& weapon)
 {
     this->weapon = weapon;
 }
 
-void Hero::setWearable(const Wearable& wearable)
+void Hero::addWearable(const Wearable& wearable)
 {
     this->wearable = wearable;
+}
+
+void Hero::removeWeapon(){
+    this->weapon = std::nullopt;
+}
+
+void Hero::removeWearable(){
+    this->wearable = std::nullopt;
 }
 
 // Hero cannot be healed if his health already dropped to 0

@@ -20,8 +20,12 @@ public:
 
     void setMaxHealth(unsigned int health);
     void setCurrentHealth(unsigned int health);
-    void setWeapon(const Weapon &weapon);
-    void setWearable(const Wearable &wearable);
+
+    void addWeapon(const Weapon &weapon);
+    void addWearable(const Wearable &wearable);
+
+    void removeWeapon();
+    void removeWearable();
 
     void heal(unsigned int healHealth);
     void takeDamage(unsigned int damage);

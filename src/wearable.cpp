@@ -1,4 +1,4 @@
-#include "wearable.hpp"
+#include "../headers/wearable.hpp"
 #include <algorithm> //std::max
 
 Wearable::Wearable()

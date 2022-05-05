@@ -54,23 +54,29 @@ TEST_CASE("Get and set current health", "[Hero]")
     REQUIRE(hero.getCurrentHealth() == 15);
 }
 
-TEST_CASE("Get and set weapon", "[Hero]")
+TEST_CASE("Get, add and remove weapon", "[Hero]")
 {
     Hero hero;
     REQUIRE(hero.getWeapon() == std::nullopt);
     Weapon weapon(4, 60, 2);
-    REQUIRE(hero.getWeapon().value().getDamage() == weapon.getDamage());
-    REQUIRE(hero.getWeapon().value().getDurability() == weapon.getDurability());
-    REQUIRE(hero.getWeapon().value().getRange() == weapon.getRange());
+    hero.addWeapon(weapon);
+    REQUIRE(hero.getWeapon()->getDamage() == weapon.getDamage());
+    REQUIRE(hero.getWeapon()->getDurability() == weapon.getDurability());
+    REQUIRE(hero.getWeapon()->getRange() == weapon.getRange());
+    hero.removeWeapon();
+    REQUIRE(hero.getWeapon() == std::nullopt);
 }
 
-TEST_CASE("Get and set wearable", "[Hero]")
+TEST_CASE("Get, add and remove wearable", "[Hero]")
 {
     Hero hero;
     REQUIRE(hero.getWearable() == std::nullopt);
     Wearable wearable(5, 70);
-    REQUIRE(hero.getWearable().value().getDurability() == wearable.getDurability());
-    REQUIRE(hero.getWearable().value().getProtection() == wearable.getProtection());
+    hero.addWearable(wearable);
+    REQUIRE(hero.getWearable()->getDurability() == wearable.getDurability());
+    REQUIRE(hero.getWearable()->getProtection() == wearable.getProtection());
+    hero.removeWearable();
+    REQUIRE(hero.getWearable() == std::nullopt);
 }
 
 TEST_CASE("Heal; health after heal less than max", "[Hero]")
