@@ -42,7 +42,7 @@ CMakeCache.txt
 CMakeFiles
 CMakeScripts
 Testing
-Makefile
+# Makefile
 cmake_install.cmake
 install_manifest.txt
 compile_commands.json
@@ -52,6 +52,9 @@ _deps
 ### CMake Patch ###
 # External projects
 *-prefix/
+
+#Build
+/build
 
 ### VisualStudioCode ###
 .vscode/*

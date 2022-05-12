@@ -2,16 +2,8 @@
 
 Field::Field(){}
 
-Field::Field(bool isFree, bool isBubbleBoosted, bool isFieldBoosted)
+Field::Field(Hero hero, FieldBooster fieldBooster, BubbleBooster bubbleBooster)
 {
-    this->isFree = isFree;
-    this->isBubbleBoosted = isBoosted;
-}
-
-Field::Field(bool isFree, bool isBoosted, Hero hero, FieldBooster fieldBooster, BubbleBooster bubbleBooster)
-{
-    this->isFree = isFree;
-    this->isBoosted = isBoosted;
     this->hero = hero;
     this->fieldBooster = fieldBooster;
     this->bubbleBooster = bubbleBooster;
@@ -47,38 +39,34 @@ std::optional<BubbleBooster> Field::getBubbleBooster() const
     return this->bubbleBooster;
 }
 
-void Field::setIsFree(bool isFree)
-{
-    if (isFree == true)
-        this->hero = NULL;
-    this->isFree = isFree;
-}
-
-void Field::setIsBubbleBoosted(bool isBubbleBoosted)
-{
-    if (this->isFieldBoosted == false)
-        this->isBubbleBoosted = isBubbleBoosted;
-}
-
-void Field::setIsFieldBoosted(bool isFieldBoosted)
-{
-    if (this->isBubbleBoosted == false)
-        this->isFieldBoosted = isFieldBoosted;
-}
-
-void Field::setHero(const & Hero hero)
+void Field::addHero(const & Hero hero)
 {
     this->hero = hero;
+    this->isFree = true;
 }
 
-void Field::setFieldBooster(const & FieldBooster fieldBooster)
+void Field::addFieldBooster(const & FieldBooster fieldBooster)
 {
-    if (this->isFieldBoosted == true)
-        this->fieldBooster = fieldBooster; /* ewentualnie moze tez zmieniać isFieldBoosted na true */
+    this->fieldBooster = fieldBooster; /* ewentualnie moze tez zmieniać isFieldBoosted na true */
 }
 
-void Field::setBubbleBooster(const & BubbleBooster bubbleBooster)
+void Field::addBubbleBooster(const & BubbleBooster bubbleBooster)
 {
-    if (this->isBubbleBoosted == true)
-        this->bubbleBooster = bubbleBooster; /* no i tu tez */
+    this->bubbleBooster = bubbleBooster; /* no i tu tez */
+}
+
+void Field::removeHero()
+{
+    this->hero = nullptr;
+    this->isFree = false;
+}
+
+void Field::removeFieldBooster()
+{
+    this->fieldBooster = nullptr;
+}
+
+void Field::removeBubbleBooster()
+{
+    this->bubbleBooster = nullptr;
 }

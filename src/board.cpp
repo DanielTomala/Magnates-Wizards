@@ -34,18 +34,14 @@ int Board::getWidth() const
 
 vector<Field> Board::getFieldsWithHeroes() const
 {
-    vector<Field> fieldsWithHeroes;
-    for (int y=0, y<this->width, y++)
+    std::vector<Field> fieldsWithHeroes;
+    for (Field field : this->fields)
     {
-        for (int x=0, x<this->length, x++)
+        if (field.isFree == false)
         {
-            if (this->fields[y][x].isFree == false)
-            {
-                fieldsWithHeroes.push_back(fields[y][x]);
-            }
+            fieldsWithHeroes.push_back(field);
         }
     }
-    return fieldsWithHeroes;
 }
 
 vector<Field> Board::getFieldsWithBubbleBoost() const

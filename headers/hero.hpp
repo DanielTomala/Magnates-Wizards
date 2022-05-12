@@ -1,5 +1,5 @@
 #ifndef HERO_HPP
-#define HERO
+#define HERO_HPP
 
 #include "weapon.hpp"
 #include "wearable.hpp"
@@ -20,8 +20,12 @@ public:
 
     void setMaxHealth(unsigned int health);
     void setCurrentHealth(unsigned int health);
-    void setWeapon(Weapon weapon);
-    void setWearable(Wearable wearable);
+
+    void addWeapon(const Weapon &weapon);
+    void addWearable(const Wearable &wearable);
+
+    void removeWeapon();
+    void removeWearable();
 
     void heal(unsigned int healHealth);
     void takeDamage(unsigned int damage);
