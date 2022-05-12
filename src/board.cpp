@@ -1,7 +1,7 @@
 #include <vector>
-#include "board.hpp"
+#include "../headers/board.hpp"
 
-Board::Board(){}
+Board::Board() {}
 
 Board::Board(Field fields[length][width])
 {
@@ -10,7 +10,7 @@ Board::Board(Field fields[length][width])
 
 Field Board::getFieldByCoordinate(unsigned int x, unsigned int y) const
 {
-    if (x > this->width or y > this->length)
+    if (x >= this->width || y >= this->length)
     {
         throw std::invalid_argument("X value has to be less than width and Y value has to be less than length");
     }
@@ -32,45 +32,39 @@ int Board::getWidth() const
     return this->width;
 }
 
-vector<Field> Board::getFieldsWithHeroes() const
+std::vector<Field> Board::getFieldsWithHeroes() const
 {
     std::vector<Field> fieldsWithHeroes;
     for (Field field : this->fields)
     {
-        if (field.isFree == false)
+        if (field.isFree() == false)
         {
             fieldsWithHeroes.push_back(field);
         }
     }
 }
 
-vector<Field> Board::getFieldsWithBubbleBoost() const
+std::vector<Field> Board::getFieldsWithBubbleBoost() const
 {
-    vector<Field> fieldsWithBubbleBoost;
-    for (int y=0, y<this->width, y++)
+    std::vector<Field> fieldsWithBubbleBoost;
+    for (Field field : this->fields)
     {
-        for (int x=0, x<this->length, x++)
+        if (field.isBubbleBoosted() == true)
         {
-            if (this->fields[y][x].isBubbleBoosted == true)
-            {
-                fieldsWithBubbleBoost.push_back(fields[y][x]);
-            }
+            fieldsWithBubbleBoost.push_back(field);
         }
     }
     return fieldsWithBubbleBoost;
 }
 
-vector<Field> Board::getFieldsWithFieldBoost() const
+std::vector<Field> Board::getFieldsWithFieldBoost() const
 {
-    vector<Field> fieldsWithFieldBoost;
-    for (int y=0, y<this->width, y++)
+    std::vector<Field> fieldsWithFieldBoost;
+    for (Field field : this->fields)
     {
-        for (int x=0, x<this->length, x++)
+        if (field.isFieldBoosted() == true)
         {
-            if (this->fields[y][x].isFieldBoosted == true)
-            {
-                fieldsWithFieldBoost.push_back(fields[y][x]);
-            }
+            fieldsWithFieldBoost.push_back(field);
         }
     }
     return fieldsWithFieldBoost;

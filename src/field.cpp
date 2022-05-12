@@ -1,9 +1,8 @@
-#include "field.hpp"
+#include "../headers/field.hpp"
 
-Field::Field(){}
+Field::Field() {}
 
-Field::Field(Hero hero, FieldBooster fieldBooster, BubbleBooster bubbleBooster)
-{
+Field::Field(std::optional<Hero> hero, std::optional<FieldBooster> fieldBooster, std::optional<BubbleBooster> bubbleBooster){
     this->hero = hero;
     this->fieldBooster = fieldBooster;
     this->bubbleBooster = bubbleBooster;
@@ -11,17 +10,17 @@ Field::Field(Hero hero, FieldBooster fieldBooster, BubbleBooster bubbleBooster)
 
 bool Field::isFree() const
 {
-    return this->isFree;
+    return this->hero == std::nullopt ? true : false;
 }
 
 bool Field::isBubbleBoosted() const
 {
-    return this->isBubbleBoosted;
+    return this->bubbleBooster == std::nullopt ? true : false;
 }
 
 bool Field::isFieldBoosted() const
 {
-    return this->isFieldBoosted;
+    return this->fieldBooster == std::nullopt ? true : false;
 }
 
 std::optional<Hero> Field::getHero() const
@@ -39,34 +38,32 @@ std::optional<BubbleBooster> Field::getBubbleBooster() const
     return this->bubbleBooster;
 }
 
-void Field::addHero(const & Hero hero)
+void Field::addHero(const Hero &hero)
 {
     this->hero = hero;
-    this->isFree = true;
 }
 
-void Field::addFieldBooster(const & FieldBooster fieldBooster)
+void Field::addFieldBooster(const FieldBooster &fieldBooster)
 {
     this->fieldBooster = fieldBooster;
 }
 
-void Field::addBubbleBooster(const & BubbleBooster bubbleBooster)
+void Field::addBubbleBooster(const BubbleBooster &bubbleBooster)
 {
     this->bubbleBooster = bubbleBooster;
 }
 
 void Field::removeHero()
 {
-    this->hero = nullptr;
-    this->isFree = false;
+    this->hero = std::nullopt;
 }
 
 void Field::removeFieldBooster()
 {
-    this->fieldBooster = nullptr;
+    this->fieldBooster = std::nullopt;
 }
 
 void Field::removeBubbleBooster()
 {
-    this->bubbleBooster = nullptr;
+    this->bubbleBooster = std::nullopt;
 }

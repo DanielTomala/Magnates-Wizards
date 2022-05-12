@@ -14,9 +14,9 @@ public:
     int getLength() const;
     Field getFieldByCoordinate(unsigned int x, unsigned int y) const;
     Field getFields() const;
-    vector<Field> getFieldsWithHeroes() const;
-    vector<Field> getFieldsWithBubbleBoost() const;
-    vector<Field> getFieldsWithFieldBoost() const;
+    std::vector<Field> getFieldsWithHeroes() const;
+    std::vector<Field> getFieldsWithBubbleBoost() const;
+    std::vector<Field> getFieldsWithFieldBoost() const;
 };
 
 #endif
