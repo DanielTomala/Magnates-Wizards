@@ -19,10 +19,13 @@ public:
     std::optional<BubbleBooster> getBubbleBooster() const;
     std::optional<Hero> getHero() const;
 
-    void setIsFree(bool isFree);
     void addHero(const & Hero hero);
     void addFieldBooster(const & FieldBooster fieldBooster);
     void addBubbleBooster(const & BubbleBooster bubbleBooster);
+
+    void removeHero();
+    void removeFieldBooster();
+    void removeBubbleBooster();
 };
 
 #endif

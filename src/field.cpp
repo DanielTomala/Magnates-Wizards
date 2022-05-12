@@ -47,12 +47,12 @@ void Field::addHero(const & Hero hero)
 
 void Field::addFieldBooster(const & FieldBooster fieldBooster)
 {
-    this->fieldBooster = fieldBooster; /* ewentualnie moze tez zmieniać isFieldBoosted na true */
+    this->fieldBooster = fieldBooster;
 }
 
 void Field::addBubbleBooster(const & BubbleBooster bubbleBooster)
 {
-    this->bubbleBooster = bubbleBooster; /* no i tu tez */
+    this->bubbleBooster = bubbleBooster;
 }
 
 void Field::removeHero()
