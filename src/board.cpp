@@ -3,69 +3,73 @@
 
 Board::Board() {}
 
-Board::Board(Field fields[length][width])
+Field Board::getFieldByCoordinate(unsigned int row, unsigned int column) const
 {
-    this->fields[length][width] = fields[length][width];
-}
-
-Field Board::getFieldByCoordinate(unsigned int x, unsigned int y) const
-{
-    if (x >= this->width || y >= this->length)
+    if (row >= this->getRowsNumber() || column >= this->getColumnsNumber())
     {
         throw std::invalid_argument("X value has to be less than width and Y value has to be less than length");
     }
-    return this->fields[x][y];
+    return this->fields.at(row).at(column);
 }
 
-Field Board::getFields() const
+FieldsArray Board::getFields() const
 {
     return this->fields;
 }
 
-int Board::getLength() const
+unsigned int Board::getRowsNumber() const
 {
-    return this->length;
+    return BOARD_ROWS;
 }
 
-int Board::getWidth() const
+unsigned int Board::getColumnsNumber() const
 {
-    return this->width;
+    return BOARD_COLUMNS;
 }
-
 std::vector<Field> Board::getFieldsWithHeroes() const
 {
     std::vector<Field> fieldsWithHeroes;
-    for (Field field : this->fields)
+    for (auto row : this->fields)
     {
-        if (field.isFree() == false)
+        for (auto field : row)
         {
-            fieldsWithHeroes.push_back(field);
+            if (field.isFree() == false)
+            {
+                fieldsWithHeroes.push_back(field);
+            }
         }
     }
+    return fieldsWithHeroes;
 }
 
-std::vector<Field> Board::getFieldsWithBubbleBoost() const
+std::vector<Field> Board::getFieldsWithBubbleBooster() const
 {
-    std::vector<Field> fieldsWithBubbleBoost;
-    for (Field field : this->fields)
+    std::vector<Field> fieldsWithBubbleBooster;
+    for (auto row : this->fields)
     {
-        if (field.isBubbleBoosted() == true)
+        for (auto field : row)
         {
-            fieldsWithBubbleBoost.push_back(field);
+            if (field.isBubbleBoosted() == true)
+            {
+                fieldsWithBubbleBooster.push_back(field);
+            }
         }
     }
-    return fieldsWithBubbleBoost;
+    return fieldsWithBubbleBooster;
 }
 
-std::vector<Field> Board::getFieldsWithFieldBoost() const
+std::vector<Field> Board::getFieldsWithFieldBooster() const
 {
-    std::vector<Field> fieldsWithFieldBoost;
-    for (Field field : this->fields)
+    std::vector<Field> fieldsWithFieldBooster;
+    for (auto row : this->fields)
     {
-        if (field.isFieldBoosted() == true)
+        for (auto field : row)
         {
-            fieldsWithFieldBoost.push_back(field);
+            if (field.isFieldBoosted() == true)
+            {
+                fieldsWithFieldBooster.push_back(field);
+            }
         }
     }
-    return fieldsWithFieldBoost;
+    return fieldsWithFieldBooster;
 }
