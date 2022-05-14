@@ -1,31 +1,25 @@
-CXX = g++
-CXX_FLAGS = -Wall -Wextra -pedantic -Werror -fsanitize=undefined -std=c++2a
+CC=g++
+CFLAGS=-c -Wall -std=c++2a
+LDFLAGS=
+LIBFLAGS=-lsfml-graphics -lsfml-window -lsfml-system
+SOURCES= main.cpp src/application.cpp
+OBJECTS=$(SOURCES:.cpp=.o)
+EXECUTABLE=main
+BINDIR=build
 
-vpath %.cpp ./src ./tests
-vpath %.hpp ./headers
-vpath %.o ./build
+all: $(SOURCES) $(EXECUTABLE)
+        
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(LDFLAGS) $(OBJECTS) -o $@ $(LIBFLAGS)
 
-HEADERS := ./headers
-BUILD := ./build
-ALL_O = $(wildcard $(BUILD)/*.o)
-ALL_HPP = $(wildcard $(HEADERS)/*.hpp)
-
-
-main: main.o
-	$(CXX) $(CXX_FLAGS) $(ALL_O) -o main
-
-tests_catch: tests.o
-	$(CXX) $(CXX_FLAGS) ./build/tests.o -o tests_catch
-
-main.o: main.cpp
-	$(CXX) $(CXX_FLAGS) -I$(HEADERS) -c $< -o $(BUILD)/$@
-
-tests.o: tests.cpp
-	$(CXX) $(CXX_FLAGS) -I$(HEADERS) -c $< -o $(BUILD)/$@
-
-# Template
-# file_name.o: file_name.cpp file_name.hpp other1.hpp other2.hpp
-# 	$(CXX) $(CXX_FLAGS) -I$(HEADERS) -c $< -o $(BUILD)/$@
+.cpp.o:
+	$(CC) $(CFLAGS) $< -o $@ $(LIBFLAGS)
 
 clean:
-	rm build/*.o
+	rm *.o $(EXECUTABLE)
+
+install:
+	#install -s $(EXECUTABLE) $(BINDIR)
+	sudo cp -u $(EXECUTABLE) $(BINDIR)
+uninstall:
+	sudo rm $(BINDIR)/$(EXECUTABLE)
