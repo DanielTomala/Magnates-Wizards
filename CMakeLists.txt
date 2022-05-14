@@ -1,11 +1,13 @@
 cmake_minimum_required(VERSION 3.10)
 project(PROI_project)
 
-set(SRC
-    src/hero.cpp
-    src/weapon.cpp
-    src/wearable.cpp
-)
+# set(SRC
+#     src/hero.cpp
+#     src/weapon.cpp
+#     src/wearable.cpp
+# )
+file(GLOB SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")          #Get all cpp files
+file(GLOB HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/headers/*.hpp")  #Get all header files
 
 set_property(GLOBAL PROPERTY CXX_STANDARD 20)
 set_property(GLOBAL PROPERTY CXX_STANDARD_REQUIRED ON)
