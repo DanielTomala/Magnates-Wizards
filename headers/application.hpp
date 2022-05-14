@@ -4,8 +4,25 @@
 #include <vector>
 #include <memory>
 #include <SFML/Window.hpp>
-#include <SFML/Graphics.hpp>
 #include "board.hpp"
+#include "consts.hpp"
+#include <iostream>
+#include <filesystem>
+
+// sf::Texture backgroundTX,
+//             fieldTX,
+//             field_greenTX,
+//             field_redTX,
+//             stoneTX,
+//             bowerTX,
+//             catapultTX,
+//             gnd_druideTX,
+//             knightTX,
+//             magicianTX,
+//             medicTX,
+//             ninjaTX,
+//             trebuchetTX,
+//             wizardTX;
 
 class Application{
     public:
@@ -19,9 +36,10 @@ class Application{
         sf::Vector2i mouse;
 
         sf::Vector2f topLeft;
-		sf::Texture backgroundTX;
         sf::Sprite backgroundSprite;
-        std::shared_ptr<Board> board;
+
+        std::map<std::string, std::shared_ptr<sf::Texture> > textures;        
+        Board board;
 
         Application(bool);
         void output();
@@ -33,8 +51,10 @@ class Application{
         void run();
         
         void loadBackground();
+        void loadTextures();
 
-        void drawBoard(std::shared_ptr<Board> board);
-
+        void drawBoard();
+        void loadFieldsSprites();
+        void createBoard();
 };   
 #endif

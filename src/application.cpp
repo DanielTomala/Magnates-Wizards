@@ -1,6 +1,5 @@
 #include "../headers/application.hpp"
-#include <iostream>
-
+ 
 
 Application::Application(bool scr):fullscreen(scr){
 	time = sf::seconds(0);
@@ -11,9 +10,8 @@ Application::Application(bool scr):fullscreen(scr){
 		center_window();
 	}
 
-	unsigned int xFields = 10, yFields = 6, field_size = 100;
-	topLeft.x = (monitor[0] - xFields*field_size)/2;
-	topLeft.y = (monitor[1] - yFields*field_size)/2;
+	topLeft.x = (monitor[0] - BOARD_COLUMNS*FIELD_SIZE)/2;
+	topLeft.y = (monitor[1] - BOARD_ROWS*FIELD_SIZE)/2;
 
 }
 
@@ -23,7 +21,7 @@ void Application::output(){
 	std::cout << "Fullscreen: " << fullscreen << std::endl;
 	std::cout << "Frame Time: " << time.asSeconds() << std::endl;
 	std::cout << "Game Time: " << game_time.asSeconds() << std::endl;
-	std::cout << "Mouse Position: " << mouse.x << " " << mouse.y << std::endl;
+	std::cout << "Mouse Positions: " << mouse.x << " " << mouse.y << std::endl;
 	std::cout << std::endl;
 }
 
@@ -69,53 +67,26 @@ void Application::update(){
 void Application::render(){
 	window.clear();
 	window.draw(backgroundSprite);
+	this->drawBoard();
 	window.display();
 }
 
-// void Application::loadTextures(){
-// 	backgroundTX.loadFromFile("textures/background.png");
-// 	fieldTX.loadFromFile("textures/field.png");
-// 	field_greenTX.loadFromFile("textures/field_green.png");
-// 	field_redTX.loadFromFile("textures/field_red.png");
-// 	stoneTX.loadFromFile("textures/stone.png");
-// 	bowerTX.loadFromFile("textures/bower.png");
-// 	catapultTX.loadFromFile("textures/catapult.png");
-// 	gnd_druideTX.loadFromFile("textures/gnd_druide.png");
-// 	knightTX.loadFromFile("textures/knight.png");
-// 	magicianTX.loadFromFile("textures/magician.png");
-// 	medicTX.loadFromFile("textures/medic.png");
-// 	ninjaTX.loadFromFile("textures/ninja.png");
-// 	trebuchetTX.loadFromFile("textures/trebuchet.png");
-// 	wizardTX.loadFromFile("textures/wizard.png");
-// }
-
-// void Application::loadSprites(){
-// 	backgroundSprite.setTexture(backgroundTX);
-// 	fieldSprite.setTexture(fieldTX);
-// 	field_greenSprite.setTexture(field_greenTX);
-// 	field_redSprite.setTexture(field_redTX);
-// 	stoneSprite.setTexture(stoneTX);
-// 	bowerSprite.setTexture(bowerTX);
-// 	gnd_druideSprite.setTexture(gnd_druideTX);
-// 	knightSprite.setTexture(knightTX);
-// 	magicianSprite.setTexture(magicianTX);
-// 	medicSprite.setTexture(medicTX);
-// 	ninjaSprite.setTexture(ninjaTX);
-// 	trebuchetSprite.setTexture(trebuchetTX);
-// 	wizardSprite.setTexture(wizardTX);
-// }
 
 void Application::loadBackground(){
-	backgroundTX.loadFromFile("textures/background.png");
-	sf::Vector2u size = backgroundTX.getSize();
-	backgroundSprite.setTexture(backgroundTX);
+	auto backgroundTX = textures["background.png"];
+	sf::Vector2u size = backgroundTX->getSize();
+	backgroundSprite.setTexture(*backgroundTX, false);
 	float xScale = monitor[0]/size.x;
 	float yScale = monitor[1]/size.y;
 	backgroundSprite.setScale(xScale, yScale);
 	backgroundSprite.setPosition(0,0);
 }
 
+
 void Application::run(){
+	loadTextures();
+	createBoard();
+	loadFieldsSprites();
 	loadBackground();
 	while (window.isOpen()){
 		sf::Event event;
@@ -125,3 +96,65 @@ void Application::run(){
 	}
 }
 
+
+void Application::drawBoard(){
+    FieldsArray fields = board.getFields();
+    for (unsigned int x=0; x<BOARD_ROWS; x++)
+    {
+        for (unsigned int y=0; y<BOARD_COLUMNS; y++)
+        {
+			auto field = board.getFieldByCoordinate(x, y);
+			window.draw(field->sprite);
+
+			// if(field->isFree() == false){
+			// 	auto hero = field->getHero();
+			// 	window.draw(hero->sprite);
+			// }
+        }
+    }
+}
+
+void Application::loadTextures(){
+	std::string path = "textures/";
+	for (const auto & entry : std::filesystem::directory_iterator(path)){
+		auto texture = std::make_shared<sf::Texture>();
+		texture->loadFromFile(entry.path());
+        textures[entry.path().filename()]  = texture;
+	}
+}
+
+void Application::loadFieldsSprites(){
+	sf::Vector2f coordiantes;
+	FieldsArray fields = board.getFields();
+	Hero hero;
+    for (unsigned int x=0; x<BOARD_ROWS; x++){
+        for (unsigned int y=0; y<BOARD_COLUMNS; y++){
+			float xCoordinate = topLeft.x + FIELD_SIZE*y;
+			float yCoordinate = topLeft.y + FIELD_SIZE*x;
+			coordiantes = {xCoordinate, yCoordinate};
+			auto field = board.getFieldByCoordinate(x,y);
+			if(field->isFree()){
+				auto fieldTX = textures["field.png"];
+				field->sprite.setTexture(*fieldTX, true);
+			}
+			else{
+				//TODO zaimplementować wyswietlanie roznych kolorów pól
+				auto fieldTX  = textures["field_red.png"];
+				field->sprite.setTexture(*fieldTX, true);
+				auto hero = field->getHero();
+			}
+			field->sprite.setPosition(coordiantes);
+		}
+	}	
+}
+
+void Application::createBoard(){
+	FieldsArray fields;
+	for (unsigned int x=0; x<BOARD_ROWS; x++){
+        for (unsigned int y=0; y<BOARD_COLUMNS; y++){
+			auto field = std::make_shared<Field>();
+			fields[x][y] = field;
+		}
+	}
+	this->board = Board(fields);
+}

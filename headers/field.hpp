@@ -4,6 +4,8 @@
 #include "hero.hpp"
 #include "field_booster.hpp"
 #include "bubble_booster.hpp"
+#include <SFML/Graphics.hpp>
+
 
 class Field
 {
@@ -11,8 +13,10 @@ private:
     std::optional<Hero> hero;
     std::optional<FieldBooster> fieldBooster;
     std::optional<BubbleBooster> bubbleBooster;
-
 public:
+    sf::Sprite sprite; //WILL BE PRIVATE 
+
+
     Field();
     Field(std::optional<Hero> hero, std::optional<FieldBooster> fieldBooster, std::optional<BubbleBooster> bubbleBooster);
     bool isFree() const;
@@ -29,6 +33,7 @@ public:
     void removeHero();
     void removeFieldBooster();
     void removeBubbleBooster();
+
 };
 
 #endif

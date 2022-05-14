@@ -1,6 +1,7 @@
 #include "../headers/field.hpp"
 
-Field::Field() {}
+Field::Field() {
+}
 
 Field::Field(std::optional<Hero> hero, std::optional<FieldBooster> fieldBooster, std::optional<BubbleBooster> bubbleBooster){
     this->hero = hero;

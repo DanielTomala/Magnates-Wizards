@@ -5,7 +5,7 @@
 #include "wearable.hpp"
 
 #include <optional>
-
+#include <SFML/Graphics.hpp>
 class Hero
 {
 public:
@@ -31,6 +31,9 @@ public:
     void takeDamage(unsigned int damage);
 
     bool isAlive() const;
+    sf::Texture getTexture()const;
+    void setTexture(sf::Texture &texture);
+    sf::Sprite sprite;  // WILL BE PRIVATE
 
 private:
     unsigned int maxHealth;
