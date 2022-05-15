@@ -8,19 +8,19 @@
 class Field
 {
 private:
-    std::optional<Hero> hero;
-    std::optional<FieldBooster> fieldBooster;
-    std::optional<BubbleBooster> bubbleBooster;
+    std::optional<Hero&> hero;
+    std::optional<FieldBooster&> fieldBooster;
+    std::optional<BubbleBooster&> bubbleBooster;
 
 public:
     Field();
-    Field(std::optional<Hero> hero, std::optional<FieldBooster> fieldBooster, std::optional<BubbleBooster> bubbleBooster);
+    Field(const Hero& hero, const FieldBooster& fieldBooster, const BubbleBooster& bubbleBooster);
     bool isFree() const;
     bool isBubbleBoosted() const;
     bool isFieldBoosted() const;
-    std::optional<FieldBooster> getFieldBooster() const;
-    std::optional<BubbleBooster> getBubbleBooster() const;
-    std::optional<Hero> getHero() const;
+    std::optional<FieldBooster&> getFieldBooster() const;
+    std::optional<BubbleBooster&> getBubbleBooster() const;
+    std::optional<Hero&> getHero() const;
 
     void addHero(const Hero &hero);
     void addFieldBooster(const FieldBooster &fieldBooster);

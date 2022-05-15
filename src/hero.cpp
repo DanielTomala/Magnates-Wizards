@@ -1,4 +1,5 @@
 #include "../headers/hero.hpp"
+#include "../headers/consts.hpp"
 #include <algorithm> //std::min
 #include <optional>  //std::optional
 
@@ -14,12 +15,12 @@ Hero::Hero(unsigned int maxHealth)
     this->currentHealth = maxHealth;
 }
 
-Hero::Hero(unsigned int maxHealth, Weapon weapon, Wearable wearable)
+Hero::Hero(unsigned int maxHealth, const Weapon &weapon, const Wearable &wearable)
 {
     this->maxHealth = maxHealth;
     this->currentHealth = maxHealth;
-    this->weapon = weapon;
-    this->wearable = wearable;
+    this->weapon = std::make_optional<Weapon &>(weapon);
+    this->wearable = std::make_optional<Wearable &>(wearable);
 }
 
 unsigned int Hero::getMaxHealth() const
@@ -32,12 +33,12 @@ unsigned int Hero::getCurrentHealth() const
     return currentHealth;
 }
 
-std::optional<Weapon> Hero::getWeapon() const
+std::optional<Weapon &> Hero::getWeapon() const
 {
     return weapon;
 }
 
-std::optional<Wearable> Hero::getWearable() const
+std::optional<Wearable &> Hero::getWearable() const
 {
     return wearable;
 }
@@ -52,21 +53,23 @@ void Hero::setCurrentHealth(unsigned int health)
     this->currentHealth = health;
 }
 
-void Hero::addWeapon(const Weapon& weapon)
+void Hero::addWeapon(const Weapon &weapon)
 {
-    this->weapon = weapon;
+    this->weapon = std::make_optional<Weapon &>(weapon);
 }
 
-void Hero::addWearable(const Wearable& wearable)
+void Hero::addWearable(const Wearable &wearable)
 {
-    this->wearable = wearable;
+    this->wearable = std::make_optional<Wearable &>(wearable);
 }
 
-void Hero::removeWeapon(){
+void Hero::removeWeapon()
+{
     this->weapon = std::nullopt;
 }
 
-void Hero::removeWearable(){
+void Hero::removeWearable()
+{
     this->wearable = std::nullopt;
 }
 
@@ -88,4 +91,9 @@ void Hero::takeDamage(unsigned int damage)
 bool Hero::isAlive() const
 {
     return currentHealth > 0 ? true : false;
+}
+
+HeroType Hero::getType()
+{
+    return HeroType::EHero;
 }

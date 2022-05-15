@@ -6,6 +6,7 @@ class Weapon
 public:
     Weapon();
     Weapon(unsigned int damage, unsigned int durability, unsigned int range);
+    virtual ~Weapon();
 
     unsigned int getDamage() const;
     unsigned int getDurability() const;
