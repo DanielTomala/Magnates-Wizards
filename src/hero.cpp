@@ -74,11 +74,16 @@ void Hero::removeWearable()
 }
 
 // Hero cannot be healed if his health already dropped to 0
+// Hero cannot be healed if his health is already max
 void Hero::heal(unsigned int healHealth)
 {
-    if (getCurrentHealth() > 0)
+    if (getCurrentHealth() > 0 && getCurrentHealth() < getMaxHealth())
     {
         this->currentHealth = std::min(currentHealth + healHealth, maxHealth);
+    }
+    else
+    {
+        // TODO Do something if hero cannot be healed
     }
 }
 

@@ -58,6 +58,7 @@
         "cstdarg": "cpp",
         "algorithm": "cpp",
         "iterator": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "codecvt": "cpp"
     }
 }
