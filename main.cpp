@@ -1,7 +1,9 @@
 #include <iostream>
+#include "./headers/game_controller.hpp"
 
 int main()
 {
-    std::cout<<"Hello World";
+    GameController gameController;
+    gameController.startGame();
     return 0;
 }

@@ -35,7 +35,9 @@ void GameController::startGame()
 {
     setActionsLeft(ACTIONS_PER_TURN);
     setCurrentPlayer(Player::First);
+    //Call window for buying phase
     buyingPhase();
+    //Call window for turn phase
     turnPhase();
 }
 
