@@ -98,18 +98,18 @@ void Application::run(){
 
 
 void Application::drawBoard(){
-    FieldsArray fields = board.getFields();
+	auto board = state.getBoard();
     for (unsigned int x=0; x<BOARD_ROWS; x++)
     {
         for (unsigned int y=0; y<BOARD_COLUMNS; y++)
         {
-			auto field = board.getFieldByCoordinate(x, y);
+			auto field = board->getFieldByCoordinate(x, y);
 			window.draw(field->sprite);
 
-			// if(field->isFree() == false){
-			// 	auto hero = field->getHero();
-			// 	window.draw(hero->sprite);
-			// }
+			if(field->isFree() == false){
+				auto hero = *field->getHero();
+				window.draw(hero->sprite);
+			}
         }
     }
 }
@@ -125,23 +125,30 @@ void Application::loadTextures(){
 
 void Application::loadFieldsSprites(){
 	sf::Vector2f coordiantes;
-	FieldsArray fields = board.getFields();
-	Hero hero;
+	auto board = state.getBoard();
     for (unsigned int x=0; x<BOARD_ROWS; x++){
         for (unsigned int y=0; y<BOARD_COLUMNS; y++){
 			float xCoordinate = topLeft.x + FIELD_SIZE*y;
 			float yCoordinate = topLeft.y + FIELD_SIZE*x;
 			coordiantes = {xCoordinate, yCoordinate};
-			auto field = board.getFieldByCoordinate(x,y);
+			auto field = board->getFieldByCoordinate(x,y);
 			if(field->isFree()){
 				auto fieldTX = textures["field.png"];
 				field->sprite.setTexture(*fieldTX, true);
 			}
 			else{
+				auto hero = *field->getHero();
+				if(hero->getOwner() == First){
+					auto fieldTX  = textures["field_red.png"];
+					field->sprite.setTexture(*fieldTX, true);
+				}
+				else{
+					auto fieldTX  = textures["field_green.png"];
+					field->sprite.setTexture(*fieldTX, true);
+				}
 				//TODO zaimplementować wyswietlanie roznych kolorów pól
-				auto fieldTX  = textures["field_red.png"];
-				field->sprite.setTexture(*fieldTX, true);
-				auto hero = field->getHero();
+				hero->sprite.setPosition(coordiantes);
+
 			}
 			field->sprite.setPosition(coordiantes);
 		}
@@ -149,12 +156,30 @@ void Application::loadFieldsSprites(){
 }
 
 void Application::createBoard(){
+	//TEST OF DISPLAYING COLLORS
+	auto first_knight = std::make_shared<Knight>();
+	auto second_knight = std::make_shared<Knight>();
+	first_knight->setOwner(First);
+	second_knight->setOwner(Second);
+	auto knightTX = textures["knight.png"];
+	first_knight->sprite.setTexture(*knightTX);
+	second_knight->sprite.setTexture(*knightTX);
+	//END TEST
 	FieldsArray fields;
 	for (unsigned int x=0; x<BOARD_ROWS; x++){
         for (unsigned int y=0; y<BOARD_COLUMNS; y++){
 			auto field = std::make_shared<Field>();
+			//TEST
+			if(x == 0 && y==0){
+				field->addHero(first_knight);
+			}
+			if(x == 1 && y==1){
+				field->addHero(second_knight);
+			}
+			//END TEST
 			fields[x][y] = field;
 		}
 	}
-	this->board = Board(fields);
+	auto board = std::make_shared<Board>(fields); 
+	this->state = GameController(board);
 }

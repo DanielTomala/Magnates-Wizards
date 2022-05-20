@@ -3,13 +3,35 @@
 
 #include "weapon.hpp"
 #include "wearable.hpp"
-
-#include <optional>
+#include <algorithm> //std::min
+#include <optional>  //std::optional
 #include <SFML/Graphics.hpp>
+
+enum HeroType
+{
+    EHero,
+    EArcher,
+    EKnight,
+    EMage,
+    EIceDruid,
+    EGroundDruid,
+    ECatapult,
+    EMedic,
+    ENinja,
+    ETrebuchet
+};
+
+enum Player
+{
+    First,
+    Second
+};
+
 class Hero
 {
 public:
     Hero();
+    virtual ~Hero();
     Hero(unsigned int maxHealth);
     Hero(unsigned int maxHealth, Weapon weapon, Wearable wearable);
 
@@ -31,15 +53,24 @@ public:
     void takeDamage(unsigned int damage);
 
     bool isAlive() const;
-    sf::Texture getTexture()const;
-    void setTexture(sf::Texture &texture);
     sf::Sprite sprite;  // WILL BE PRIVATE
+    
+    virtual HeroType getType();
 
+
+    void setOwner(Player owner);
+    Player getOwner() const;
 private:
     unsigned int maxHealth;
     unsigned int currentHealth;
     std::optional<Weapon> weapon;
     std::optional<Wearable> wearable;
+    Player owner;
 };
 
+class Knight: public Hero{
+    public:
+        virtual ~Knight();
+        HeroType getType();
+};
 #endif

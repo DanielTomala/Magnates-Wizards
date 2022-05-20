@@ -4,25 +4,11 @@
 #include <vector>
 #include <memory>
 #include <SFML/Window.hpp>
-#include "board.hpp"
+#include "game_controller.hpp"
 #include "consts.hpp"
 #include <iostream>
 #include <filesystem>
 
-// sf::Texture backgroundTX,
-//             fieldTX,
-//             field_greenTX,
-//             field_redTX,
-//             stoneTX,
-//             bowerTX,
-//             catapultTX,
-//             gnd_druideTX,
-//             knightTX,
-//             magicianTX,
-//             medicTX,
-//             ninjaTX,
-//             trebuchetTX,
-//             wizardTX;
 
 class Application{
     public:
@@ -39,7 +25,7 @@ class Application{
         sf::Sprite backgroundSprite;
 
         std::map<std::string, std::shared_ptr<sf::Texture> > textures;        
-        Board board;
+        GameController state;
 
         Application(bool);
         void output();
