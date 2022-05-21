@@ -1,8 +1,8 @@
-#include <vector>
-#include <memory>
 #include "../headers/board.hpp"
 
-Board::Board() {}
+Board::Board(FieldsArray fields){
+    this-> fields = fields;
+}
 
 std::shared_ptr<Field> Board::getFieldByCoordinate(unsigned int row, unsigned int column) const
 {

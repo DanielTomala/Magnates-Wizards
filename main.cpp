@@ -1,7 +1,7 @@
-#include <iostream>
+#include "headers/application.hpp"
 
-int main()
-{
-    std::cout<<"Hello World";
-    return 0;
+
+int main(){
+	Application app(true);
+	app.run();
 }
