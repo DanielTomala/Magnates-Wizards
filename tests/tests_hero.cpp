@@ -2,7 +2,7 @@
 
 #include "catch.hpp"
 #include "../headers/hero.hpp"
-#include "../headers/weapon.hpp"
+#include "../headers/weapons/weapon.hpp"
 #include "../headers/wearable.hpp"
 #include <optional>
 
