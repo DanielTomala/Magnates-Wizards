@@ -1,0 +1,4 @@
+#ifndef MAIN_MENU_STATE_HPP
+#define MAIN_MENU_STATE_HPP
+
+#endif
