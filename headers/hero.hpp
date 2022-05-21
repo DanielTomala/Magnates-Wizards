@@ -1,7 +1,7 @@
 #ifndef HERO_HPP
 #define HERO_HPP
 
-#include "weapon.hpp"
+#include "./weapons/weapon.hpp"
 #include "wearable.hpp"
 
 #include <optional>
