@@ -4,7 +4,7 @@ Board::Board(FieldsArray fields){
     this-> fields = fields;
 }
 
-std::shared_ptr<Field> Board::getFieldByCoordinate(unsigned int row, unsigned int column) const
+Field& Board::getFieldByCoordinate(unsigned int row, unsigned int column) const
 {
     if (row >= this->getRowsNumber() || column >= this->getColumnsNumber())
     {
@@ -27,9 +27,9 @@ unsigned int Board::getColumnsNumber() const
 {
     return BOARD_COLUMNS;
 }
-std::vector<std::shared_ptr<Field>> Board::getFieldsWithHeroes() const
+std::vector<Field&> Board::getFieldsWithHeroes() const
 {
-    std::vector<std::shared_ptr<Field>> fieldsWithHeroes;
+    std::vector<Field&> fieldsWithHeroes;
     for (auto row : this->fields)
     {
         for (auto field : row)
@@ -43,9 +43,9 @@ std::vector<std::shared_ptr<Field>> Board::getFieldsWithHeroes() const
     return fieldsWithHeroes;
 }
 
-std::vector<std::shared_ptr<Field>> Board::getFieldsWithBubbleBooster() const
+std::vector<Field&> Board::getFieldsWithBubbleBooster() const
 {
-    std::vector<std::shared_ptr<Field>> fieldsWithBubbleBooster;
+    std::vector<Field&> fieldsWithBubbleBooster;
     for (auto row : this->fields)
     {
         for (auto field : row)
@@ -59,9 +59,9 @@ std::vector<std::shared_ptr<Field>> Board::getFieldsWithBubbleBooster() const
     return fieldsWithBubbleBooster;
 }
 
-std::vector<std::shared_ptr<Field>> Board::getFieldsWithFieldBooster() const
+std::vector<Field&> Board::getFieldsWithFieldBooster() const
 {
-    std::vector<std::shared_ptr<Field>> fieldsWithFieldBooster;
+    std::vector<Field&> fieldsWithFieldBooster;
     for (auto row : this->fields)
     {
         for (auto field : row)

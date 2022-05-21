@@ -3,6 +3,9 @@
 
 class FieldBooster
 {
+public:
+    FieldBooster();
+    virtual ~FieldBooster();
 };
 
 #endif

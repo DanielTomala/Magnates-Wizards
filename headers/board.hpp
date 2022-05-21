@@ -18,11 +18,11 @@ public:
     Board(FieldsArray fields);
     unsigned int getRowsNumber() const;
     unsigned int getColumnsNumber() const;
-    std::shared_ptr<Field> getFieldByCoordinate(unsigned int x, unsigned int y) const;
+    Field& getFieldByCoordinate(unsigned int row, unsigned int column) const;
     FieldsArray getFields() const;
-    std::vector<std::shared_ptr<Field>> getFieldsWithHeroes() const;
-    std::vector<std::shared_ptr<Field>> getFieldsWithBubbleBooster() const;
-    std::vector<std::shared_ptr<Field>> getFieldsWithFieldBooster() const;
+    std::vector<Field&> getFieldsWithHeroes() const;
+    std::vector<Field&> getFieldsWithBubbleBooster() const;
+    std::vector<Field&> getFieldsWithFieldBooster() const;
 };
 
 #endif

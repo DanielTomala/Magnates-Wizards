@@ -20,7 +20,6 @@ public:
     Field();
     Field(std::optional<std::shared_ptr<Hero>> hero, std::optional<FieldBooster> fieldBooster, std::optional<BubbleBooster> bubbleBooster);
     bool isFree() const;
-    bool isBubbleBoosted() const;
     bool isFieldBoosted() const;
     std::optional<FieldBooster> getFieldBooster() const;
     std::optional<BubbleBooster> getBubbleBooster() const;
