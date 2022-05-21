@@ -50,7 +50,7 @@ void Button::setText(const std::string &text){
     this->text.setString(text);
 }
 
-void Button::setId(const unsigned int id){
+void Button::setId(const unsigned int &id){
     this->id = id;
 }
 
