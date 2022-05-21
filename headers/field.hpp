@@ -10,7 +10,7 @@
 class Field
 {
 private:
-    std::optional<std::shared_ptr<Hero>> hero;
+    std::optional<std::shared_ptr<Hero> > hero;
     std::optional<FieldBooster> fieldBooster;
     std::optional<BubbleBooster> bubbleBooster;
 public:
@@ -21,13 +21,14 @@ public:
     Field(std::optional<std::shared_ptr<Hero>> hero, std::optional<FieldBooster> fieldBooster, std::optional<BubbleBooster> bubbleBooster);
     bool isFree() const;
     bool isFieldBoosted() const;
+    bool isBubbleBoosted() const;
     std::optional<FieldBooster> getFieldBooster() const;
     std::optional<BubbleBooster> getBubbleBooster() const;
     std::optional<std::shared_ptr<Hero> > getHero() const;
 
     void addHero(std::shared_ptr<Hero> hero);
-    void addFieldBooster(const FieldBooster &fieldBooster);
-    void addBubbleBooster(const BubbleBooster &bubbleBooster);
+    void addFieldBooster(FieldBooster fieldBooster);
+    void addBubbleBooster(BubbleBooster bubbleBooster);
 
     void removeHero();
     void removeFieldBooster();

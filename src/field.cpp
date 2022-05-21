@@ -33,29 +33,29 @@ bool Field::isFieldBoosted() const
     return this->hero;
 }
 
-std::optional<FieldBooster &> Field::getFieldBooster() const
+std::optional<FieldBooster> Field::getFieldBooster() const
 {
     return this->fieldBooster;
 }
 
-std::optional<BubbleBooster &> Field::getBubbleBooster() const
+std::optional<BubbleBooster> Field::getBubbleBooster() const
 {
     return this->bubbleBooster;
 }
 
 void Field::addHero(std::shared_ptr<Hero> hero)
 {
-    this->hero = std::make_optional<Hero &>(hero);
+    this->hero = std::make_optional<std::shared_ptr<Hero>>(hero);
 }
 
-void Field::addFieldBooster(const FieldBooster &fieldBooster)
+void Field::addFieldBooster(FieldBooster fieldBooster)
 {
-    this->fieldBooster = std::make_optional<FieldBooster &>(fieldBooster);
+    this->fieldBooster = std::make_optional<FieldBooster>(fieldBooster);
 }
 
-void Field::addBubbleBooster(const BubbleBooster &bubbleBooster)
+void Field::addBubbleBooster(BubbleBooster bubbleBooster)
 {
-    this->bubbleBooster = std::make_optional<BubbleBooster &>(bubbleBooster);
+    this->bubbleBooster = std::make_optional<BubbleBooster>(bubbleBooster);
 }
 
 void Field::removeHero()

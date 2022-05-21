@@ -1,4 +1,4 @@
-#include "bow.hpp"
+#include "../../headers/weapons/bow.hpp"
 
 unsigned int Bow::getTotalPoints() const
 {

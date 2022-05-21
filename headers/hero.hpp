@@ -33,18 +33,18 @@ public:
     Hero();
     virtual ~Hero();
     Hero(unsigned int maxHealth);
-    Hero(unsigned int maxHealth, const Weapon& weapon, const Wearable& wearable);
+    Hero(unsigned int maxHealth, const Weapon weapon, const Wearable wearable);
 
     unsigned int getMaxHealth() const;
     unsigned int getCurrentHealth() const;
-    std::optional<Weapon&> getWeapon() const;
-    std::optional<Wearable&> getWearable() const;
+    std::optional<Weapon> getWeapon() const;
+    std::optional<Wearable> getWearable() const;
 
     void setMaxHealth(unsigned int health);
     void setCurrentHealth(unsigned int health);
 
-    void addWeapon(const Weapon &weapon);
-    void addWearable(const Wearable &wearable);
+    void addWeapon(const Weapon weapon);
+    void addWearable(const Wearable wearable);
 
     void removeWeapon();
     void removeWearable();

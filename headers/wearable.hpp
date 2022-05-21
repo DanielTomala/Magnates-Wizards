@@ -6,7 +6,7 @@ class Wearable
 public:
     Wearable();
     Wearable(unsigned int protection, unsigned int durability);
-    virtual ~Wearable();
+    virtual ~Wearable(){};
 
     unsigned int getProtection() const;
     unsigned int getDurability() const;

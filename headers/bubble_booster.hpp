@@ -5,7 +5,7 @@ class BubbleBooster
 {
 public:
     BubbleBooster();
-    virtual ~BubbleBooster();
+    virtual ~BubbleBooster(){};
 };
 
 #endif
