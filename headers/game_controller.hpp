@@ -2,17 +2,19 @@
 #define GAME_CONTROLLER_HPP
 
 #include "board.hpp"
+#include "../headers/consts.hpp"
 
 #include <tuple>
 
 class GameController
 {
 public:
-    GameController();
+    GameController(){};
+    GameController(std::shared_ptr<Board> board);
     void startGame();
     void changeTurn();
 
-    Board &getBoard();
+    std::shared_ptr<Board> getBoard();
     Player getCurrentPlayer();
     unsigned int getActionsLeft();
 
@@ -21,7 +23,7 @@ public:
 
 
 private:
-    Board board;
+    std::shared_ptr<Board> board;
     Player currentPlayer;
     unsigned int actionsLeft;
 

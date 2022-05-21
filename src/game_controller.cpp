@@ -1,12 +1,11 @@
 #include "../headers/game_controller.hpp"
-#include "../headers/consts.hpp"
 #include <iostream>
 
-GameController::GameController()
-{
+GameController::GameController(std::shared_ptr<Board> board){
+    this->board = board;
 }
 
-Board &GameController::getBoard()
+std::shared_ptr<Board> GameController::getBoard()
 {
     return this->board;
 }
@@ -74,20 +73,20 @@ bool GameController::gameIsContinued()
 // Przed wywołaniem tej metody powinno zostać sprawdzone, czy leczony hero należy do naszej drużyny, czy jest w zasięgu i czy może zostać uleczony
 void GameController::healAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord)
 {
-    Board board = this->getBoard();
-    Field heroField = board.getFieldByCoordinate(std::get<0>(heroFieldCoord), std::get<1>(heroFieldCoord));
-    Field actionField = board.getFieldByCoordinate(std::get<0>(actionFieldCoord), std::get<1>(actionFieldCoord));
-    Hero hero = heroField.getHero().value(); // Skoro trafiliśmy do tej metody to już raczej nie jest wymagane sprawdzenie czy hero nie jest nullopt
-    Hero actionHero = actionField.getHero().value();
+    auto board = this->getBoard();
+    auto heroField = board->getFieldByCoordinate(std::get<0>(heroFieldCoord), std::get<1>(heroFieldCoord));
+    auto actionField = board->getFieldByCoordinate(std::get<0>(actionFieldCoord), std::get<1>(actionFieldCoord));
+    auto hero = heroField->getHero().value(); // Skoro trafiliśmy do tej metody to już raczej nie jest wymagane sprawdzenie czy hero nie jest nullopt
+    auto actionHero = actionField->getHero().value();
 
-    if (hero.getType() != HeroType::EMedic)
+    if (hero->getType() != HeroType::EMedic)
     {
         throw std::invalid_argument("Only Medic can heal other heroes");
     }
 
     // unsigned int healPoints = hero.getHealPoints(); // Some medic's method, which return heal points
     unsigned int healPoints = 10;
-    actionHero.heal(healPoints);
+    actionHero->heal(healPoints);
 
     // Może dodatkowo, będzie należało odjąć jakieś punkty many medykowi
     actionsLeft--;
@@ -95,26 +94,26 @@ void GameController::healAction(std::tuple<int, int> heroFieldCoord, std::tuple<
 
 void GameController::moveAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord)
 {
-    Board board = this->getBoard();
-    Field heroField = board.getFieldByCoordinate(std::get<0>(heroFieldCoord), std::get<1>(heroFieldCoord));
-    Field actionField = board.getFieldByCoordinate(std::get<0>(actionFieldCoord), std::get<1>(actionFieldCoord)); // Powinno zostać sprawdzone, że jest puste i czy jest w zasięgu
-    Hero hero = heroField.getHero().value();                                                                      // Skoro trafiliśmy do tej metody to już raczej nie jest wymagane sprawdzenie czy hero nie jest nullopt
+    auto board = this->getBoard();
+    auto heroField = board->getFieldByCoordinate(std::get<0>(heroFieldCoord), std::get<1>(heroFieldCoord));
+    auto actionField = board->getFieldByCoordinate(std::get<0>(actionFieldCoord), std::get<1>(actionFieldCoord)); // Powinno zostać sprawdzone, że jest puste i czy jest w zasięgu
+    auto hero = heroField->getHero().value();                                                                      // Skoro trafiliśmy do tej metody to już raczej nie jest wymagane sprawdzenie czy hero nie jest nullopt
 
-    heroField.removeHero();
-    actionField.addHero(hero);
+    heroField->removeHero();
+    actionField->addHero(hero);
 
     actionsLeft--;
 }
 
 void GameController::attackAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord)
 {
-    Board board = this->getBoard();
-    Field heroField = board.getFieldByCoordinate(std::get<0>(heroFieldCoord), std::get<1>(heroFieldCoord));
-    Field actionField = board.getFieldByCoordinate(std::get<0>(actionFieldCoord), std::get<1>(actionFieldCoord));
-    Hero hero = heroField.getHero().value();         // Skoro trafiliśmy do tej metody to już raczej nie jest wymagane sprawdzenie czy hero nie jest nullopt
-    Hero actionHero = actionField.getHero().value(); // Hero jest w zasięgu
+    auto board = this->getBoard();
+    auto heroField = board->getFieldByCoordinate(std::get<0>(heroFieldCoord), std::get<1>(heroFieldCoord));
+    auto actionField = board->getFieldByCoordinate(std::get<0>(actionFieldCoord), std::get<1>(actionFieldCoord));
+    auto hero = heroField->getHero().value();         // Skoro trafiliśmy do tej metody to już raczej nie jest wymagane sprawdzenie czy hero nie jest nullopt
+    auto actionHero = actionField->getHero().value(); // Hero jest w zasięgu
 
-    actionHero.takeDamage(hero.getWeapon().value().getDamage());
+    actionHero->takeDamage(hero->getWeapon().value().getDamage());
     // actionHero.getWearable().value().takeDurabilityLoss(1); //Jakieś zniszczenie części pancerza
     // hero.getWeapon().value().takeDurabilityLoss(1); //Jakieś zniszczenie broni
 
@@ -123,11 +122,11 @@ void GameController::attackAction(std::tuple<int, int> heroFieldCoord, std::tupl
 
 void GameController::useAbilityAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord)
 {
-    Board board = this->getBoard();
-    Field heroField = board.getFieldByCoordinate(std::get<0>(heroFieldCoord), std::get<1>(heroFieldCoord));
-    Field actionField = board.getFieldByCoordinate(std::get<0>(actionFieldCoord), std::get<1>(actionFieldCoord));
-    Hero hero = heroField.getHero().value();         // Skoro trafiliśmy do tej metody to już raczej nie jest wymagane sprawdzenie czy hero nie jest nullopt
-    Hero actionHero = actionField.getHero().value(); // Hero jest w zasięgu
+    auto board = this->getBoard();
+    auto heroField = board->getFieldByCoordinate(std::get<0>(heroFieldCoord), std::get<1>(heroFieldCoord));
+    auto actionField = board->getFieldByCoordinate(std::get<0>(actionFieldCoord), std::get<1>(actionFieldCoord));
+    auto hero = heroField->getHero().value();         // Skoro trafiliśmy do tej metody to już raczej nie jest wymagane sprawdzenie czy hero nie jest nullopt
+    auto actionHero = actionField->getHero().value(); // Hero jest w zasięgu
 
     // Wykonanie akcji specjalnej
 

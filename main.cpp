@@ -1,9 +1,7 @@
-#include <iostream>
-#include "./headers/game_controller.hpp"
+#include "headers/application.hpp"
 
-int main()
-{
-    GameController gameController;
-    gameController.startGame();
-    return 0;
+
+int main(){
+	Application app(true);
+	app.run();
 }

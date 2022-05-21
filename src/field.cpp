@@ -3,13 +3,14 @@
 #include "../headers/field_booster.hpp"
 #include <optional>
 
-Field::Field() {}
+Field::Field() {
+}
 
-Field::Field(const Hero &hero, const FieldBooster &fieldBooster, const BubbleBooster &bubbleBooster)
-{
-    this->hero = std::make_optional<Hero &>(hero);
-    this->fieldBooster = std::make_optional<FieldBooster &>(fieldBooster);
-    this->bubbleBooster = std::make_optional<BubbleBooster &>(bubbleBooster);
+Field::Field(std::optional<std::shared_ptr<Hero> > hero, std::optional<FieldBooster> fieldBooster, std::optional<BubbleBooster> bubbleBooster){
+
+    this->hero = hero;
+    this->fieldBooster = fieldBooster;
+    this->bubbleBooster = bubbleBooster;
 }
 
 bool Field::isFree() const
@@ -27,7 +28,7 @@ bool Field::isFieldBoosted() const
     return this->fieldBooster == std::nullopt ? true : false;
 }
 
-std::optional<Hero &> Field::getHero() const
+ std::optional<std::shared_ptr<Hero> > Field::getHero() const
 {
     return this->hero;
 }
@@ -42,7 +43,7 @@ std::optional<BubbleBooster &> Field::getBubbleBooster() const
     return this->bubbleBooster;
 }
 
-void Field::addHero(const Hero &hero)
+void Field::addHero(std::shared_ptr<Hero> hero)
 {
     this->hero = std::make_optional<Hero &>(hero);
 }

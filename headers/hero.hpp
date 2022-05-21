@@ -1,16 +1,37 @@
 #ifndef HERO_HPP
 #define HERO_HPP
 
-#include "weapon.hpp"
+#include "./weapons/weapon.hpp"
 #include "wearable.hpp"
-#include "consts.hpp"
+#include <algorithm> //std::min
+#include <optional>  //std::optional
+#include <SFML/Graphics.hpp>
 
-#include <optional>
+enum HeroType
+{
+    EHero,
+    EArcher,
+    EKnight,
+    EMage,
+    EIceDruid,
+    EGroundDruid,
+    ECatapult,
+    EMedic,
+    ENinja,
+    ETrebuchet
+};
+
+enum Player
+{
+    First,
+    Second
+};
 
 class Hero
 {
 public:
     Hero();
+    virtual ~Hero();
     Hero(unsigned int maxHealth);
     Hero(unsigned int maxHealth, const Weapon& weapon, const Wearable& wearable);
 
@@ -32,15 +53,24 @@ public:
     void takeDamage(unsigned int damage);
 
     bool isAlive() const;
-
-    //Każda klasa dziedzicząca powinna zwracać odpowiedni enum w zależności od typu klasy
+    sf::Sprite sprite;  // WILL BE PRIVATE
+    
     virtual HeroType getType();
 
+
+    void setOwner(Player owner);
+    Player getOwner() const;
 private:
     unsigned int maxHealth;
     unsigned int currentHealth;
-    std::optional<Weapon&> weapon;
-    std::optional<Wearable&> wearable;
+    std::optional<Weapon> weapon;
+    std::optional<Wearable> wearable;
+    Player owner;
 };
 
+class Knight: public Hero{
+    public:
+        virtual ~Knight();
+        HeroType getType();
+};
 #endif

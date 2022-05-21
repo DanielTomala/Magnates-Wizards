@@ -19,7 +19,7 @@ public:
     void takeDurabilityLoss(unsigned int durabilityPoints);
     bool isNotCrashed() const;
 
-private:
+protected:
     unsigned int damage;
     unsigned int durability;
     unsigned int range;

@@ -1,7 +1,9 @@
 #include "../headers/hero.hpp"
-#include "../headers/consts.hpp"
-#include <algorithm> //std::min
-#include <optional>  //std::optional
+
+Hero::~Hero(){};
+HeroType Hero::getType(){return EHero;};
+HeroType Knight::getType(){return EKnight;};
+Knight::~Knight(){};
 
 Hero::Hero()
 {
@@ -98,7 +100,10 @@ bool Hero::isAlive() const
     return currentHealth > 0 ? true : false;
 }
 
-HeroType Hero::getType()
-{
-    return HeroType::EHero;
+Player Hero::getOwner() const{
+    return this->owner;
+}
+
+void Hero::setOwner(Player owner){
+    this->owner = owner;
 }

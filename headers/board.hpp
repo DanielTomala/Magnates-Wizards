@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <array>
+#include <memory>
+
 #include "field.hpp"
 #include "consts.hpp"
 
@@ -12,7 +14,8 @@ private:
     FieldsArray fields;
 
 public:
-    Board();
+    Board(){};
+    Board(FieldsArray fields);
     unsigned int getRowsNumber() const;
     unsigned int getColumnsNumber() const;
     Field& getFieldByCoordinate(unsigned int row, unsigned int column) const;
