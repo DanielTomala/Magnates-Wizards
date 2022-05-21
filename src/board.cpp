@@ -1,77 +1,76 @@
 #include <vector>
-#include "board.hpp"
+#include <memory>
+#include "../headers/board.hpp"
 
-Board::Board(){}
+Board::Board() {}
 
-Board::Board(Field fields[length][width])
+std::shared_ptr<Field> Board::getFieldByCoordinate(unsigned int row, unsigned int column) const
 {
-    this->fields[length][width] = fields[length][width];
-}
-
-Field Board::getFieldByCoordinate(unsigned int x, unsigned int y) const
-{
-    if (x > this->width or y > this->length)
+    if (row >= this->getRowsNumber() || column >= this->getColumnsNumber())
     {
         throw std::invalid_argument("X value has to be less than width and Y value has to be less than length");
     }
-    return this->fields[x][y];
+    return this->fields.at(row).at(column);
 }
 
-Field Board::getFields() const
+FieldsArray Board::getFields() const
 {
     return this->fields;
 }
 
-int Board::getLength() const
+unsigned int Board::getRowsNumber() const
 {
-    return this->length;
+    return BOARD_ROWS;
 }
 
-int Board::getWidth() const
+unsigned int Board::getColumnsNumber() const
 {
-    return this->width;
+    return BOARD_COLUMNS;
 }
-
-vector<Field> Board::getFieldsWithHeroes() const
+std::vector<std::shared_ptr<Field>> Board::getFieldsWithHeroes() const
 {
-    std::vector<Field> fieldsWithHeroes;
-    for (Field field : this->fields)
+    std::vector<std::shared_ptr<Field>> fieldsWithHeroes;
+    for (auto row : this->fields)
     {
-        if (field.isFree == false)
+        for (auto field : row)
         {
-            fieldsWithHeroes.push_back(field);
-        }
-    }
-}
-
-vector<Field> Board::getFieldsWithBubbleBoost() const
-{
-    vector<Field> fieldsWithBubbleBoost;
-    for (int y=0, y<this->width, y++)
-    {
-        for (int x=0, x<this->length, x++)
-        {
-            if (this->fields[y][x].isBubbleBoosted == true)
+            if (field->isFree() == false)
             {
-                fieldsWithBubbleBoost.push_back(fields[y][x]);
+                fieldsWithHeroes.push_back(field);
             }
         }
     }
-    return fieldsWithBubbleBoost;
+    return fieldsWithHeroes;
 }
 
-vector<Field> Board::getFieldsWithFieldBoost() const
+std::vector<std::shared_ptr<Field>> Board::getFieldsWithBubbleBooster() const
 {
-    vector<Field> fieldsWithFieldBoost;
-    for (int y=0, y<this->width, y++)
+    std::vector<std::shared_ptr<Field>> fieldsWithBubbleBooster;
+    for (auto row : this->fields)
     {
-        for (int x=0, x<this->length, x++)
+        for (auto field : row)
         {
-            if (this->fields[y][x].isFieldBoosted == true)
+            if (field->isBubbleBoosted() == true)
             {
-                fieldsWithFieldBoost.push_back(fields[y][x]);
+                fieldsWithBubbleBooster.push_back(field);
             }
         }
     }
-    return fieldsWithFieldBoost;
+    return fieldsWithBubbleBooster;
+}
+
+std::vector<std::shared_ptr<Field>> Board::getFieldsWithFieldBooster() const
+{
+    std::vector<std::shared_ptr<Field>> fieldsWithFieldBooster;
+    for (auto row : this->fields)
+    {
+        for (auto field : row)
+        {
+            if (field->isFieldBoosted() == true)
+            {
+                fieldsWithFieldBooster.push_back(field);
+            }
+        }
+    }
+    return fieldsWithFieldBooster;
 }

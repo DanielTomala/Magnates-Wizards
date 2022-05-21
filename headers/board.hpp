@@ -2,21 +2,24 @@
 #define BOARD_HPP
 
 #include <vector>
+#include <array>
 #include "field.hpp"
+#include "consts.hpp"
 
-class Board {
+class Board
+{
 private:
-    int width=5;
-    int length=9;
-    Field fields[length][width];
+    FieldsArray fields;
+
 public:
-    int getWidth() const;
-    int getLength() const;
-    Field getFieldByCoordinate(unsigned int x, unsigned int y) const;
-    Field getFields() const;
-    vector<Field> getFieldsWithHeroes() const;
-    vector<Field> getFieldsWithBubbleBoost() const;
-    vector<Field> getFieldsWithFieldBoost() const;
+    Board();
+    unsigned int getRowsNumber() const;
+    unsigned int getColumnsNumber() const;
+    std::shared_ptr<Field> getFieldByCoordinate(unsigned int x, unsigned int y) const;
+    FieldsArray getFields() const;
+    std::vector<std::shared_ptr<Field>> getFieldsWithHeroes() const;
+    std::vector<std::shared_ptr<Field>> getFieldsWithBubbleBooster() const;
+    std::vector<std::shared_ptr<Field>> getFieldsWithFieldBooster() const;
 };
 
 #endif
