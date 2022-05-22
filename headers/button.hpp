@@ -26,6 +26,7 @@ class Button{
         sf::Color clickedColor;
     
     public:
+        Button();
         Button(float topLeftX, float topLeftY, float width, float height,
         std::shared_ptr<sf::Font> font, std::string text,
         sf::Color normalColor, sf::Color highlightedColor, sf::Color clickedColor,
@@ -41,7 +42,7 @@ class Button{
         void setId(const unsigned int &id);
 
         void update(const sf::Vector2i& mousePosition);
-        void render(std::shared_ptr<sf::RenderTarget> window);
+        void render(sf::RenderTarget &window);
 };
 
 #endif

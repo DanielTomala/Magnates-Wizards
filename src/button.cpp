@@ -1,5 +1,7 @@
 #include "../headers/button.hpp"
 
+Button::Button(){};
+
 Button::Button(float topLeftX, float topLeftY, float width, float height,
         std::shared_ptr<sf::Font> font, std::string text,
         sf::Color normalColor, sf::Color highlightedColor, sf::Color clickedColor,
@@ -79,8 +81,8 @@ void Button::update(const sf::Vector2i& mousePosition){
     }
 }
 
-void Button::render(std::shared_ptr<sf::RenderTarget> window){
-    window->draw(this->rect);
-    window->draw(this->text);
+void Button::render(sf::RenderTarget &window){
+    window.draw(this->rect);
+    window.draw(this->text);
 }
 
