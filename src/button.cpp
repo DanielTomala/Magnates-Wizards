@@ -28,7 +28,7 @@ Button::Button(float topLeftX, float topLeftY, float width, float height,
 
             this->text.setPosition(
                 this->rect.getPosition().x + (this->rect.getGlobalBounds().width / 2.f) - this->text.getGlobalBounds().width / 2.f,
-		        this->rect.getPosition().y + (this->rect.getGlobalBounds().height / 2.f) - this->text.getGlobalBounds().height / 2.f
+		        this->rect.getPosition().y + (this->rect.getGlobalBounds().height - this->text.getGlobalBounds().height - textSize) /2.f
             );
             this->normalColor = normalColor;
             this->highlightedColor = highlightedColor;
