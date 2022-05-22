@@ -8,10 +8,7 @@ class GraphicSettings{
 
         std::string title;
         sf::VideoMode resolution;
-    	std::vector<sf::VideoMode> videoModes;
         sf::ContextSettings contextSettings;
-        
-
 };
 
 #endif

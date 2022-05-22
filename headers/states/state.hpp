@@ -14,9 +14,6 @@ class StateData{
         std::shared_ptr<GraphicSettings> settings;               // settings of window
         std::shared_ptr<StatesStack> states;     // stack of states
         std::shared_ptr<sf::RenderWindow> window;                       // pointer for window
-        
-
-
 };
 
 class State{

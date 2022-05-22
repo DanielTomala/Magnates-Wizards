@@ -1,6 +1,6 @@
 #ifndef MAIN_MENU_STATE_HPP
 #define MAIN_MENU_STATE_HPP
-#include "state.hpp"
+#include "create_heroes_state.hpp"
 #include "../button.hpp"
 #include <iostream>
 

@@ -51,10 +51,9 @@ void Game::updateEvents()
 
 void Game::update(){
     this->updateEvents();
-    if(this->states.empty() == false){
-        this->states.top()->update();
-   		
+    if(this->states.empty() == false){   		
         if (this->window->hasFocus()){
+            this->states.top()->update();
             if(this->states.top()->getQuit()){
                 this->states.top()->endState();
                 this->states.pop();
@@ -69,6 +68,7 @@ void Game::update(){
 
 void Game::render(){
     this->window->clear();
+    std::cout<<"Game: "<<this->states.size()<<"\n";
     if(this->states.empty() == false){
         this->states.top()->render();
     }

@@ -1,6 +1,8 @@
-#include "../../headers/states/main_menu_state.hpp"
+#include "../../headers/states/create_heroes_state.hpp"
+
+
 #include <iostream>
-MainMenuState::MainMenuState(std::shared_ptr<StateData> state_data)
+CreateHeroesState::CreateHeroesState(std::shared_ptr<StateData> state_data)
 	: State(state_data)
 {	
 	this->initTextures();
@@ -9,7 +11,7 @@ MainMenuState::MainMenuState(std::shared_ptr<StateData> state_data)
 	this->resetGui();
 }
 
-void MainMenuState::initTextures(){
+void CreateHeroesState::initTextures(){
 	if (!this->backgroundTX.loadFromFile("textures/background.png")){
 		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BACKGROUND_TEXTURE";
 	}
@@ -22,16 +24,16 @@ void MainMenuState::initTextures(){
 }
 
 
-void MainMenuState::initFonts()
+void CreateHeroesState::initFonts()
 {
 	if (!this->font.loadFromFile("src/states/Dosis-Light.ttf"))
 	{
-		throw("ERROR::MAINMENUSTATE::COULD NOT LOAD FONT");
+		throw("ERROR::CreateHeroesSTATE::COULD NOT LOAD FONT");
 	}
 	
 }
 
-void MainMenuState::initGui(){
+void CreateHeroesState::initGui(){
 	const sf::VideoMode& vm = this->stateData->settings->resolution;
 
 	this->backgroundRect.setSize(
@@ -47,13 +49,6 @@ void MainMenuState::initGui(){
 	float topLeft_x = (vm.width - buttonWidth) / 2;
 	float topLeft_y = 200;
 
-	
-
-	this->buttons["NEW_GAME"] = std::make_shared<Button>(
-		topLeft_x, topLeft_y, buttonWidth, buttonHeight, std::make_shared<sf::Font>(this->font), "NEW GAME", 30,
-		textures["START_BUTTON"], sf::Color::Yellow, sf::Color::Magenta, sf::Color::Blue, 1
-	);
-
 	topLeft_y += 2*buttonHeight;
 
 	this->buttons["EXIT"] = std::make_shared<Button>(
@@ -63,26 +58,21 @@ void MainMenuState::initGui(){
 
 }
 
-void MainMenuState::resetGui()
+void CreateHeroesState::resetGui()
 {
 	this->buttons.clear();
 
 	this->initGui();
 }
 
-MainMenuState::~MainMenuState(){
+CreateHeroesState::~CreateHeroesState(){
 
 }
 
-void MainMenuState::updateButtons(){
+void CreateHeroesState::updateButtons(){
 	for (auto &it : this->buttons)
 	{
 		it.second->update(this->mousePos);
-	}
-
-	if (this->buttons["NEW_GAME"]->isClicked()){
-		this->states->push(std::make_shared<CreateHeroesState>(this->stateData));
-		std::cout<<"Menu: "<<this->states->size()<<"\n";
 	}
 
 	if (this->buttons["EXIT"]->isClicked()){
@@ -91,12 +81,12 @@ void MainMenuState::updateButtons(){
 
 }
 
-void MainMenuState::update(){
+void CreateHeroesState::update(){
 	this->updateMousePosition();
 	this->updateButtons();
 }
 
-void MainMenuState::renderButtons()
+void CreateHeroesState::renderButtons()
 {
 	for (auto &it : this->buttons)
 	{
@@ -104,7 +94,7 @@ void MainMenuState::renderButtons()
 	}	
 }
 
-void MainMenuState::render(){
+void CreateHeroesState::render(){
 	this->window->draw(this->backgroundRect);
 	this->renderButtons();
 }
