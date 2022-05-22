@@ -1,9 +1,13 @@
 #include "../../headers/states/state.hpp"
-
-State::State(std::shared_ptr<StateData> stateData){
-    this->stateData = stateData;
-    this->window = stateData->window;
-    this->states = stateData->states;
+#include <iostream>
+State::State(std::shared_ptr<StatesStack> stackPointer,
+              std::shared_ptr<sf::RenderWindow> window,
+              std::shared_ptr<GraphicSettings> settings){
+    this->window = window;
+    
+    this->states = stackPointer;
+    
+    this->settings = settings;
     this->quit = false;
 }
 

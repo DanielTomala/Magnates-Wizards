@@ -1,7 +1,7 @@
 #include "../headers/game.hpp"
 void Game::initVariables()
 {
-	this->window = NULL;
+
 }
 void Game::initWindow(){
     this->window = std::make_shared<sf::RenderWindow>(
@@ -12,14 +12,28 @@ void Game::initWindow(){
     this->window->setFramerateLimit(60);
 }
 
-void Game::initStateData(){
-    this->stateData.window = this->window;
-    this->stateData.settings = std::make_shared<GraphicSettings>(this->settings);
-    this->stateData.states = std::make_shared<StatesStack>(this->states);
-}
 
 void Game::initStates(){
-    this->states.push(std::make_shared<MainMenuState>(std::make_shared<StateData>(this->stateData)));
+        // ODKOMENTUJ STATE NAD KTÓRYM PRACUJESZ
+        // W STATE NAD KTÓRYM PRACUJESZ NIE PRZECHODŹ DO INNYCH STATOW BO I TAK NIE ZADZIAŁA
+        // TESTUJ TYLKO JEDEN STATE NA RAZ
+        
+        // this->states.push(std::make_shared<MainMenuState>(std::make_shared<StatesStack>(this->states),
+        //                                               this->window,
+        //                                               std::make_shared<GraphicSettings>(this->settings)));
+        
+        // this->states.push(std::make_shared<CreateHeroesState>(std::make_shared<StatesStack>(this->states),
+        //                                               this->window,
+        //                                               std::make_shared<GraphicSettings>(this->settings)));
+        
+        // this->states.push(std::make_shared<GameState>(std::make_shared<StatesStack>(this->states),
+        //                                               this->window,
+        //                                               std::make_shared<GraphicSettings>(this->settings)));
+        
+        // this->states.push(std::make_shared<PlayerState>(std::make_shared<StatesStack>(this->states),
+        //                                               this->window,
+        //                                               std::make_shared<GraphicSettings>(this->settings)));
+
 }
 
 void Game::initSettings()
@@ -30,8 +44,9 @@ void Game::initSettings()
 Game::Game(){
     this->initSettings();
     this->initWindow();
-    this->initStateData();
     this->initStates();    
+
+
 }
 
 Game::~Game(){
@@ -51,6 +66,7 @@ void Game::updateEvents()
 
 void Game::update(){
     this->updateEvents();
+    std::cout<<this->states.size()<<"\n";
     if(this->states.empty() == false){   		
         if (this->window->hasFocus()){
             this->states.top()->update();
@@ -68,7 +84,6 @@ void Game::update(){
 
 void Game::render(){
     this->window->clear();
-    std::cout<<"Game: "<<this->states.size()<<"\n";
     if(this->states.empty() == false){
         this->states.top()->render();
     }

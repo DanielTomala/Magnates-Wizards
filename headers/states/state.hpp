@@ -4,23 +4,14 @@
 #include "../graphic_settings.hpp"
 #include <memory>
 #include <stack>
+
 class State;
 typedef std::stack<std::shared_ptr<State>> StatesStack;
 
-class StateData{
-    public:
-        StateData() {};
-
-        std::shared_ptr<GraphicSettings> settings;               // settings of window
-        std::shared_ptr<StatesStack> states;     // stack of states
-        std::shared_ptr<sf::RenderWindow> window;                       // pointer for window
-};
-
 class State{
     protected:
-        std::shared_ptr<StateData> stateData;
-        std::shared_ptr<GraphicSettings> settings;               // settings of window
-        std::shared_ptr<StatesStack> states;     // stack of states
+        std::shared_ptr<GraphicSettings> settings;                      // settings of window
+        std::shared_ptr<StatesStack> states;                            // stack of states
         std::shared_ptr<sf::RenderWindow> window;                       // pointer for window
 
         bool quit;
@@ -30,7 +21,9 @@ class State{
 
     
     public:
-        State(std::shared_ptr<StateData> stateData);
+        State(std::shared_ptr<StatesStack> stackPointer,
+              std::shared_ptr<sf::RenderWindow> window,
+              std::shared_ptr<GraphicSettings> settings);
         virtual ~State();
 
         void endState();

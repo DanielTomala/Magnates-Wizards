@@ -16,7 +16,9 @@ class CreateHeroesState: public State{
         void initGui();
         void resetGui();
     public:
-        CreateHeroesState(std::shared_ptr<StateData> stateData);
+        CreateHeroesState(std::shared_ptr<StatesStack> stackPointer,
+                          std::shared_ptr<sf::RenderWindow> window,
+                          std::shared_ptr<GraphicSettings> settings);
         virtual ~CreateHeroesState();
 
         void updateButtons();

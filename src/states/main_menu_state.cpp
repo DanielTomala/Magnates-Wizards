@@ -1,12 +1,19 @@
 #include "../../headers/states/main_menu_state.hpp"
 #include <iostream>
-MainMenuState::MainMenuState(std::shared_ptr<StateData> state_data)
-	: State(state_data)
+MainMenuState::MainMenuState(std::shared_ptr<StatesStack> stackPointer,
+                      std::shared_ptr<sf::RenderWindow> window,
+                      std::shared_ptr<GraphicSettings> settings)
+	: State(stackPointer, window, settings)
 {	
+	
 	this->initTextures();
+    
 	this->initFonts();
+    
 	this->initGui();
+    
 	this->resetGui();
+    
 }
 
 void MainMenuState::initTextures(){
@@ -32,7 +39,7 @@ void MainMenuState::initFonts()
 }
 
 void MainMenuState::initGui(){
-	const sf::VideoMode& vm = this->stateData->settings->resolution;
+	const sf::VideoMode& vm = this->settings->resolution;
 
 	this->backgroundRect.setSize(
 		sf::Vector2f(
@@ -81,8 +88,9 @@ void MainMenuState::updateButtons(){
 	}
 
 	if (this->buttons["NEW_GAME"]->isClicked()){
-		this->states->push(std::make_shared<CreateHeroesState>(this->stateData));
-		std::cout<<"Menu: "<<this->states->size()<<"\n";
+		// this->states->push(std::make_shared<CreateHeroesState>(this->states,
+        //                                               this->window,
+        //                                               this->settings));
 	}
 
 	if (this->buttons["EXIT"]->isClicked()){

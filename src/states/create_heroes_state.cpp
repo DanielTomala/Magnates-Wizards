@@ -2,8 +2,10 @@
 
 
 #include <iostream>
-CreateHeroesState::CreateHeroesState(std::shared_ptr<StateData> state_data)
-	: State(state_data)
+CreateHeroesState::CreateHeroesState(std::shared_ptr<StatesStack> stackPointer,
+                      std::shared_ptr<sf::RenderWindow> window,
+                      std::shared_ptr<GraphicSettings> settings)
+	: State(stackPointer, window, settings)
 {	
 	this->initTextures();
 	this->initFonts();
@@ -12,7 +14,7 @@ CreateHeroesState::CreateHeroesState(std::shared_ptr<StateData> state_data)
 }
 
 void CreateHeroesState::initTextures(){
-	if (!this->backgroundTX.loadFromFile("textures/background.png")){
+	if (!this->backgroundTX.loadFromFile("textures/ninja.png")){
 		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BACKGROUND_TEXTURE";
 	}
 	if (!this->textures["START_BUTTON"].loadFromFile("textures/button.png")){
@@ -34,7 +36,7 @@ void CreateHeroesState::initFonts()
 }
 
 void CreateHeroesState::initGui(){
-	const sf::VideoMode& vm = this->stateData->settings->resolution;
+	const sf::VideoMode& vm = this->settings->resolution;
 
 	this->backgroundRect.setSize(
 		sf::Vector2f(
@@ -46,13 +48,13 @@ void CreateHeroesState::initGui(){
 	this->backgroundRect.setTexture(&this->backgroundTX);
 	
 	float buttonWidth = 200, buttonHeight = 100;
-	float topLeft_x = (vm.width - buttonWidth) / 2;
-	float topLeft_y = 200;
+	//float topLeft_x = (vm.width - buttonWidth) / 2;
+	//float topLeft_y = 200;
 
-	topLeft_y += 2*buttonHeight;
+	//topLeft_y += 2*buttonHeight;
 
 	this->buttons["EXIT"] = std::make_shared<Button>(
-		topLeft_x, topLeft_y, buttonWidth, buttonHeight, std::make_shared<sf::Font>(this->font), "EXIT", 30,
+		0, 0, buttonWidth, buttonHeight, std::make_shared<sf::Font>(this->font), "EXIT", 30,
 		textures["EXIT_BUTTON"], sf::Color::Yellow, sf::Color::Magenta, sf::Color::Blue, 1
 	);
 

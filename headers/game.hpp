@@ -2,22 +2,23 @@
 #define GAME_HPP
 
 #include "./states/main_menu_state.hpp"
+#include "./states/create_heroes_state.hpp"
+#include "./states/game_state.hpp"
+#include "./states/player_menu_state.hpp"
 
 
 class Game{
     private:
         GraphicSettings settings;
-        StateData stateData;
         std::shared_ptr<sf::RenderWindow> window;
+        StatesStack states;
+        
         sf::Event event;
-
         sf::Clock clock;
 
-        StatesStack states;
         void initVariables();
         void initSettings();
         void initWindow();
-        void initStateData();
         void initStates();
     public:
         Game();
@@ -33,7 +34,5 @@ class Game{
         void run();
 
 };
-
-
 
 #endif
