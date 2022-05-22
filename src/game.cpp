@@ -53,10 +53,12 @@ void Game::update(){
     this->updateEvents();
     if(this->states.empty() == false){
         this->states.top()->update();
-        
-        if(this->states.top()->getQuit()){
-            this->states.top()->endState();
-            this->states.pop();
+   		
+        if (this->window->hasFocus()){
+            if(this->states.top()->getQuit()){
+                this->states.top()->endState();
+                this->states.pop();
+            }
         }
     }
     else{

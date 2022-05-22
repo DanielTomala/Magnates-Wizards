@@ -16,20 +16,19 @@ class Button{
         ButtonState state;
         unsigned int id;
 
-
+        sf::Texture texture;
         sf::RectangleShape rect;
         std::shared_ptr<sf::Font> font;
         sf::Text text;
-
+        
         sf::Color normalColor;
         sf::Color highlightedColor;
         sf::Color clickedColor;
     
     public:
-        Button();
         Button(float topLeftX, float topLeftY, float width, float height,
-        std::shared_ptr<sf::Font> font, std::string text,
-        sf::Color normalColor, sf::Color highlightedColor, sf::Color clickedColor,
+        std::shared_ptr<sf::Font> font, std::string text, unsigned int textSize,
+        const sf::Texture& texture, sf::Color normalColor, sf::Color highlightedColor, sf::Color clickedColor,
         unsigned int id);
 
         ~Button();

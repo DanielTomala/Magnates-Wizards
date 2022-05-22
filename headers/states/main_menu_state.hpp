@@ -11,7 +11,8 @@ class MainMenuState: public State{
         sf::Font font;
 
         std::map<std::string, std::shared_ptr<Button>> buttons;
-
+	
+        void initTextures();
         void initFonts();
         void initGui();
         void resetGui();
