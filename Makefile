@@ -2,7 +2,7 @@ CC=g++
 CFLAGS=-c -Wall -std=c++2a
 LDFLAGS=
 LIBFLAGS=-lsfml-graphics -lsfml-window -lsfml-system
-SOURCES= main.cpp src/application.cpp src/game_controller.cpp src/board.cpp src/field.cpp src/hero.cpp src/weapon.cpp src/wearable.cpp src/weapons/bow.cpp src/button.cpp
+SOURCES= main.cpp src/game_controller.cpp src/board.cpp src/field.cpp src/hero.cpp src/weapon.cpp src/wearable.cpp src/weapons/bow.cpp src/button.cpp src/game.cpp src/graphic_settings.cpp src/states/state.cpp src/states/main_menu_state.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=main
 BINDIR=build
