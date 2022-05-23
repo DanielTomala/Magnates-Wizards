@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
-#include "../headers/wearable.hpp"
+#include "../headers/game_logic/wearable.hpp"
 
 TEST_CASE("Default constructor", "[Wearable]")
 {
