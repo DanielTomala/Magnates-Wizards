@@ -6,13 +6,13 @@
 #include <stack>
 
 class State;
-typedef std::stack<std::shared_ptr<State>> StatesStack;
+typedef std::stack<State*> StatesStack;
 
 class State{
     protected:
-        std::shared_ptr<GraphicSettings> settings;                      // settings of window
-        std::shared_ptr<StatesStack> states;                            // stack of states
-        std::shared_ptr<sf::RenderWindow> window;                       // pointer for window
+        GraphicSettings *settings;                      // settings of window
+        StatesStack *states;                            // stack of states
+        sf::RenderWindow *window;                       // pointer for window
 
         bool quit;
         std::map<std::string, sf::Texture> textures;
@@ -21,9 +21,9 @@ class State{
 
     
     public:
-        State(std::shared_ptr<StatesStack> stackPointer,
-              std::shared_ptr<sf::RenderWindow> window,
-              std::shared_ptr<GraphicSettings> settings);
+        State(StatesStack *stackPointer,
+              sf::RenderWindow *window,
+              GraphicSettings *settings);
         virtual ~State();
 
         void endState();

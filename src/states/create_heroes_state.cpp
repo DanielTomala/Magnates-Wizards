@@ -2,9 +2,9 @@
 
 
 #include <iostream>
-CreateHeroesState::CreateHeroesState(std::shared_ptr<StatesStack> stackPointer,
-                      std::shared_ptr<sf::RenderWindow> window,
-                      std::shared_ptr<GraphicSettings> settings)
+CreateHeroesState::CreateHeroesState(StatesStack *stackPointer,
+                      sf::RenderWindow *window,
+                      GraphicSettings *settings)
 	: State(stackPointer, window, settings)
 {	
 	this->initTextures();

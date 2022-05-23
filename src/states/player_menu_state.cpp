@@ -1,9 +1,9 @@
 #include "../../headers/states/player_menu_state.hpp"
 
 #include <iostream>
-PlayerMenuState::PlayerMenuState(std::shared_ptr<StatesStack> stackPointer,
-                      std::shared_ptr<sf::RenderWindow> window,
-                      std::shared_ptr<GraphicSettings> settings)
+PlayerMenuState::PlayerMenuState(StatesStack *stackPointer,
+                      sf::RenderWindow *window,
+                      GraphicSettings *settings)
 	: State(stackPointer, window, settings)
 {	
 	this->initTextures();

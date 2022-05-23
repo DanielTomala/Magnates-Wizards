@@ -1,8 +1,8 @@
 #include "../../headers/states/main_menu_state.hpp"
 #include <iostream>
-MainMenuState::MainMenuState(std::shared_ptr<StatesStack> stackPointer,
-                      std::shared_ptr<sf::RenderWindow> window,
-                      std::shared_ptr<GraphicSettings> settings)
+MainMenuState::MainMenuState(StatesStack *stackPointer,
+                      sf::RenderWindow *window,
+                      GraphicSettings *settings)
 	: State(stackPointer, window, settings)
 {	
 	
@@ -88,9 +88,9 @@ void MainMenuState::updateButtons(){
 	}
 
 	if (this->buttons["NEW_GAME"]->isClicked()){
-		// this->states->push(std::make_shared<CreateHeroesState>(this->states,
-        //                                               this->window,
-        //                                               this->settings));
+		this->states->push(new CreateHeroesState(this->states,
+                                                      this->window,
+                                                      this->settings));
 	}
 
 	if (this->buttons["EXIT"]->isClicked()){

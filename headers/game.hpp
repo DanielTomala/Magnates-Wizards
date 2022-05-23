@@ -5,13 +5,14 @@
 #include "./states/create_heroes_state.hpp"
 #include "./states/game_state.hpp"
 #include "./states/player_menu_state.hpp"
-
+#include "game_controller.hpp"
 
 class Game{
     private:
         GraphicSettings settings;
-        std::shared_ptr<sf::RenderWindow> window;
+        sf::RenderWindow *window;
         StatesStack states;
+        GameController controller;
         
         sf::Event event;
         sf::Clock clock;

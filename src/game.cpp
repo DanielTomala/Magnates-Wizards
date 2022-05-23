@@ -4,7 +4,7 @@ void Game::initVariables()
 
 }
 void Game::initWindow(){
-    this->window = std::make_shared<sf::RenderWindow>(
+    this->window = new sf::RenderWindow(
         this->settings.resolution,
         this->settings.title,
         sf::Style::Fullscreen
@@ -18,9 +18,9 @@ void Game::initStates(){
         // W STATE NAD KTÓRYM PRACUJESZ NIE PRZECHODŹ DO INNYCH STATOW BO I TAK NIE ZADZIAŁA
         // TESTUJ TYLKO JEDEN STATE NA RAZ
         
-        // this->states.push(std::make_shared<MainMenuState>(std::make_shared<StatesStack>(this->states),
-        //                                               this->window,
-        //                                               std::make_shared<GraphicSettings>(this->settings)));
+        this->states.push(new MainMenuState(&this->states,
+                                                      this->window,
+                                                      &this->settings));
         
         // this->states.push(std::make_shared<CreateHeroesState>(std::make_shared<StatesStack>(this->states),
         //                                               this->window,
@@ -50,7 +50,9 @@ Game::Game(){
 }
 
 Game::~Game(){
+    delete this->window;
     while(this->states.empty() == false){
+        delete this->states.top();
         this->states.pop();
     }
 }
@@ -72,6 +74,7 @@ void Game::update(){
             this->states.top()->update();
             if(this->states.top()->getQuit()){
                 this->states.top()->endState();
+                delete this->states.top();
                 this->states.pop();
             }
         }

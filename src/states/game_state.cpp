@@ -1,9 +1,9 @@
 #include "../../headers/states/game_state.hpp"
 
 #include <iostream>
-GameState::GameState(std::shared_ptr<StatesStack> stackPointer,
-                      std::shared_ptr<sf::RenderWindow> window,
-                      std::shared_ptr<GraphicSettings> settings)
+GameState::GameState(StatesStack *stackPointer,
+                      sf::RenderWindow *window,
+                      GraphicSettings *settings)
 	: State(stackPointer, window, settings)
 {	
 	this->initTextures();

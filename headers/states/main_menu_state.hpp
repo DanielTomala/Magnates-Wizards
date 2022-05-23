@@ -17,9 +17,9 @@ class MainMenuState: public State{
         void initGui();
         void resetGui();
     public:
-        MainMenuState(std::shared_ptr<StatesStack> stackPointer,
-                      std::shared_ptr<sf::RenderWindow> window,
-                      std::shared_ptr<GraphicSettings> settings);
+        MainMenuState(StatesStack *stackPointer,
+                      sf::RenderWindow *window,
+                      GraphicSettings *settings);
         virtual ~MainMenuState();
 
         void updateButtons();

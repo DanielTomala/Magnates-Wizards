@@ -17,9 +17,9 @@ class GameState: public State{
         void initGui();
         void resetGui();
     public:
-        GameState(std::shared_ptr<StatesStack> stackPointer,
-                          std::shared_ptr<sf::RenderWindow> window,
-                          std::shared_ptr<GraphicSettings> settings);
+        GameState(StatesStack *stackPointer,
+                      sf::RenderWindow *window,
+                      GraphicSettings *settings);
         virtual ~GameState();
 
         void updateButtons();
