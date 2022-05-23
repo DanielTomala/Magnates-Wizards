@@ -1,9 +1,9 @@
 #include "../../../headers/game_logic/heroes/hero.hpp"
 
-Hero::~Hero(){};
-HeroType Hero::getType(){return EHero;};
-HeroType Knight::getType(){return EKnight;};
-Knight::~Knight(){};
+Hero::~Hero(){}
+HeroType Hero::getType(){return EHero;}
+HeroType Knight::getType(){return EKnight;}
+Knight::~Knight(){}
 
 Hero::Hero()
 {

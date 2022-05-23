@@ -1,9 +1,15 @@
 #include "../../../headers/ui/states/game_state.hpp"
 
 #include <iostream>
+#include <string>
+#include <array>
+#include <sstream>
+#include <stdlib.h> // srand, rand
+#include <time.h>	//time
+
 GameState::GameState(StatesStack *stackPointer,
-                      sf::RenderWindow *window,
-                      GraphicSettings *settings)
+					 sf::RenderWindow *window,
+					 GraphicSettings *settings)
 	: State(stackPointer, window, settings)
 {
 	this->initTextures();
@@ -12,51 +18,54 @@ GameState::GameState(StatesStack *stackPointer,
 	this->resetGui();
 }
 
-void GameState::initTextures(){
-	if (!this->backgroundTX.loadFromFile("textures/knight.png")){
+void GameState::initTextures()
+{
+	std::array<std::string, 10> paths = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+	std::stringstream backgroundPath;
+	srand(time(NULL));
+	backgroundPath << "../textures/backgrounds/battleback" << paths[rand()%10] << ".png";
+	if (!this->backgroundTX.loadFromFile(backgroundPath.str()))
+	{
 		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BACKGROUND_TEXTURE";
 	}
-	if (!this->textures["START_BUTTON"].loadFromFile("textures/button.png")){
+	if (!this->textures["START_BUTTON"].loadFromFile("../textures/button.png"))
+	{
 		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_TEXTURE";
 	}
-	if (!this->textures["EXIT_BUTTON"].loadFromFile("textures/button.png")){
+	if (!this->textures["EXIT_BUTTON"].loadFromFile("../textures/button.png"))
+	{
 		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_TEXTURE";
 	}
 }
-
 
 void GameState::initFonts()
 {
-	if (!this->font.loadFromFile("src/states/Dosis-Light.ttf"))
+	if (!this->font.loadFromFile("../src/ui/states/Dosis-Light.ttf"))
 	{
 		throw("ERROR::GameSTATE::COULD NOT LOAD FONT");
 	}
-
 }
 
-void GameState::initGui(){
-	const sf::VideoMode& vm = this->settings->resolution;
+void GameState::initGui()
+{
+	const sf::VideoMode &vm = this->settings->resolution;
 
 	this->backgroundRect.setSize(
 		sf::Vector2f(
 			(float)vm.width,
-			(float)vm.height)
-	);
-
+			(float)vm.height));
 
 	this->backgroundRect.setTexture(&this->backgroundTX);
 
 	float buttonWidth = 200, buttonHeight = 100;
-	//float topLeft_x = (vm.width - buttonWidth) / 2;
-	//float topLeft_y = 200;
+	// float topLeft_x = (vm.width - buttonWidth) / 2;
+	// float topLeft_y = 200;
 
-	//topLeft_y += 2*buttonHeight;
+	// topLeft_y += 2*buttonHeight;
 
 	this->buttons["EXIT"] = std::make_shared<Button>(
 		0, 0, buttonWidth, buttonHeight, std::make_shared<sf::Font>(this->font), "EXIT", 30,
-		textures["EXIT_BUTTON"], sf::Color::Yellow, sf::Color::Magenta, sf::Color::Blue, 1
-	);
-
+		textures["EXIT_BUTTON"], sf::Color::Yellow, sf::Color::Magenta, sf::Color::Blue, 1);
 }
 
 void GameState::resetGui()
@@ -66,23 +75,25 @@ void GameState::resetGui()
 	this->initGui();
 }
 
-GameState::~GameState(){
-
+GameState::~GameState()
+{
 }
 
-void GameState::updateButtons(){
+void GameState::updateButtons()
+{
 	for (auto &it : this->buttons)
 	{
 		it.second->update(this->mousePos);
 	}
 
-	if (this->buttons["EXIT"]->isClicked()){
+	if (this->buttons["EXIT"]->isClicked())
+	{
 		this->endState();
 	}
-
 }
 
-void GameState::update(){
+void GameState::update()
+{
 	this->updateMousePosition();
 	this->updateButtons();
 }
@@ -95,8 +106,8 @@ void GameState::renderButtons()
 	}
 }
 
-void GameState::render(){
+void GameState::render()
+{
 	this->window->draw(this->backgroundRect);
 	this->renderButtons();
 }
-
