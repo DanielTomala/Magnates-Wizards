@@ -19,6 +19,7 @@ class Game{
 
         void initVariables();
         void initSettings();
+        void initController();
         void initWindow();
         void initStates();
     public:

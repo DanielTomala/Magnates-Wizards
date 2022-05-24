@@ -6,6 +6,7 @@
 #include "./bubble_booster.hpp"
 #include <SFML/Graphics.hpp>
 #include <memory>
+#include <optional>
 
 class Field
 {

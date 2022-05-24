@@ -3,6 +3,7 @@
 Game::Game()
 {
     this->initSettings();
+    this->initController();
     this->initWindow();
     this->initStates();
 }
@@ -37,7 +38,8 @@ void Game::initStates()
 
     // this->states.push(new MainMenuState(&this->states,
     //                                               this->window,
-    //                                               &this->settings));
+    //                                               &this->settings,
+    //                                               &this->controller));
 
     // this->states.push(std::make_shared<CreateHeroesState>(std::make_shared<StatesStack>(this->states),
     //                                               this->window,
@@ -48,8 +50,9 @@ void Game::initStates()
     //                                               std::make_shared<GraphicSettings>(this->settings)));
 
     this->states.push(new GameState(&this->states,
-                                        this->window,
-                                        &this->settings));
+                                    this->window,
+                                    &this->settings,
+                                    &this->controller));
 
     // this->states.push(std::make_shared<PlayerState>(std::make_shared<StatesStack>(this->states),
     //                                               this->window,
@@ -59,6 +62,11 @@ void Game::initStates()
 void Game::initSettings()
 {
     this->settings = GraphicSettings();
+}
+
+void Game::initController()
+{
+    this->controller = GameController(std::make_shared<Board>());
 }
 
 void Game::updateEvents()

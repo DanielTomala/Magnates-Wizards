@@ -38,7 +38,7 @@ Button::Button(float topLeftX, float topLeftY, float width, float height,
 Button::~Button() {}
 
 bool Button::isClicked() const{
-    if(this->state == clicked){
+    if(this->state == ButtonState::clicked){
         return true;
     }
     return false;
