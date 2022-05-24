@@ -1,7 +1,19 @@
 #include "../../headers/game_logic/board.hpp"
 
-Board::Board(FieldsArray fields){
-    this-> fields = fields;
+Board::Board()
+{
+    for (unsigned int row = 0; row < BOARD_ROWS; row++)
+    {
+        for (unsigned int column = 0; column < BOARD_COLUMNS; column++)
+        {
+            fields[row][column] = std::make_shared<Field>();
+        }
+    }
+}
+
+Board::Board(FieldsArray fields)
+{
+    this->fields = fields;
 }
 
 std::shared_ptr<Field> Board::getFieldByCoordinate(unsigned int row, unsigned int column) const
@@ -27,9 +39,9 @@ unsigned int Board::getColumnsNumber() const
 {
     return BOARD_COLUMNS;
 }
-std::vector<std::shared_ptr<Field> > Board::getFieldsWithHeroes() const
+std::vector<std::shared_ptr<Field>> Board::getFieldsWithHeroes() const
 {
-    std::vector<std::shared_ptr<Field> >  fieldsWithHeroes;
+    std::vector<std::shared_ptr<Field>> fieldsWithHeroes;
     for (auto row : this->fields)
     {
         for (auto field : row)
@@ -43,9 +55,9 @@ std::vector<std::shared_ptr<Field> > Board::getFieldsWithHeroes() const
     return fieldsWithHeroes;
 }
 
-std::vector<std::shared_ptr<Field> >  Board::getFieldsWithBubbleBooster() const
+std::vector<std::shared_ptr<Field>> Board::getFieldsWithBubbleBooster() const
 {
-    std::vector<std::shared_ptr<Field> > fieldsWithBubbleBooster;
+    std::vector<std::shared_ptr<Field>> fieldsWithBubbleBooster;
     for (auto row : this->fields)
     {
         for (auto field : row)
@@ -59,9 +71,9 @@ std::vector<std::shared_ptr<Field> >  Board::getFieldsWithBubbleBooster() const
     return fieldsWithBubbleBooster;
 }
 
-std::vector<std::shared_ptr<Field> >  Board::getFieldsWithFieldBooster() const
+std::vector<std::shared_ptr<Field>> Board::getFieldsWithFieldBooster() const
 {
-    std::vector<std::shared_ptr<Field> >  fieldsWithFieldBooster;
+    std::vector<std::shared_ptr<Field>> fieldsWithFieldBooster;
     for (auto row : this->fields)
     {
         for (auto field : row)

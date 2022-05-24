@@ -14,7 +14,7 @@ private:
     FieldsArray fields;
 
 public:
-    Board(){};
+    Board();
     Board(FieldsArray fields);
     unsigned int getRowsNumber() const;
     unsigned int getColumnsNumber() const;
