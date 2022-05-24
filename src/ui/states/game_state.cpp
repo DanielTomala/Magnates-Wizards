@@ -14,15 +14,54 @@ GameState::GameState(StatesStack *stackPointer,
 					 GameController *gameController)
 	: State(stackPointer, window, settings, gameController)
 {
+	this->addTestValuesToBoard();
 	this->initTextures();
 	this->initFonts();
 	this->initGui();
 	this->initBoardButtons();
-	this->drawBoard();
+	// this->drawBoard();
 }
 
 GameState::~GameState()
 {
+}
+
+void GameState::addTestValuesToBoard()
+{
+	auto board = this->gameController->getBoard();
+	auto field1 = board->getFieldByCoordinate(0, 2);
+	auto hero1 = std::make_shared<Knight>();
+	hero1->setOwner(Player::First);
+	field1->addHero(hero1);
+	auto field2 = board->getFieldByCoordinate(4, 0);
+	auto hero2 = std::make_shared<Catapult>();
+	hero2->setOwner(Player::First);
+	field2->addHero(hero2);
+	auto field3 = board->getFieldByCoordinate(5, 1);
+	auto hero3 = std::make_shared<Medic>();
+	hero3->setOwner(Player::First);
+	field3->addHero(hero3);
+	auto field4 = board->getFieldByCoordinate(3, 4);
+	auto hero4 = std::make_shared<Mage>();
+	hero4->setOwner(Player::First);
+	field4->addHero(hero4);
+
+	auto field5 = board->getFieldByCoordinate(3, 7);
+	auto hero5 = std::make_shared<Archer>();
+	hero5->setOwner(Player::Second);
+	field5->addHero(hero5);
+	auto field6 = board->getFieldByCoordinate(0, 9);
+	auto hero6 = std::make_shared<Trebuchet>();
+	hero6->setOwner(Player::Second);
+	field6->addHero(hero6);
+	auto field7 = board->getFieldByCoordinate(2, 6);
+	auto hero7 = std::make_shared<Ninja>();
+	hero7->setOwner(Player::Second);
+	field7->addHero(hero7);
+	auto field8 = board->getFieldByCoordinate(5, 8);
+	auto hero8 = std::make_shared<IceDruid>();
+	hero8->setOwner(Player::Second);
+	field8->addHero(hero8);
 }
 
 void GameState::initTextures()
@@ -155,36 +194,83 @@ void GameState::initBoardButtons()
 				{
 					fieldTX = textures["FIELD_RED"];
 				}
+				showHero(field->getHero().value(), buttonX, buttonY);
 			}
 
 			this->boardButtons[std::make_tuple(row, column)] = std::make_shared<Button>(buttonX, buttonY, 100, 100, std::make_shared<sf::Font>(this->font),
-																						"", 0, textures["FIELD"],
+																						"", 0, fieldTX,
 																						sf::Color::White, sf::Color::Green, sf::Color::Yellow, buttonId);
 		}
 	}
 }
 
-void GameState::drawBoard()
+void GameState::showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY)
 {
-	updateSprites();
-	auto board = this->gameController->getBoard();
-	for (auto row : board->getFields())
+	hero->sprite.setPosition(buttonX, buttonY);
+	switch (hero->getType())
 	{
-		for (auto field : row)
-		{
-			this->window->draw(field->sprite);
-
-			if (field->isFree() == false)
-			{
-				auto hero = field->getHero();
-				window->draw(hero.value()->sprite);
-			}
-		}
+	case HeroType::EKnight:
+		hero->sprite.setTexture(textures["KNIGHT"]);
+		break;
+	case HeroType::EArcher:
+		hero->sprite.setTexture(textures["ARCHER"]);
+		break;
+	case HeroType::EWizard:
+		hero->sprite.setTexture(textures["WIZARD"]);
+		break;
+	case HeroType::EIceDruid:
+		hero->sprite.setTexture(textures["ICE_DRUID"]);
+		break;
+	case HeroType::ECatapult:
+		hero->sprite.setTexture(textures["CATAPULT"]);
+		break;
+	case HeroType::EMedic:
+		hero->sprite.setTexture(textures["MEDIC"]);
+		break;
+	case HeroType::ENinja:
+		hero->sprite.setTexture(textures["NINJA"]);
+		break;
+	case HeroType::ETrebuchet:
+		hero->sprite.setTexture(textures["TREBUCHET"]);
+		break;
+	default:
+		hero->sprite.setTexture(textures["KNIGHT"]);
+		break;
 	}
+	if (hero->getOwner() == Player::Second)
+	{
+		hero->sprite.setTextureRect(sf::IntRect(FIELD_SIZE, 0, -FIELD_SIZE, FIELD_SIZE)); // Symetria względem osi OY
+	}
+	window->draw(hero->sprite);
 }
 
-void GameState::updateSprites()
+// void GameState::drawBoard()
+// {
+// 	updateSprites();
+// 	auto board = this->gameController->getBoard();
+// 	for (auto row : board->getFields())
+// 	{
+// 		for (auto field : row)
+// 		{
+// 			this->window->draw(field->sprite);
+
+// 			if (field->isFree() == false)
+// 			{
+// 				auto hero = field->getHero();
+// 				window->draw(hero.value()->sprite);
+// 			}
+// 		}
+// 	}
+// }
+
+// void GameState::updateSprites()
+// {
+// }
+
+void GameState::update()
 {
+	this->updateMousePosition();
+	this->updateButtons();
 }
 
 void GameState::updateButtons()
@@ -203,10 +289,19 @@ void GameState::updateButtons()
 	// }
 }
 
-void GameState::update()
+void GameState::renderHeroes()
 {
-	this->updateMousePosition();
-	this->updateButtons();
+	auto board = gameController->getBoard();
+	for (auto row : board->getFields())
+	{
+		for (auto field : row)
+		{
+			if (field->getHero() != std::nullopt)
+			{
+				window->draw(field->getHero().value()->sprite);
+			}
+		}
+	}
 }
 
 void GameState::renderButtons()
@@ -226,4 +321,5 @@ void GameState::render()
 	std::cout << this->settings->resolution.width << "  " << this->settings->resolution.height << std::endl;
 	this->window->draw(this->backgroundRect);
 	this->renderButtons();
+	this->renderHeroes();
 }

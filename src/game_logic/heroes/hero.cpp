@@ -2,8 +2,6 @@
 
 Hero::~Hero(){}
 HeroType Hero::getType(){return EHero;}
-HeroType Knight::getType(){return EKnight;}
-Knight::~Knight(){}
 
 Hero::Hero()
 {
@@ -106,4 +104,44 @@ Player Hero::getOwner() const{
 
 void Hero::setOwner(Player owner){
     this->owner = owner;
+}
+
+HeroType Archer::getType()
+{
+    return EArcher;
+}
+
+HeroType Knight::getType()
+{
+    return EKnight;
+}
+
+HeroType Mage::getType()
+{
+    return EWizard;
+}
+
+HeroType IceDruid::getType()
+{
+    return EIceDruid;
+}
+
+HeroType Medic::getType()
+{
+    return EMedic;
+}
+
+HeroType Ninja::getType()
+{
+    return ENinja;
+}
+
+HeroType Catapult::getType()
+{
+    return ECatapult;
+}
+
+HeroType Trebuchet::getType()
+{
+    return ETrebuchet;
 }

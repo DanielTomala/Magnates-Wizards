@@ -21,6 +21,7 @@ private:
     void initGui();
     void resetGui();
     void initBoardButtons();
+    void showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY);
     void drawBoard();
 
 public:
@@ -30,9 +31,15 @@ public:
               GameController *gameController);
     virtual ~GameState();
 
+    // Test
+    void addTestValuesToBoard();
+    // End test
+
     void updateSprites();
-    void updateButtons();
     void update();
+    void updateButtons();
+    void renderHeroes();
+
 
     void renderButtons();
     void render();
