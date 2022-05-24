@@ -223,6 +223,7 @@ void GameState::renderButtons()
 
 void GameState::render()
 {
+	std::cout << this->settings->resolution.width << "  " << this->settings->resolution.height << std::endl;
 	this->window->draw(this->backgroundRect);
 	this->renderButtons();
 }

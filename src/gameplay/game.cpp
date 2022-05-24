@@ -26,7 +26,7 @@ void Game::initWindow()
     this->window = new sf::RenderWindow(
         this->settings.resolution,
         this->settings.title,
-        sf::Style::Fullscreen);
+        sf::Style::Default);
     this->window->setFramerateLimit(60);
 }
 
