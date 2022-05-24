@@ -2,12 +2,14 @@
 #include <iostream>
 State::State(StatesStack  *stackPointer,
               sf::RenderWindow *window,
-              GraphicSettings *settings){
+              GraphicSettings *settings,
+              GameController *gameController){
     this->window = window;
 
     this->states = stackPointer;
 
     this->settings = settings;
+    this->gameController = gameController;
     this->quit = false;
 }
 

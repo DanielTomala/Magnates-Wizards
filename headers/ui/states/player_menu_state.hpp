@@ -11,7 +11,7 @@ class PlayerMenuState: public State{
         sf::Font font;
 
         std::map<std::string, std::shared_ptr<Button>> buttons;
-	
+
         void initTextures();
         void initFonts();
         void initGui();
@@ -19,7 +19,8 @@ class PlayerMenuState: public State{
     public:
         PlayerMenuState(StatesStack *stackPointer,
                       sf::RenderWindow *window,
-                      GraphicSettings *settings);
+                      GraphicSettings *settings,
+                      GameController *gameController);
         virtual ~PlayerMenuState();
 
         void updateButtons();

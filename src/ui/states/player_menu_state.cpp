@@ -3,8 +3,9 @@
 #include <iostream>
 PlayerMenuState::PlayerMenuState(StatesStack *stackPointer,
                       sf::RenderWindow *window,
-                      GraphicSettings *settings)
-	: State(stackPointer, window, settings)
+                      GraphicSettings *settings,
+					  GameController *gameController)
+	: State(stackPointer, window, settings, gameController)
 {
 	this->initTextures();
 	this->initFonts();

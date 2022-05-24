@@ -2,8 +2,9 @@
 #include <iostream>
 MainMenuState::MainMenuState(StatesStack *stackPointer,
                       sf::RenderWindow *window,
-                      GraphicSettings *settings)
-	: State(stackPointer, window, settings)
+                      GraphicSettings *settings,
+					  GameController *gameController)
+	: State(stackPointer, window, settings, gameController)
 {
 
 	this->initTextures();
@@ -17,13 +18,13 @@ MainMenuState::MainMenuState(StatesStack *stackPointer,
 }
 
 void MainMenuState::initTextures(){
-	if (!this->backgroundTX.loadFromFile("textures/background.png")){
+	if (!this->backgroundTX.loadFromFile("../textures/background.png")){
 		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BACKGROUND_TEXTURE";
 	}
-	if (!this->textures["START_BUTTON"].loadFromFile("textures/button.png")){
+	if (!this->textures["START_BUTTON"].loadFromFile("../textures/button.png")){
 		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_TEXTURE";
 	}
-	if (!this->textures["EXIT_BUTTON"].loadFromFile("textures/button.png")){
+	if (!this->textures["EXIT_BUTTON"].loadFromFile("../textures/button.png")){
 		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_TEXTURE";
 	}
 }
@@ -31,7 +32,7 @@ void MainMenuState::initTextures(){
 
 void MainMenuState::initFonts()
 {
-	if (!this->font.loadFromFile("src/states/Dosis-Light.ttf"))
+	if (!this->font.loadFromFile("../src/ui/states/Dosis-Light.ttf"))
 	{
 		throw("ERROR::MAINMENUSTATE::COULD NOT LOAD FONT");
 	}
@@ -90,7 +91,8 @@ void MainMenuState::updateButtons(){
 	if (this->buttons["NEW_GAME"]->isClicked()){
 		this->states->push(new CreateHeroesState(this->states,
                                                       this->window,
-                                                      this->settings));
+                                                      this->settings,
+													  this->gameController));
 	}
 
 	if (this->buttons["EXIT"]->isClicked()){
