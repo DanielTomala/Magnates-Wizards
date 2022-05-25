@@ -10,6 +10,7 @@ class GameState : public State
 {
 private:
     sf::Texture backgroundTX;
+    sf::Sprite actionMenuSprite;
     sf::RectangleShape backgroundRect;
     sf::Font font;
 
@@ -22,6 +23,7 @@ private:
     void resetGui();
     void initBoardButtons();
     void showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY);
+    void showActionMenu(std::shared_ptr<Button> button);
     void drawBoard();
 
 public:
@@ -39,7 +41,7 @@ public:
     void update();
     void updateButtons();
     void renderHeroes();
-
+    void renderActionMenu();
 
     void renderButtons();
     void render();

@@ -126,6 +126,18 @@ void GameState::initTextures()
 	{
 		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_TEXTURE";
 	}
+	if (!this->textures["ACTION_MENU_1"].loadFromFile("../textures/action_menu_1.png"))
+	{
+		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_TEXTURE";
+	}
+	if (!this->textures["ACTION_MENU_2"].loadFromFile("../textures/action_menu_2.png"))
+	{
+		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_TEXTURE";
+	}
+	if (!this->textures["ACTION_MENU_3"].loadFromFile("../textures/action_menu_3.png"))
+	{
+		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_TEXTURE";
+	}
 }
 
 void GameState::initFonts()
@@ -154,7 +166,7 @@ void GameState::initGui()
 	// topLeft_y += 2*buttonHeight;
 
 	this->buttons["EXIT"] = std::make_shared<Button>(
-		vm.width-100.f, 0.f, 100.f, 50.f, std::make_shared<sf::Font>(this->font), "EXIT", 30,
+		vm.width - 100.f, 0.f, 100.f, 50.f, std::make_shared<sf::Font>(this->font), "EXIT", 30,
 		textures["EXIT_BUTTON"], sf::Color::Yellow, sf::Color::Magenta, sf::Color::Blue, 1);
 }
 
@@ -244,6 +256,32 @@ void GameState::showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY)
 	window->draw(hero->sprite);
 }
 
+void GameState::showActionMenu(std::shared_ptr<Button> button)
+{
+	int buttonId = button->getId();
+	auto field = gameController->getBoard()->getFieldByCoordinate(buttonId / BOARD_COLUMNS, buttonId % BOARD_COLUMNS);
+	if (field->getHero() != std::nullopt)
+	{
+		sf::Texture actionMenuTX;
+		switch (field->getHero().value()->getType())
+		{
+		case EMedic:
+			actionMenuTX = textures["ACTION_MENU_3"];
+			break;
+		case ETrebuchet:
+		case ECatapult:
+			actionMenuTX = textures["ACTION_MENU_1"];
+			break;
+		default:
+			actionMenuTX = textures["ACTION_MENU_2"];
+			break;
+		}
+		actionMenuSprite.setTexture(actionMenuTX);
+		// actionMenuSprite.setPosition(button->getRect().getPosition());
+		actionMenuSprite.setPosition(0, 0);
+	}
+}
+
 // void GameState::drawBoard()
 // {
 // 	updateSprites();
@@ -282,6 +320,10 @@ void GameState::updateButtons()
 	for (auto &it : this->boardButtons)
 	{
 		it.second->update(this->mousePos);
+		if (it.second->isClicked())
+		{
+			showActionMenu(it.second);
+		}
 	}
 	if (this->buttons["EXIT"]->isClicked())
 	{
@@ -304,6 +346,11 @@ void GameState::renderHeroes()
 	}
 }
 
+void GameState::renderActionMenu()
+{
+	window->draw(actionMenuSprite);
+}
+
 void GameState::renderButtons()
 {
 	for (auto &it : this->buttons)
@@ -322,4 +369,5 @@ void GameState::render()
 	this->window->draw(this->backgroundRect);
 	this->renderButtons();
 	this->renderHeroes();
+	this->renderActionMenu();
 }

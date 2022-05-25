@@ -23,10 +23,16 @@ void Game::initVariables()
 }
 void Game::initWindow()
 {
+    //Daniel
     this->window = new sf::RenderWindow(
         this->settings.resolution,
         this->settings.title,
-        sf::Style::Fullscreen);
+        sf::Style::Default);
+    //Irek
+    // this->window = new sf::RenderWindow(
+    //     this->settings.resolution,
+    //     this->settings.title,
+    //     sf::Style::Fullscreen);
     this->window->setFramerateLimit(60);
 }
 
