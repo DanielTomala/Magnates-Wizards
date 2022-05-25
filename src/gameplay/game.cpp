@@ -26,7 +26,7 @@ void Game::initWindow()
     this->window = new sf::RenderWindow(
         this->settings.resolution,
         this->settings.title,
-        sf::Style::Default);
+        sf::Style::Fullscreen);
     this->window->setFramerateLimit(60);
 }
 
@@ -49,7 +49,7 @@ void Game::initStates()
     //                                               this->window,
     //                                               std::make_shared<GraphicSettings>(this->settings)));
 
-    this->states.push(new GameState(&this->states,
+    this->states.push(new MainMenuState(&this->states,
                                     this->window,
                                     &this->settings,
                                     &this->controller));

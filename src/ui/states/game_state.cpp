@@ -153,9 +153,9 @@ void GameState::initGui()
 
 	// topLeft_y += 2*buttonHeight;
 
-	// this->buttons["EXIT"] = std::make_shared<Button>(
-	// 	0, 0, buttonWidth, buttonHeight, std::make_shared<sf::Font>(this->font), "EXIT", 30,
-	// 	textures["EXIT_BUTTON"], sf::Color::Yellow, sf::Color::Magenta, sf::Color::Blue, 1);
+	this->buttons["EXIT"] = std::make_shared<Button>(
+		vm.width-100.f, 0.f, 100.f, 50.f, std::make_shared<sf::Font>(this->font), "EXIT", 30,
+		textures["EXIT_BUTTON"], sf::Color::Yellow, sf::Color::Magenta, sf::Color::Blue, 1);
 }
 
 void GameState::resetGui()
@@ -283,10 +283,10 @@ void GameState::updateButtons()
 	{
 		it.second->update(this->mousePos);
 	}
-	// if (this->buttons["EXIT"]->isClicked())
-	// {
-	// 	this->endState();
-	// }
+	if (this->buttons["EXIT"]->isClicked())
+	{
+		this->endState();
+	}
 }
 
 void GameState::renderHeroes()

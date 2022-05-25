@@ -20,11 +20,14 @@ set(SRC
     src/gameplay/game.cpp
     #UI
     src/ui/states/create_heroes_state.cpp
+    src/ui/states/configure_heroes_state.cpp
     src/ui/states/game_state.cpp
     src/ui/states/main_menu_state.cpp
     src/ui/states/player_menu_state.cpp
     src/ui/states/state.cpp
     src/ui/button.cpp
+    src/ui/select_button.cpp
+    src/ui/descriptions.cpp
     src/ui/graphic_settings.cpp
 )
 # file(GLOB SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")          #Get all cpp files

@@ -18,7 +18,7 @@ MainMenuState::MainMenuState(StatesStack *stackPointer,
 }
 
 void MainMenuState::initTextures(){
-	if (!this->backgroundTX.loadFromFile("../textures/background.png")){
+	if (!this->backgroundTX.loadFromFile("../textures/backgrounds/main_menu.png")){
 		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BACKGROUND_TEXTURE";
 	}
 	if (!this->textures["START_BUTTON"].loadFromFile("../textures/button.png")){
