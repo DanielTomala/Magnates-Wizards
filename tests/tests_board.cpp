@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
-#include "../headers/board.hpp"
+#include "../headers/game_logic/board.hpp"
 
 TEST_CASE("Default Constructor", "[Board]")
 {

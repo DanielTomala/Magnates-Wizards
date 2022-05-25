@@ -1,7 +1,7 @@
-#include "headers/application.hpp"
+#include "headers/gameplay/game.hpp"
 
 
 int main(){
-	Application app(true);
+	Game app;
 	app.run();
 }

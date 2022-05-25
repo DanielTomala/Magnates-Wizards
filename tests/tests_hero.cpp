@@ -1,9 +1,9 @@
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
-#include "../headers/hero.hpp"
-#include "../headers/weapons/weapon.hpp"
-#include "../headers/wearable.hpp"
+#include "../headers/game_logic/heroes/hero.hpp"
+#include "../headers/game_logic/weapons/weapon.hpp"
+#include "../headers/game_logic/wearable.hpp"
 #include <optional>
 
 TEST_CASE("Default Constructor", "[Hero]")

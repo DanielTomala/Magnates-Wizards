@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
-#include "../headers/weapons/weapon.hpp"
+#include "../headers/game_logic/weapons/weapon.hpp"
 
 TEST_CASE("Default constructor", "[Weapon]")
 {

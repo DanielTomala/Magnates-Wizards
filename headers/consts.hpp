@@ -3,7 +3,7 @@
 
 #include <array>
 #include <memory>
-#include "field.hpp"
+#include "./game_logic/field.hpp"
 #include <SFML/Graphics.hpp>
 
 const unsigned int ACTIONS_PER_TURN = 5;
