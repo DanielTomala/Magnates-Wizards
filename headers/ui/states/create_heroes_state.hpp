@@ -6,7 +6,6 @@
 #include "../descriptions.hpp"
 
 
-
 class CreateHeroesState : public State
 {
 private:
@@ -16,7 +15,7 @@ private:
 
 
     std::map<std::string, std::shared_ptr<Button>> buttons;
-    
+
     std::map<std::string, std::shared_ptr<SelectButton>> heroButtons;
 
     std::map<std::string, std::shared_ptr<sf::Text>> texts;

@@ -8,7 +8,7 @@ enum ButtonState
 {
     normal,
     highlighted,
-    clicked
+    clicked,
 };
 
 class Button
@@ -17,6 +17,10 @@ class Button
 private:
     ButtonState state;
     unsigned int id;
+    bool active;
+    bool pressed;
+    bool mouseHold;
+    bool highlighted;
 
     sf::Texture texture;
     sf::RectangleShape rect;
@@ -35,7 +39,7 @@ public:
 
     ~Button();
 
-    bool isClicked() const;
+    bool isClicked();
     std::string getText() const;
     unsigned int getId() const;
     sf::RectangleShape getRect() const;

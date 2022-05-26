@@ -75,6 +75,12 @@ void CreateHeroesState::initGui(){
 	this->texts["HERO_DESCRIPTION"] -> setFillColor(sf::Color::Black);
 	this->texts["HERO_DESCRIPTION"] -> setStyle(sf::Text::Bold);
 
+	this->texts["MANUAL"] = std::make_shared<sf::Text>(this->heroesDescriptions.getManual(), this->font, 20);
+	this->texts["MANUAL"] -> setPosition(vm.x-675.f, 100.f);
+	this->texts["MANUAL"] -> setFillColor(sf::Color::Black);
+	this->texts["MANUAL"] -> setStyle(sf::Text::Bold);
+
+
 	this->texts["ERROR"] = std::make_shared<sf::Text>("", this->font, 20);
 	this->texts["ERROR"] -> setPosition(375.f, 700.f);
 	this->texts["ERROR"] -> setFillColor(sf::Color::Black);
@@ -100,11 +106,16 @@ void CreateHeroesState::initGui(){
 	this->shapes["RIGHT_BG"] -> setSize(sf::Vector2f{300.f, 650.f});
 	this->shapes["RIGHT_BG"] -> setPosition(sf::Vector2f{vm.x-325.f, 75.f});
 
-	this->shapes["MIDDLE_BG"] = std::make_shared<sf::RectangleShape>();
-	this->shapes["MIDDLE_BG"] -> setFillColor(sf::Color(214, 154, 58));
-	this->shapes["MIDDLE_BG"] -> setSize(sf::Vector2f{vm.x- 700.f, 650.f});
-	this->shapes["MIDDLE_BG"] -> setPosition(sf::Vector2f{350.f, 75.f});
-
+	this->shapes["MIDDLE_LEFT_BG"] = std::make_shared<sf::RectangleShape>();
+	this->shapes["MIDDLE_LEFT_BG"] -> setFillColor(sf::Color(214, 154, 58));
+	this->shapes["MIDDLE_LEFT_BG"] -> setSize(sf::Vector2f{350.f, 350.f});
+	this->shapes["MIDDLE_LEFT_BG"] -> setPosition(sf::Vector2f{350.f, 75.f});
+	
+	this->shapes["MIDDLE_RIGHT_BG"] = std::make_shared<sf::RectangleShape>();
+	this->shapes["MIDDLE_RIGHT_BG"] -> setFillColor(sf::Color(214, 154, 58));
+	this->shapes["MIDDLE_RIGHT_BG"] -> setSize(sf::Vector2f{350.f, 650.f});
+	this->shapes["MIDDLE_RIGHT_BG"] -> setPosition(sf::Vector2f{vm.x-700.f, 75.f});
+	
 	float buttonWidth = 100, buttonHeight = 50;
 	float topLeft_x = vm.x - buttonWidth;
 	float topLeft_y = 0.f;
@@ -192,15 +203,6 @@ void CreateHeroesState::loadHeroes(){
 }
 
 void CreateHeroesState::updateButtons(){
-	for (auto &it : this->buttons)
-	{
-		it.second->update(this->mousePos);
-	}
-
-	for (auto &it : this->heroButtons)
-	{
-		it.second->update(this->mousePos);
-	}
 
 	if (this->buttons["EXIT"]->isClicked()){
 		this->endState();
@@ -222,13 +224,61 @@ void CreateHeroesState::updateButtons(){
 
 		this->texts["HERO_DESCRIPTION"] -> setString(this->heroButtons["KNIGHT_2"]->getDescription());
 	}
+	else if(this->heroButtons["NINJA_1"]->isHovered()){
+
+		this->texts["HERO_DESCRIPTION"] -> setString(this->heroButtons["NINJA_1"]->getDescription());
+	}
+	else if(this->heroButtons["NINJA_2"]->isHovered()){
+
+		this->texts["HERO_DESCRIPTION"] -> setString(this->heroButtons["NINJA_2"]->getDescription());
+	}
+	else if(this->heroButtons["ICE_DRUID_1"]->isHovered()){
+
+		this->texts["HERO_DESCRIPTION"] -> setString(this->heroButtons["ICE_DRUID_1"]->getDescription());
+	}
+	else if(this->heroButtons["ICE_DRUID_2"]->isHovered()){
+
+		this->texts["HERO_DESCRIPTION"] -> setString(this->heroButtons["ICE_DRUID_2"]->getDescription());
+	}
+	else if(this->heroButtons["CATAPULT_1"]->isHovered()){
+
+		this->texts["HERO_DESCRIPTION"] -> setString(this->heroButtons["CATAPULT_1"]->getDescription());
+	}
+	else if(this->heroButtons["CATAPULT_2"]->isHovered()){
+
+		this->texts["HERO_DESCRIPTION"] -> setString(this->heroButtons["CATAPULT_2"]->getDescription());
+	}
+	else if(this->heroButtons["TREBUCHET_1"]->isHovered()){
+
+		this->texts["HERO_DESCRIPTION"] -> setString(this->heroButtons["TREBUCHET_1"]->getDescription());
+	}
+	else if(this->heroButtons["TREBUCHET_2"]->isHovered()){
+
+		this->texts["HERO_DESCRIPTION"] -> setString(this->heroButtons["TREBUCHET_2"]->getDescription());
+	}
+	else if(this->heroButtons["WIZARD_1"]->isHovered()){
+
+		this->texts["HERO_DESCRIPTION"] -> setString(this->heroButtons["WIZARD_1"]->getDescription());
+	}
+	else if(this->heroButtons["WIZARD_2"]->isHovered()){
+
+		this->texts["HERO_DESCRIPTION"] -> setString(this->heroButtons["WIZARD_2"]->getDescription());
+	}
+	else if(this->heroButtons["MEDIC_1"]->isHovered()){
+
+		this->texts["HERO_DESCRIPTION"] -> setString(this->heroButtons["MEDIC_1"]->getDescription());
+	}
+	else if(this->heroButtons["MEDIC_2"]->isHovered()){
+
+		this->texts["HERO_DESCRIPTION"] -> setString(this->heroButtons["MEDIC_2"]->getDescription());
+	}
 	else{
 		this->texts["HERO_DESCRIPTION"] -> setString("");
 	}
 
 	if (this->buttons["START"]->isClicked()){
 		this->loadHeroes();
-		if(this->firstPlayerHeroes.size() != 1 || this->secondPlayerHeroes.size() != 1){
+		if(this->firstPlayerHeroes.size() != 4 || this->secondPlayerHeroes.size() != 4){
 			this->texts["ERROR"] -> setString("wrong heroes number");
 			this->firstPlayerHeroes.clear();
 			this->secondPlayerHeroes.clear();
@@ -243,6 +293,15 @@ void CreateHeroesState::updateButtons(){
 		}
 	}
 
+	for (auto &it : this->buttons)
+	{
+		it.second->update(this->mousePos);
+	}
+
+	for (auto &it : this->heroButtons)
+	{
+		it.second->update(this->mousePos);
+	}
 
 }
 
