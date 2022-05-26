@@ -9,7 +9,6 @@
 
 enum HeroType
 {
-    EHero,
     EArcher,
     EKnight,
     EWizard,
@@ -54,7 +53,7 @@ public:
     bool isAlive() const;
     sf::Sprite sprite; // WILL BE PRIVATE
 
-    virtual HeroType getType();
+    virtual HeroType getType() = 0;
 
     void setOwner(Player owner);
     Player getOwner() const;

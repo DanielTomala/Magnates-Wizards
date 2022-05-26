@@ -14,7 +14,7 @@ GameState::GameState(StatesStack *stackPointer,
 					 GameController *gameController)
 	: State(stackPointer, window, settings, gameController)
 {
-	this->addTestValuesToBoard();
+	//this->addTestValuesToBoard();
 	this->initTextures();
 	this->initFonts();
 	this->initGui();

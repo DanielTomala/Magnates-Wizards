@@ -1,7 +1,6 @@
 #include "../../../headers/game_logic/heroes/hero.hpp"
 
 Hero::~Hero(){}
-HeroType Hero::getType(){return EHero;}
 
 Hero::Hero()
 {

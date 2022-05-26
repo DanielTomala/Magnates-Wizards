@@ -20,17 +20,36 @@ class ConfigureHeroesState: public State{
 
     std::map<std::string, std::shared_ptr<sf::RectangleShape>> shapes;
     
+    std::vector<std::shared_ptr<Hero>> firstPlayerHeroes;
+    std::vector<std::shared_ptr<Hero>> secondPlayerHeroes;
+
+    std::map<std::tuple<HeroType, Player>, std::shared_ptr<Button>> heroButtons;
+
+    std::map<std::tuple<int, int>, std::shared_ptr<Button>> boardButtons;
     
+    void initHeroes(std::vector<HeroType> firstPlayerHeroes,
+                    std::vector<HeroType> secondPlayerHeroes);
+
+    std::shared_ptr<Hero> createHero(HeroType heroType);
+    
+    void initBoard();
     void initTextures();
     void initFonts();
     void initGui();
     void resetGui();
-    
+    void renderHeroes();
+    void drawBoard();
+    void showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY);
+
+    std::string heroTypeToString(HeroType herotype);
+
     public:
     ConfigureHeroesState(StatesStack *stackPointer,
                       sf::RenderWindow *window,
                       GraphicSettings *settings,
-                      GameController *gameController);
+                      GameController *gameController,
+                      std::vector<HeroType> firstPlayerHeroes,
+                      std::vector<HeroType> secondPlayerHeroes);
                       
     virtual ~ConfigureHeroesState();
 

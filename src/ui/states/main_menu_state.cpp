@@ -59,16 +59,15 @@ void MainMenuState::initGui(){
 
 	this->buttons["NEW_GAME"] = std::make_shared<Button>(
 		topLeft_x, topLeft_y, buttonWidth, buttonHeight, std::make_shared<sf::Font>(this->font), "NEW GAME", 30,
-		textures["START_BUTTON"], sf::Color::Yellow, sf::Color::Magenta, sf::Color::Blue, 1
+		textures["START_BUTTON"], sf::Color(214, 154, 58), sf::Color::Magenta, sf::Color::Blue, 1
 	);
 
 	topLeft_y += 2*buttonHeight;
 
 	this->buttons["EXIT"] = std::make_shared<Button>(
 		topLeft_x, topLeft_y, buttonWidth, buttonHeight, std::make_shared<sf::Font>(this->font), "EXIT", 30,
-		textures["EXIT_BUTTON"], sf::Color::Yellow, sf::Color::Magenta, sf::Color::Blue, 1
+		textures["EXIT_BUTTON"], sf::Color(214, 154, 58), sf::Color::Magenta, sf::Color::Blue, 1
 	);
-
 }
 
 void MainMenuState::resetGui()

@@ -4,18 +4,11 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
-enum ButtonState
-{
-    normal,
-    highlighted,
-    clicked,
-};
 
 class Button
 {
 
 private:
-    ButtonState state;
     unsigned int id;
     bool active;
     bool pressed;

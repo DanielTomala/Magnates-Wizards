@@ -81,10 +81,10 @@ void CreateHeroesState::initGui(){
 	this->texts["MANUAL"] -> setStyle(sf::Text::Bold);
 
 
-	this->texts["ERROR"] = std::make_shared<sf::Text>("", this->font, 20);
-	this->texts["ERROR"] -> setPosition(375.f, 700.f);
-	this->texts["ERROR"] -> setFillColor(sf::Color::Black);
-	this->texts["ERROR"] -> setStyle(sf::Text::Bold);
+	// this->texts["ERROR"] = std::make_shared<sf::Text>("", this->font, 20);
+	// this->texts["ERROR"] -> setPosition(375.f, 700.f);
+	// this->texts["ERROR"] -> setFillColor(sf::Color::Black);
+	// this->texts["ERROR"] -> setStyle(sf::Text::Bold);
 	
 	this->texts["PLAYER_1"] = std::make_shared<sf::Text>("PLAYER 1", this->font, 30);
 	this->texts["PLAYER_1"] -> setPosition(130.f, 100.f);
@@ -121,13 +121,15 @@ void CreateHeroesState::initGui(){
 	float topLeft_y = 0.f;
 	this->buttons["EXIT"] = std::make_shared<Button>(
 		topLeft_x, topLeft_y, buttonWidth, buttonHeight, std::make_shared<sf::Font>(this->font), "BACK", 30,
-		textures["BUTTON"], sf::Color::Yellow, sf::Color::Magenta, sf::Color::Blue, 1
+		textures["BUTTON"], sf::Color(214, 154, 58), sf::Color::Magenta, sf::Color::Blue, 1
 	);
 
 	this->buttons["START"] = std::make_shared<Button>(
 		topLeft_x, vm.y-buttonHeight, buttonWidth, buttonHeight, std::make_shared<sf::Font>(this->font), "START", 30,
-		textures["BUTTON"], sf::Color::Yellow, sf::Color::Magenta, sf::Color::Blue, 1
+		textures["BUTTON"], sf::Color(214, 154, 58), sf::Color::Magenta, sf::Color::Blue, 1
 	);
+
+
 
 	this->heroButtons["ARCHER_1"] = std::make_shared<SelectButton>(
 		50.f, 150.f, 100.f, 100.f, textures["ARCHER"], sf::Color::Green, heroesDescriptions.getDescription(EArcher), First, EArcher);
@@ -203,6 +205,12 @@ void CreateHeroesState::loadHeroes(){
 }
 
 void CreateHeroesState::updateButtons(){
+	if (this->buttons.find("ERROR") != this->buttons.end())
+	{
+		if(this->buttons["ERROR"]->isClicked()){
+			this->buttons.erase("ERROR");
+		}
+	}
 
 	if (this->buttons["EXIT"]->isClicked()){
 		this->endState();
@@ -279,7 +287,10 @@ void CreateHeroesState::updateButtons(){
 	if (this->buttons["START"]->isClicked()){
 		this->loadHeroes();
 		if(this->firstPlayerHeroes.size() != 4 || this->secondPlayerHeroes.size() != 4){
-			this->texts["ERROR"] -> setString("wrong heroes number");
+			this->buttons["ERROR"] = std::make_shared<Button>(
+				350.f, 450.f, 350.f, 275.f, std::make_shared<sf::Font>(this->font), "WRONG HEROES NUMBER", 30,
+				textures["BUTTON"], sf::Color(214, 154, 58), sf::Color::Magenta, sf::Color::Blue, 1
+			);
 			this->firstPlayerHeroes.clear();
 			this->secondPlayerHeroes.clear();
 		}
@@ -288,7 +299,9 @@ void CreateHeroesState::updateButtons(){
 		this->states->push(new ConfigureHeroesState(this->states,
                                          this->window,
                                          this->settings,
-										 this->gameController));
+										 this->gameController,
+										 this->firstPlayerHeroes,
+										 this->secondPlayerHeroes));
 		this->endState();
 		}
 	}
