@@ -20,7 +20,7 @@ GameState::GameState(StatesStack *stackPointer,
 	this->initFonts();
 	this->initGui();
 	this->initBoardButtons();
-	// this->drawBoard();
+	this->actionChosen = false;
 }
 
 GameState::~GameState()
@@ -289,7 +289,8 @@ void GameState::showActionMenu(std::shared_ptr<Button> button)
 		float coorX = butPos.x + ((FIELD_SIZE - actionMenuSize.x) / 2);
 		float coorY = butPos.y - actionMenuTX->getSize().y / 2;
 
-		this->actionMenu = std::make_shared<ActionMenu>(sf::Vector2f(coorX, coorY), actionMenuSize, *actionMenuTX, button, actionNumber);
+		auto actionPtr = std::make_shared<ActionMenu>(sf::Vector2f(coorX, coorY), actionMenuSize, *actionMenuTX, button, field, actionNumber);
+		this->actionMenu = std::make_optional<std::shared_ptr<ActionMenu>>(actionPtr);
 	}
 }
 
@@ -300,9 +301,13 @@ void GameState::update()
 	{
 		this->updateActionMenu();
 	}
-	else
+	if (this->actionMenu == std::nullopt || this->actionChosen)
 	{
 		this->updateButtons();
+	}
+	if (this->actionMenu != std::nullopt)
+	{
+		this->checkIfActionHasToBeDone();
 	}
 }
 
@@ -317,7 +322,17 @@ void GameState::updateButtons()
 		it.second->update(this->mousePos);
 		if (it.second->isClicked())
 		{
-			showActionMenu(it.second);
+			if (!this->actionChosen)
+			{
+				showActionMenu(it.second);
+			}
+			else
+			{
+				int buttonId = it.second->getId();
+				auto field = gameController->getBoard()->getFieldByCoordinate(buttonId / BOARD_COLUMNS, buttonId % BOARD_COLUMNS);
+				this->chosenField = std::make_optional<std::shared_ptr<Field>>(field);
+				this->chosenButton = it.second;
+			}
 		}
 	}
 	if (this->buttons["EXIT"]->isClicked())
@@ -329,6 +344,63 @@ void GameState::updateButtons()
 void GameState::updateActionMenu()
 {
 	this->actionMenu.value()->update(this->mousePos);
+}
+
+void GameState::updateHeroPosition(std::shared_ptr<Hero> hero, std::shared_ptr<Button> newButton)
+{
+	hero->sprite.setPosition(newButton->getRect().getPosition());
+	if (hero->getOwner() == Player::First)
+	{
+		newButton->setTexture(textures["FIELD_GREEN"]);
+	}
+	else
+	{
+		newButton->setTexture(textures["FIELD_RED"]);
+	}
+	actionMenu.value()->getParentButton()->setTexture(textures["FIELD"]);
+}
+
+void GameState::checkIfActionHasToBeDone()
+{
+	if (this->actionMenu.value()->isAttackClicked())
+	{
+		this->actionChosen = true;
+		if (this->chosenField != std::nullopt)
+		{
+			this->gameController->attackAction(this->actionMenu.value()->getField(), this->chosenField.value());
+			this->actionMenu = std::nullopt;
+			this->chosenField = std::nullopt;
+			this->chosenButton = std::nullopt;
+			this->actionChosen = false;
+		}
+	}
+	else if (this->actionMenu.value()->isMoveClicked())
+	{
+		this->actionChosen = true;
+		if (this->chosenField != std::nullopt)
+		{
+			auto hero = this->actionMenu.value()->getField()->getHero().value();
+			// TODO Może funkcje moveAction, attackAction powinny zwracać boola czy zostały wykonane poprawnie
+			this->gameController->moveAction(this->actionMenu.value()->getField(), this->chosenField.value());
+			updateHeroPosition(hero, this->chosenButton.value());
+			this->actionMenu = std::nullopt;
+			this->chosenField = std::nullopt;
+			this->chosenButton = std::nullopt;
+			this->actionChosen = false;
+		}
+	}
+	else if (this->actionMenu.value()->isHealClicked())
+	{
+		this->actionChosen = true;
+		if (this->chosenField != std::nullopt)
+		{
+			this->gameController->healAction(this->actionMenu.value()->getField(), this->chosenField.value());
+			this->actionMenu = std::nullopt;
+			this->chosenField = std::nullopt;
+			this->chosenButton = std::nullopt;
+			this->actionChosen = false;
+		}
+	}
 }
 
 void GameState::renderHeroes()

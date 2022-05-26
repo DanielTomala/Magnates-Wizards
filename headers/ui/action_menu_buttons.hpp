@@ -19,8 +19,8 @@ class ActionMenu
 public:
     ActionMenu();
     ActionMenu(float topLeftX, float topLeftY, float width, float height,
-               const sf::Texture &texture, std::shared_ptr<Button> parent, ActionNumber actionNumber);
-    ActionMenu(sf::Vector2f position, sf::Vector2f size, const sf::Texture &texture, std::shared_ptr<Button> parent, ActionNumber actionNumber);
+               const sf::Texture &texture, std::shared_ptr<Button> parent, std::shared_ptr<Field> field, ActionNumber actionNumber);
+    ActionMenu(sf::Vector2f position, sf::Vector2f size, const sf::Texture &texture, std::shared_ptr<Button> parent, std::shared_ptr<Field> field, ActionNumber actionNumber);
     ~ActionMenu();
 
     bool isMoveClicked();
@@ -28,6 +28,7 @@ public:
     bool isHealClicked();
     bool shouldBeClosed();
     std::shared_ptr<Field> getField();
+    std::shared_ptr<Button> getParentButton();
 
     void update(const sf::Vector2i &mousePosition);
     void render(sf::RenderTarget &window);
@@ -42,6 +43,7 @@ private:
     bool attackClicked;
     bool healClicked;
     bool close;
+    bool doNotHide;
     std::shared_ptr<Field> field;
     std::shared_ptr<Button> parentButton;
 };

@@ -21,6 +21,10 @@ public:
     void setCurrentPlayer(Player player);
     void setActionsLeft(unsigned int actionsLeft);
 
+    void healAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);
+    void moveAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);
+    void attackAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);
+    void useAbilityAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord);
 
 private:
     std::shared_ptr<Board> board;
@@ -30,11 +34,6 @@ private:
     void buyingPhase();
     void turnPhase();
     bool gameIsContinued();
-
-    void healAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord);
-    void moveAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord);
-    void attackAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord);
-    void useAbilityAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord);
 };
 
 #endif

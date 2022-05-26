@@ -68,6 +68,11 @@ void Button::setId(const unsigned int &id)
     this->id = id;
 }
 
+void Button::setTexture(const sf::Texture &texture)
+{
+    this->texture = texture;
+}
+
 void Button::update(const sf::Vector2i &mousePosition)
 {
 

@@ -4,11 +4,12 @@
 ActionMenu::ActionMenu() {}
 
 ActionMenu::ActionMenu(float topLeftX, float topLeftY, float width, float height,
-                       const sf::Texture &texture, std::shared_ptr<Button> parent, ActionNumber actionNumber)
+                       const sf::Texture &texture, std::shared_ptr<Button> parent, std::shared_ptr<Field> field, ActionNumber actionNumber)
 {
     this->rect.setPosition(sf::Vector2f(topLeftX, topLeftY));
     this->rect.setSize(sf::Vector2f(width, height));
     this->rect.setTexture(&texture, true);
+    this->field = field;
 
     this->actionNumber = actionNumber;
     this->parentButton = parent;
@@ -16,6 +17,7 @@ ActionMenu::ActionMenu(float topLeftX, float topLeftY, float width, float height
     this->attackClicked = false;
     this->healClicked = false;
     this->close = false;
+    this->doNotHide = false;
     this->defaultColor = this->rect.getFillColor();
     sf::Color color;
     color.r = 179;
@@ -24,11 +26,12 @@ ActionMenu::ActionMenu(float topLeftX, float topLeftY, float width, float height
     this->hoveredColor = color;
 }
 
-ActionMenu::ActionMenu(sf::Vector2f position, sf::Vector2f size, const sf::Texture &texture, std::shared_ptr<Button> parent, ActionNumber actionNumber)
+ActionMenu::ActionMenu(sf::Vector2f position, sf::Vector2f size, const sf::Texture &texture, std::shared_ptr<Button> parent, std::shared_ptr<Field> field, ActionNumber actionNumber)
 {
     this->rect.setPosition(position);
     this->rect.setSize(size);
     this->rect.setTexture(&texture, true);
+    this->field = field;
 
     this->actionNumber = actionNumber;
     this->parentButton = parent;
@@ -36,6 +39,7 @@ ActionMenu::ActionMenu(sf::Vector2f position, sf::Vector2f size, const sf::Textu
     this->attackClicked = false;
     this->healClicked = false;
     this->close = false;
+    this->doNotHide = false;
     this->defaultColor = this->rect.getFillColor();
     sf::Color color;
     color.r = 179;
@@ -68,6 +72,11 @@ bool ActionMenu::shouldBeClosed()
 std::shared_ptr<Field> ActionMenu::getField()
 {
     return this->field;
+}
+
+std::shared_ptr<Button> ActionMenu::getParentButton()
+{
+    return this->parentButton;
 }
 
 void ActionMenu::update(const sf::Vector2i &mousePosition)
@@ -127,9 +136,10 @@ void ActionMenu::update(const sf::Vector2i &mousePosition)
                     std::cout << "Attack" << std::endl;
                 }
             }
+            this->doNotHide = true;
         }
     }
-    else if (!this->parentButton->getRect().getGlobalBounds().contains(sf::Vector2f(mousePosition)))
+    else if (!this->parentButton->getRect().getGlobalBounds().contains(sf::Vector2f(mousePosition)) && !this->doNotHide)
     {
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {

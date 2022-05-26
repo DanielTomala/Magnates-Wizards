@@ -6,6 +6,7 @@
 #include "../button.hpp"
 #include "../../gameplay/game_controller.hpp"
 #include "../../ui/action_menu_buttons.hpp"
+#include "../../ui/button.hpp"
 
 class GameState : public State
 {
@@ -16,7 +17,12 @@ private:
 
     std::map<std::string, std::shared_ptr<Button>> buttons;
     std::map<std::tuple<int, int>, std::shared_ptr<Button>> boardButtons;
+
     std::optional<std::shared_ptr<ActionMenu>> actionMenu;
+    std::optional<std::shared_ptr<Field>> chosenField;
+    std::optional<std::shared_ptr<Button>> chosenButton;
+
+    bool actionChosen;
 
     void initTextures();
     void initFonts();
@@ -42,9 +48,12 @@ public:
     void update();
     void updateButtons();
     void updateActionMenu();
+    void updateHeroPosition(std::shared_ptr<Hero> hero, std::shared_ptr<Button> newField);
+
+    void checkIfActionHasToBeDone();
+
     void renderHeroes();
     void renderActionMenu();
-
     void renderButtons();
     void render();
 };

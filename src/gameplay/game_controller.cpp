@@ -1,7 +1,8 @@
 #include "../../headers/gameplay/game_controller.hpp"
 #include <iostream>
 
-GameController::GameController(std::shared_ptr<Board> board){
+GameController::GameController(std::shared_ptr<Board> board)
+{
     this->board = board;
 }
 
@@ -34,9 +35,9 @@ void GameController::startGame()
 {
     setActionsLeft(ACTIONS_PER_TURN);
     setCurrentPlayer(Player::First);
-    //Call window for buying phase
+    // Call window for buying phase
     buyingPhase();
-    //Call window for turn phase
+    // Call window for turn phase
     turnPhase();
 }
 
@@ -71,11 +72,8 @@ bool GameController::gameIsContinued()
 
 // tuple<row, column>
 // Przed wywołaniem tej metody powinno zostać sprawdzone, czy leczony hero należy do naszej drużyny, czy jest w zasięgu i czy może zostać uleczony
-void GameController::healAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord)
+void GameController::healAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField)
 {
-    auto board = this->getBoard();
-    auto heroField = board->getFieldByCoordinate(std::get<0>(heroFieldCoord), std::get<1>(heroFieldCoord));
-    auto actionField = board->getFieldByCoordinate(std::get<0>(actionFieldCoord), std::get<1>(actionFieldCoord));
     auto hero = heroField->getHero().value(); // Skoro trafiliśmy do tej metody to już raczej nie jest wymagane sprawdzenie czy hero nie jest nullopt
     auto actionHero = actionField->getHero().value();
 
@@ -83,41 +81,48 @@ void GameController::healAction(std::tuple<int, int> heroFieldCoord, std::tuple<
     {
         throw std::invalid_argument("Only Medic can heal other heroes");
     }
+    if (hero->getOwner() == actionHero->getOwner() /*&& isInRange()*/)
+    {
+        // unsigned int healPoints = hero.getHealPoints(); // Some medic's method, which return heal points
+        unsigned int healPoints = 10;
+        actionHero->heal(healPoints);
+        std::cout << "Healed hero" << std::endl;
 
-    // unsigned int healPoints = hero.getHealPoints(); // Some medic's method, which return heal points
-    unsigned int healPoints = 10;
-    actionHero->heal(healPoints);
-
-    // Może dodatkowo, będzie należało odjąć jakieś punkty many medykowi
-    actionsLeft--;
+        // Może dodatkowo, będzie należało odjąć jakieś punkty many medykowi
+        // actionsLeft--;
+    }
 }
 
-void GameController::moveAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord)
+void GameController::moveAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField)
 {
-    auto board = this->getBoard();
-    auto heroField = board->getFieldByCoordinate(std::get<0>(heroFieldCoord), std::get<1>(heroFieldCoord));
-    auto actionField = board->getFieldByCoordinate(std::get<0>(actionFieldCoord), std::get<1>(actionFieldCoord)); // Powinno zostać sprawdzone, że jest puste i czy jest w zasięgu
-    auto hero = heroField->getHero().value();                                                                      // Skoro trafiliśmy do tej metody to już raczej nie jest wymagane sprawdzenie czy hero nie jest nullopt
+    // Powinno zostać sprawdzone, że jest puste i czy jest w zasięgu
 
-    heroField->removeHero();
-    actionField->addHero(hero);
-
-    actionsLeft--;
+    if (actionField->isFree() /*&& isInRange()*/)
+    {
+        auto hero = heroField->getHero().value(); // Skoro trafiliśmy do tej metody to już raczej nie jest wymagane sprawdzenie czy hero nie jest nullopt
+        heroField->removeHero();
+        actionField->addHero(hero);
+        // actionsLeft--;
+        std::cout << "Hero moved" << std::endl;
+    }
+    else
+    {
+        std::cout << "This field is already occupied or is not in range" << std::endl;
+    }
 }
 
-void GameController::attackAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord)
+void GameController::attackAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField)
 {
-    auto board = this->getBoard();
-    auto heroField = board->getFieldByCoordinate(std::get<0>(heroFieldCoord), std::get<1>(heroFieldCoord));
-    auto actionField = board->getFieldByCoordinate(std::get<0>(actionFieldCoord), std::get<1>(actionFieldCoord));
     auto hero = heroField->getHero().value();         // Skoro trafiliśmy do tej metody to już raczej nie jest wymagane sprawdzenie czy hero nie jest nullopt
     auto actionHero = actionField->getHero().value(); // Hero jest w zasięgu
-
-    actionHero->takeDamage(hero->getWeapon().value().getDamage());
-    // actionHero.getWearable().value().takeDurabilityLoss(1); //Jakieś zniszczenie części pancerza
-    // hero.getWeapon().value().takeDurabilityLoss(1); //Jakieś zniszczenie broni
-
-    actionsLeft--;
+    if (!actionField->isFree() && hero->getOwner() != actionHero->getOwner() /*&& isInRange()*/)
+    {
+        actionHero->takeDamage(hero->getWeapon().value().getDamage());
+        // actionHero.getWearable().value().takeDurabilityLoss(1); //Jakieś zniszczenie części pancerza
+        // hero.getWeapon().value().takeDurabilityLoss(1); //Jakieś zniszczenie broni
+        // actionsLeft--;
+        std::cout << "Damage given" << std::endl;
+    }
 }
 
 void GameController::useAbilityAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord)
@@ -130,5 +135,5 @@ void GameController::useAbilityAction(std::tuple<int, int> heroFieldCoord, std::
 
     // Wykonanie akcji specjalnej
 
-    actionsLeft--;
+    // actionsLeft--;
 }
