@@ -23,16 +23,10 @@ void Game::initVariables()
 }
 void Game::initWindow()
 {
-    //Daniel
-    this->window = new sf::RenderWindow(
-        this->settings.resolution,
-        this->settings.title,
-        sf::Style::Default);
-    //Irek
-    // this->window = new sf::RenderWindow(
-    //     this->settings.resolution,
-    //     this->settings.title,
-    //     sf::Style::Fullscreen);
+     this->window = new sf::RenderWindow(
+         this->settings.resolution,
+         this->settings.title,
+         sf::Style::Fullscreen);
     this->window->setFramerateLimit(60);
 }
 
@@ -56,9 +50,9 @@ void Game::initStates()
     //                                               std::make_shared<GraphicSettings>(this->settings)));
 
     this->states.push(new MainMenuState(&this->states,
-                                    this->window,
-                                    &this->settings,
-                                    &this->controller));
+                                        this->window,
+                                        &this->settings,
+                                        &this->controller));
 
     // this->states.push(std::make_shared<PlayerState>(std::make_shared<StatesStack>(this->states),
     //                                               this->window,
