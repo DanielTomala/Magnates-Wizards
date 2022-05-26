@@ -7,6 +7,7 @@
 #include <stdlib.h> // srand, rand
 #include <time.h>	//time
 #include "../../../headers/consts.hpp"
+#include "../../../headers/ui/action_menu_buttons.hpp"
 
 GameState::GameState(StatesStack *stackPointer,
 					 sf::RenderWindow *window,
@@ -262,53 +263,40 @@ void GameState::showActionMenu(std::shared_ptr<Button> button)
 	auto field = gameController->getBoard()->getFieldByCoordinate(buttonId / BOARD_COLUMNS, buttonId % BOARD_COLUMNS);
 	if (field->getHero() != std::nullopt)
 	{
-		sf::Texture actionMenuTX;
+		sf::Texture *actionMenuTX;
+		sf::Vector2f actionMenuSize;
 		switch (field->getHero().value()->getType())
 		{
 		case EMedic:
-			actionMenuTX = textures["ACTION_MENU_3"];
+			actionMenuTX = &textures["ACTION_MENU_3"];
+			actionMenuSize = THREE_ACTION_SIZE;
 			break;
 		case ETrebuchet:
 		case ECatapult:
-			actionMenuTX = textures["ACTION_MENU_1"];
+			actionMenuTX = &textures["ACTION_MENU_1"];
+			actionMenuSize = ONE_ACTION_SIZE;
 			break;
 		default:
-			actionMenuTX = textures["ACTION_MENU_2"];
+			actionMenuTX = &textures["ACTION_MENU_2"];
+			actionMenuSize = TWO_ACTION_SIZE;
 			break;
 		}
-		actionMenuSprite.setTexture(actionMenuTX);
-		// actionMenuSprite.setPosition(button->getRect().getPosition());
-		actionMenuSprite.setPosition(0, 0);
+		auto butPos = button->getRect().getPosition();
+		float coorX = butPos.x + ((FIELD_SIZE - actionMenuSize.x) / 2);
+		float coorY = butPos.y - actionMenuTX->getSize().y / 2;
+
+		this->actionMenu = std::make_shared<ActionMenu>(sf::Vector2f(coorX, coorY), actionMenuSize, *actionMenuTX, button);
 	}
 }
-
-// void GameState::drawBoard()
-// {
-// 	updateSprites();
-// 	auto board = this->gameController->getBoard();
-// 	for (auto row : board->getFields())
-// 	{
-// 		for (auto field : row)
-// 		{
-// 			this->window->draw(field->sprite);
-
-// 			if (field->isFree() == false)
-// 			{
-// 				auto hero = field->getHero();
-// 				window->draw(hero.value()->sprite);
-// 			}
-// 		}
-// 	}
-// }
-
-// void GameState::updateSprites()
-// {
-// }
 
 void GameState::update()
 {
 	this->updateMousePosition();
 	this->updateButtons();
+	if (this->actionMenu != std::nullopt)
+	{
+		this->updateActionMenu();
+	}
 }
 
 void GameState::updateButtons()
@@ -331,6 +319,11 @@ void GameState::updateButtons()
 	}
 }
 
+void GameState::updateActionMenu()
+{
+	this->actionMenu.value()->update(this->mousePos);
+}
+
 void GameState::renderHeroes()
 {
 	auto board = gameController->getBoard();
@@ -348,7 +341,14 @@ void GameState::renderHeroes()
 
 void GameState::renderActionMenu()
 {
-	window->draw(actionMenuSprite);
+	if (this->actionMenu.value()->shouldBeClosed())
+	{
+		this->actionMenu = std::nullopt;
+	}
+	else
+	{
+		this->actionMenu.value()->render(*this->window);
+	}
 }
 
 void GameState::renderButtons()
@@ -365,9 +365,12 @@ void GameState::renderButtons()
 
 void GameState::render()
 {
-	std::cout << this->settings->resolution.width << "  " << this->settings->resolution.height << std::endl;
+	// std::cout << this->settings->resolution.width << "  " << this->settings->resolution.height << std::endl;
 	this->window->draw(this->backgroundRect);
 	this->renderButtons();
 	this->renderHeroes();
-	this->renderActionMenu();
+	if (this->actionMenu != std::nullopt)
+	{
+		this->renderActionMenu();
+	}
 }

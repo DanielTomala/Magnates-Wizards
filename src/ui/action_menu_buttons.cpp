@@ -1,0 +1,110 @@
+#include "../../headers/ui/action_menu_buttons.hpp"
+
+ActionMenu::ActionMenu() {}
+
+ActionMenu::ActionMenu(float topLeftX, float topLeftY, float width, float height,
+                       const sf::Texture &texture, std::shared_ptr<Button> parent)
+{
+    this->rect.setPosition(sf::Vector2f(topLeftX, topLeftY));
+    this->rect.setSize(sf::Vector2f(width, height));
+    this->rect.setTexture(&texture, true);
+
+    this->parentButton = parent;
+    this->moveClicked = false;
+    this->attackClicked = false;
+    this->healClicked = false;
+    this->close = false;
+    this->defaultColor = this->rect.getFillColor();
+    sf::Color color;
+    color.r = 179;
+    color.g = 179;
+    color.b = 204;
+    this->hoveredColor = color;
+}
+
+ActionMenu::ActionMenu(sf::Vector2f position, sf::Vector2f size, const sf::Texture &texture, std::shared_ptr<Button> parent)
+{
+    this->rect.setPosition(position);
+    this->rect.setSize(size);
+    this->rect.setTexture(&texture, true);
+
+    this->parentButton = parent;
+    this->moveClicked = false;
+    this->attackClicked = false;
+    this->healClicked = false;
+    this->close = false;
+    this->defaultColor = this->rect.getFillColor();
+    sf::Color color;
+    color.r = 179;
+    color.g = 179;
+    color.b = 204;
+    this->hoveredColor = color;
+}
+
+ActionMenu::~ActionMenu()
+{
+}
+
+bool ActionMenu::isMoveClicked()
+{
+    return this->moveClicked;
+}
+bool ActionMenu::isAttackClicked()
+{
+    return this->attackClicked;
+}
+bool ActionMenu::isHealClicked()
+{
+    return this->healClicked;
+}
+bool ActionMenu::shouldBeClosed()
+{
+    return this->close;
+}
+
+std::shared_ptr<Field> ActionMenu::getField()
+{
+    return this->field;
+}
+
+void ActionMenu::update(const sf::Vector2i &mousePosition)
+{
+    if (this->rect.getGlobalBounds().contains(sf::Vector2f(mousePosition)))
+    {
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        {
+
+            auto rectWidth = rect.getSize().x;
+            auto rectStartX = rect.getPosition().x;
+            if (mousePosition.x < (rectStartX + rectWidth * 0.33))
+            {
+                healClicked = true;
+                moveClicked = false;
+                attackClicked = false;
+            }
+            else if (mousePosition.x < (rectStartX + rectWidth * 0.66))
+            {
+                healClicked = false;
+                moveClicked = true;
+                attackClicked = false;
+            }
+            else
+            {
+                healClicked = false;
+                moveClicked = false;
+                attackClicked = true;
+            }
+        }
+    }
+    else if (!this->parentButton->getRect().getGlobalBounds().contains(sf::Vector2f(mousePosition)))
+    {
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        {
+            this->close = true;
+        }
+    }
+}
+void ActionMenu::render(sf::RenderTarget &window)
+{
+    window.draw(this->rect);
+}

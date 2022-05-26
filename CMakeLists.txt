@@ -29,6 +29,7 @@ set(SRC
     src/ui/select_button.cpp
     src/ui/descriptions.cpp
     src/ui/graphic_settings.cpp
+    src/ui/action_menu_buttons.cpp
 )
 # file(GLOB SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")          #Get all cpp files
 # file(GLOB HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/headers/*.hpp")  #Get all header files

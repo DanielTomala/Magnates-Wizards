@@ -5,17 +5,18 @@
 #include "state.hpp"
 #include "../button.hpp"
 #include "../../gameplay/game_controller.hpp"
+#include "../../ui/action_menu_buttons.hpp"
 
 class GameState : public State
 {
 private:
     sf::Texture backgroundTX;
-    sf::Sprite actionMenuSprite;
     sf::RectangleShape backgroundRect;
     sf::Font font;
 
     std::map<std::string, std::shared_ptr<Button>> buttons;
     std::map<std::tuple<int, int>, std::shared_ptr<Button>> boardButtons;
+    std::optional<std::shared_ptr<ActionMenu>> actionMenu;
 
     void initTextures();
     void initFonts();
@@ -40,6 +41,7 @@ public:
     void updateSprites();
     void update();
     void updateButtons();
+    void updateActionMenu();
     void renderHeroes();
     void renderActionMenu();
 
