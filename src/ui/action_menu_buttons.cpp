@@ -1,14 +1,16 @@
 #include "../../headers/ui/action_menu_buttons.hpp"
+#include <iostream>
 
 ActionMenu::ActionMenu() {}
 
 ActionMenu::ActionMenu(float topLeftX, float topLeftY, float width, float height,
-                       const sf::Texture &texture, std::shared_ptr<Button> parent)
+                       const sf::Texture &texture, std::shared_ptr<Button> parent, ActionNumber actionNumber)
 {
     this->rect.setPosition(sf::Vector2f(topLeftX, topLeftY));
     this->rect.setSize(sf::Vector2f(width, height));
     this->rect.setTexture(&texture, true);
 
+    this->actionNumber = actionNumber;
     this->parentButton = parent;
     this->moveClicked = false;
     this->attackClicked = false;
@@ -22,12 +24,13 @@ ActionMenu::ActionMenu(float topLeftX, float topLeftY, float width, float height
     this->hoveredColor = color;
 }
 
-ActionMenu::ActionMenu(sf::Vector2f position, sf::Vector2f size, const sf::Texture &texture, std::shared_ptr<Button> parent)
+ActionMenu::ActionMenu(sf::Vector2f position, sf::Vector2f size, const sf::Texture &texture, std::shared_ptr<Button> parent, ActionNumber actionNumber)
 {
     this->rect.setPosition(position);
     this->rect.setSize(size);
     this->rect.setTexture(&texture, true);
 
+    this->actionNumber = actionNumber;
     this->parentButton = parent;
     this->moveClicked = false;
     this->attackClicked = false;
@@ -73,26 +76,56 @@ void ActionMenu::update(const sf::Vector2i &mousePosition)
     {
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
-
             auto rectWidth = rect.getSize().x;
             auto rectStartX = rect.getPosition().x;
-            if (mousePosition.x < (rectStartX + rectWidth * 0.33))
-            {
-                healClicked = true;
-                moveClicked = false;
-                attackClicked = false;
-            }
-            else if (mousePosition.x < (rectStartX + rectWidth * 0.66))
-            {
-                healClicked = false;
-                moveClicked = true;
-                attackClicked = false;
-            }
-            else
+            if (this->actionNumber == ActionNumber::one)
             {
                 healClicked = false;
                 moveClicked = false;
                 attackClicked = true;
+                std::cout << "Attack" << std::endl;
+            }
+            else if (this->actionNumber == ActionNumber::two)
+            {
+                if (mousePosition.x < (rectStartX + rectWidth * 0.5))
+                {
+                    healClicked = false;
+                    moveClicked = true;
+                    attackClicked = false;
+                    std::cout << "Move" << std::endl;
+                }
+                else
+                {
+                    healClicked = false;
+                    moveClicked = false;
+                    attackClicked = true;
+                    std::cout << "Attack" << std::endl;
+                }
+            }
+            else if (this->actionNumber == ActionNumber::three)
+            {
+
+                if (mousePosition.x < (rectStartX + rectWidth * 0.33))
+                {
+                    healClicked = true;
+                    moveClicked = false;
+                    attackClicked = false;
+                    std::cout << "Heal" << std::endl;
+                }
+                else if (mousePosition.x < (rectStartX + rectWidth * 0.66))
+                {
+                    healClicked = false;
+                    moveClicked = true;
+                    attackClicked = false;
+                    std::cout << "Move" << std::endl;
+                }
+                else
+                {
+                    healClicked = false;
+                    moveClicked = false;
+                    attackClicked = true;
+                    std::cout << "Attack" << std::endl;
+                }
             }
         }
     }

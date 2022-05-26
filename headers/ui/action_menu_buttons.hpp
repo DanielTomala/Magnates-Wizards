@@ -7,13 +7,20 @@
 #include "../game_logic/field.hpp"
 #include "./button.hpp"
 
+enum ActionNumber
+{
+    one,
+    two,
+    three
+};
+
 class ActionMenu
 {
 public:
     ActionMenu();
     ActionMenu(float topLeftX, float topLeftY, float width, float height,
-               const sf::Texture &texture, std::shared_ptr<Button> parent);
-    ActionMenu(sf::Vector2f position, sf::Vector2f size, const sf::Texture &texture, std::shared_ptr<Button> parent);
+               const sf::Texture &texture, std::shared_ptr<Button> parent, ActionNumber actionNumber);
+    ActionMenu(sf::Vector2f position, sf::Vector2f size, const sf::Texture &texture, std::shared_ptr<Button> parent, ActionNumber actionNumber);
     ~ActionMenu();
 
     bool isMoveClicked();
@@ -26,6 +33,7 @@ public:
     void render(sf::RenderTarget &window);
 
 private:
+    ActionNumber actionNumber;
     sf::Texture texture;
     sf::RectangleShape rect;
     sf::Color defaultColor;

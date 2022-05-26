@@ -265,37 +265,44 @@ void GameState::showActionMenu(std::shared_ptr<Button> button)
 	{
 		sf::Texture *actionMenuTX;
 		sf::Vector2f actionMenuSize;
+		ActionNumber actionNumber;
 		switch (field->getHero().value()->getType())
 		{
 		case EMedic:
 			actionMenuTX = &textures["ACTION_MENU_3"];
 			actionMenuSize = THREE_ACTION_SIZE;
+			actionNumber = ActionNumber::three;
 			break;
 		case ETrebuchet:
 		case ECatapult:
 			actionMenuTX = &textures["ACTION_MENU_1"];
 			actionMenuSize = ONE_ACTION_SIZE;
+			actionNumber = ActionNumber::one;
 			break;
 		default:
 			actionMenuTX = &textures["ACTION_MENU_2"];
 			actionMenuSize = TWO_ACTION_SIZE;
+			actionNumber = ActionNumber::two;
 			break;
 		}
 		auto butPos = button->getRect().getPosition();
 		float coorX = butPos.x + ((FIELD_SIZE - actionMenuSize.x) / 2);
 		float coorY = butPos.y - actionMenuTX->getSize().y / 2;
 
-		this->actionMenu = std::make_shared<ActionMenu>(sf::Vector2f(coorX, coorY), actionMenuSize, *actionMenuTX, button);
+		this->actionMenu = std::make_shared<ActionMenu>(sf::Vector2f(coorX, coorY), actionMenuSize, *actionMenuTX, button, actionNumber);
 	}
 }
 
 void GameState::update()
 {
 	this->updateMousePosition();
-	this->updateButtons();
 	if (this->actionMenu != std::nullopt)
 	{
 		this->updateActionMenu();
+	}
+	else
+	{
+		this->updateButtons();
 	}
 }
 
