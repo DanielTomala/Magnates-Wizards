@@ -1,4 +1,4 @@
-#include "../../../headers/ui/states/configure_heroes_state.hpp"
+ #include "../../../headers/ui/states/configure_heroes_state.hpp"
 
 #include <iostream>
 ConfigureHeroesState::ConfigureHeroesState(StatesStack *stackPointer,
@@ -25,11 +25,15 @@ void ConfigureHeroesState::initHeroes(std::vector<HeroType> firstPlayerHeroes,
 		for(auto &it: firstPlayerHeroes){
 			auto newHero = this->createHero(it);
 			newHero->setOwner(First);
+			//newHero->sprite.setTexture(textures[heroTypeToString(newHero->getType())]);
+//			newHero->sprite.setTextureRect(sf::IntRect(0, 0, 100, 100));
 			this->firstPlayerHeroes.push_back(std::move(newHero));
 		}
 		for(auto &it: secondPlayerHeroes){
 			auto newHero = this->createHero(it);
 			newHero->setOwner(Second);
+			//newHero->sprite.setTexture(textures[heroTypeToString(newHero->getType())]);
+//			newHero->sprite.setTextureRect(sf::IntRect(0, 0, 100, 100));
 			this->secondPlayerHeroes.push_back(std::move(newHero));
 		}
 	}
@@ -268,11 +272,13 @@ void ConfigureHeroesState::showHero(std::shared_ptr<Hero> hero, int buttonX, int
 		hero->sprite.setTexture(textures["KNIGHT"]);
 		break;
 	}
+	hero->sprite.setScale(0.5, 0.5);
 	if (hero->getOwner() == Player::Second)
 	{
-		hero->sprite.setTextureRect(sf::IntRect(FIELD_SIZE/2, 0, -FIELD_SIZE/2, FIELD_SIZE/2)); // Symetria względem osi OY
+		hero->sprite.setScale(-0.5, 0.5); // Symetria względem osi OY
+		hero->sprite.move(50, 0);
 	}
-	window->draw(hero->sprite);
+	//window->draw(hero->sprite);
 }
 
 void ConfigureHeroesState::renderHeroes()
@@ -299,11 +305,35 @@ void ConfigureHeroesState::updateButtons(){
 	for (auto &it : this->heroButtons)
 	{
 		it.second->update(this->mousePos);
+			if(it.second->isClicked()){
+			for(auto &hero: firstPlayerHeroes){
+				if(std::get<0>(it.first) == hero->getType() && std::get<1>(it.first) == hero->getOwner()){
+					this->choosenHero = hero;
+				}
+			}
+			for(auto &hero: secondPlayerHeroes){
+				if(std::get<0>(it.first) == hero->getType() && std::get<1>(it.first) == hero->getOwner()){
+					this->choosenHero = hero;
+				}	
+			}
+		}
 	}
-		for (auto &it : this->boardButtons)
+
+	for (auto &it : this->boardButtons)
 	{
+		if(it.second->isClicked() && choosenHero!= std::nullopt){
+			this->putHero(choosenHero.value(), std::get<0>(it.first), std::get<1>(it.first));
+		}
 		it.second->update(this->mousePos);
 	}
+
+	if (this->buttons.find("ERROR") != this->buttons.end())
+	{
+		if(this->buttons["ERROR"]->isClicked()){
+			this->buttons.erase("ERROR");
+		}
+	}
+
 
 	if (this->buttons["EXIT"]->isClicked()){
 		this->endState();
@@ -318,14 +348,67 @@ void ConfigureHeroesState::updateButtons(){
 		// this->gameController->getBoard()->getFieldByCoordinate(1,9)->addHero(secondPlayerHeroes[1]);
 		// this->gameController->getBoard()->getFieldByCoordinate(2,9)->addHero(secondPlayerHeroes[2]);
 		// this->gameController->getBoard()->getFieldByCoordinate(3,9)->addHero(secondPlayerHeroes[3]);
-    	this->states->pop();
-		this->states->push(new GameState(this->states,
-                                         this->window,
-                                         this->settings,
-										 this->gameController));
-		this->endState();
+		unsigned int heroesCounter = 0;
+		for(auto &row: gameController->getBoard()->getFields()){
+			for(auto &field: row){
+				if(field->isFree() == false){
+					heroesCounter++;
+				}
+			}
+		}
+		if(heroesCounter == 8){
+			this->states->pop();
+			this->states->push(new GameState(this->states,
+											this->window,
+											this->settings,
+											this->gameController));
+			this->endState();
+		}
+		else{
+			this->buttons["ERROR"] = std::make_shared<Button>(
+				836.f, 300.f, 350.f, 75.f, std::make_shared<sf::Font>(this->font), "WRONG HEROES NUMBER", 30,
+				textures["BUTTON"], sf::Color(214, 154, 58), sf::Color::Magenta, sf::Color::Blue, 1
+			);
+		}
     }
 
+}
+
+void ConfigureHeroesState::putHero(std::shared_ptr<Hero> hero, int xCoo, int yCoo){
+	auto field = this->gameController->getBoard()->getFieldByCoordinate(xCoo, yCoo);
+	int maxFirst = 2, maxSecond = 7;
+	bool inRange = false;
+	if(yCoo <= maxFirst && hero->getOwner() == Player::First){
+		inRange = true;
+	}
+	if(yCoo >= maxSecond && hero->getOwner() == Player::Second){
+		inRange = true;
+	}
+	// if(field->isFree() == false){
+	// 	field->removeHero();
+	// }
+	
+	if(inRange){
+		for(unsigned int col=0; col<BOARD_COLUMNS; col++){
+			for(unsigned int row=0; row<BOARD_ROWS; row++){
+				auto field = gameController->getBoard()->getFieldByCoordinate(row, col);
+				if(field->getHero() == hero){
+					field->removeHero();
+					boardButtons[std::make_tuple(row, col)]->setTexture(textures["FIELD"]);
+				}
+			}
+		}
+		field->addHero(hero);
+		if(hero->getOwner() == Player::First){
+			boardButtons[std::make_tuple(xCoo, yCoo)]->setTexture(textures["FIELD_GREEN"]);
+		}
+		if(hero->getOwner() == Player::Second){
+			boardButtons[std::make_tuple(xCoo, yCoo)]->setTexture(textures["FIELD_RED"]);
+		}
+		int xPos = 518 + yCoo * 50;
+		int yPos = 425 + xCoo * 50;
+		this->showHero(hero, xPos, yPos);
+	}
 }
 
 void ConfigureHeroesState::update(){
@@ -387,6 +470,7 @@ std::string ConfigureHeroesState::heroTypeToString(HeroType herotype){
 
 void ConfigureHeroesState::render(){
 	this->window->draw(this->backgroundRect);
-	this->renderHeroes();
 	this->renderButtons();
+	this->renderHeroes();
+
 }

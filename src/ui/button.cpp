@@ -111,6 +111,12 @@ void Button::update(const sf::Vector2i &mousePosition)
     }
 }
 
+void Button::setTexture(const sf::Texture &texture)
+{
+    this->texture = texture;
+}
+
+
 void Button::render(sf::RenderTarget &window)
 {
     window.draw(this->rect);

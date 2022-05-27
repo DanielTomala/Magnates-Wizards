@@ -3,6 +3,8 @@
 
 #include "game_state.hpp"
 #include "../button.hpp"
+#include "../select_button.hpp"
+
 
 class ConfigureHeroesState: public State{
     private:
@@ -40,8 +42,11 @@ class ConfigureHeroesState: public State{
     void renderHeroes();
     void drawBoard();
     void showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY);
+    void putHero(std::shared_ptr<Hero> hero, int xCoo, int yCoo);
 
     std::string heroTypeToString(HeroType herotype);
+
+    std::optional<std::shared_ptr<Hero>> choosenHero;
 
     public:
     ConfigureHeroesState(StatesStack *stackPointer,
