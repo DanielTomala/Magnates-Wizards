@@ -8,6 +8,7 @@
 #include <time.h>	//time
 #include "../../../headers/consts.hpp"
 #include "../../../headers/ui/action_menu_buttons.hpp"
+#include "../../../headers/ui/HPbar.hpp"
 
 GameState::GameState(StatesStack *stackPointer,
 					 sf::RenderWindow *window,
@@ -264,7 +265,8 @@ void GameState::initBoardButtons()
 
 void GameState::showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY)
 {
-	hero->sprite.setPosition(buttonX, buttonY);
+	hero->sprite.setPosition(buttonX + 10, buttonY);
+	hero->sprite.setScale(0.9, 0.9);
 	switch (hero->getType())
 	{
 	case HeroType::EKnight:
@@ -300,6 +302,8 @@ void GameState::showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY)
 		hero->sprite.setTextureRect(sf::IntRect(FIELD_SIZE, 0, -FIELD_SIZE, FIELD_SIZE)); // Symetria względem osi OY
 	}
 	window->draw(hero->sprite);
+	std::shared_ptr<HPBar> hPBar = std::make_shared<HPBar>(buttonX, buttonY + 90, 100, 10, std::make_shared<sf::Font>(this->font), hero->getMaxHealth());
+	this->HPBars[hero] = hPBar;
 }
 
 void GameState::showActionMenu(std::shared_ptr<Button> button)
@@ -358,6 +362,7 @@ void GameState::update()
 	{
 		this->changeTurn();
 	}
+	updateHPBars();
 }
 
 void GameState::updateButtons()
@@ -407,6 +412,8 @@ void GameState::updateHeroPosition(std::shared_ptr<Hero> hero, std::shared_ptr<B
 		newButton->setTexture(textures["FIELD_RED"]);
 	}
 	actionMenu.value()->getParentButton()->setTexture(textures["FIELD"]);
+	sf::Vector2f newHPBarPos = sf::Vector2f(newButton->getRect().getPosition().x, newButton->getRect().getPosition().y + 90);
+	HPBars[hero]->changePosition(newHPBarPos);
 }
 
 void GameState::checkIfActionHasToBeDone()
@@ -479,6 +486,14 @@ void GameState::checkIfActionHasToBeDone()
 	}
 }
 
+void GameState::updateHPBars()
+{
+	for (auto &it : this->HPBars)
+	{
+		it.second->update(it.first->getCurrentHealth());
+	}
+}
+
 void GameState::renderHeroes()
 {
 	auto board = gameController->getBoard();
@@ -518,6 +533,14 @@ void GameState::renderButtons()
 	}
 }
 
+void GameState::renderHPBars()
+{
+	for (auto &it : this->HPBars)
+	{
+		it.second->render(*this->window);
+	}
+}
+
 void GameState::render()
 {
 	// std::cout << this->settings->resolution.width << "  " << this->settings->resolution.height << std::endl;
@@ -528,6 +551,7 @@ void GameState::render()
 	{
 		this->renderActionMenu();
 	}
+	this->renderHPBars();
 }
 
 void GameState::gameOutput()
