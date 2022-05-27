@@ -24,6 +24,9 @@ private:
 
     bool actionChosen;
 
+    Player currentPlayer;
+    unsigned int actionsLeft;
+
     void initTextures();
     void initFonts();
     void initGui();
@@ -44,6 +47,12 @@ public:
     void addTestValuesToBoard();
     // End test
 
+    Player getCurrentPlayer();
+    unsigned int getActionsLeft();
+    void setCurrentPlayer(Player player);
+    void setActionsLeft(unsigned int actionsLeft);
+    void changeTurn();
+
     void updateSprites();
     void update();
     void updateButtons();
@@ -56,6 +65,10 @@ public:
     void renderActionMenu();
     void renderButtons();
     void render();
+
+    // TEST
+    void gameOutput();
+    // End TEST
 };
 
 #endif

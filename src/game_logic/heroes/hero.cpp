@@ -1,7 +1,7 @@
 #include "../../../headers/game_logic/heroes/hero.hpp"
 
-Hero::~Hero(){}
-HeroType Hero::getType(){return EHero;}
+Hero::~Hero() {}
+HeroType Hero::getType() { return EHero; }
 
 Hero::Hero()
 {
@@ -9,16 +9,18 @@ Hero::Hero()
     this->currentHealth = 0;
 }
 
-Hero::Hero(unsigned int maxHealth)
+Hero::Hero(unsigned int maxHealth, unsigned int moveRange)
 {
     this->maxHealth = maxHealth;
     this->currentHealth = maxHealth;
+    this->moveRange = moveRange;
 }
 
-Hero::Hero(unsigned int maxHealth, Weapon weapon, Wearable wearable)
+Hero::Hero(unsigned int maxHealth, unsigned int moveRange, Weapon weapon, Wearable wearable)
 {
     this->maxHealth = maxHealth;
     this->currentHealth = maxHealth;
+    this->moveRange = moveRange;
     this->weapon = std::make_optional<Weapon>(weapon);
     this->wearable = std::make_optional<Wearable>(wearable);
 }
@@ -31,6 +33,11 @@ unsigned int Hero::getMaxHealth() const
 unsigned int Hero::getCurrentHealth() const
 {
     return currentHealth;
+}
+
+unsigned int Hero::getMoveRange() const
+{
+    return moveRange;
 }
 
 std::optional<Weapon> Hero::getWeapon() const
@@ -98,11 +105,13 @@ bool Hero::isAlive() const
     return currentHealth > 0 ? true : false;
 }
 
-Player Hero::getOwner() const{
+Player Hero::getOwner() const
+{
     return this->owner;
 }
 
-void Hero::setOwner(Player owner){
+void Hero::setOwner(Player owner)
+{
     this->owner = owner;
 }
 
