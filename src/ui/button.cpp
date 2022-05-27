@@ -17,8 +17,8 @@ Button::Button(float topLeftX, float topLeftY, float width, float height,
     this->rect.setFillColor(normalColor);
 
     this->rect.setTexture(&this->texture, true);
-    this->rect.setOutlineColor(sf::Color::Black);
-    this->rect.setOutlineThickness(1.f);
+    //this->rect.setOutlineColor(sf::Color::Black);
+    //this->rect.setOutlineThickness(0.f);
 
     this->font = font;
     this->text.setFont(*this->font);
