@@ -29,6 +29,7 @@ class ConfigureHeroesState: public State{
 
     std::map<std::tuple<int, int>, std::shared_ptr<Button>> boardButtons;
     
+
     void initHeroes(std::vector<HeroType> firstPlayerHeroes,
                     std::vector<HeroType> secondPlayerHeroes);
 
@@ -43,7 +44,8 @@ class ConfigureHeroesState: public State{
     void drawBoard();
     void showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY);
     void putHero(std::shared_ptr<Hero> hero, int xCoo, int yCoo);
-
+    void showMenu();
+    void hideMenu();
     std::string heroTypeToString(HeroType herotype);
 
     std::optional<std::shared_ptr<Hero>> choosenHero;

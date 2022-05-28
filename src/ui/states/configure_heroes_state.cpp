@@ -180,10 +180,7 @@ void ConfigureHeroesState::initGui(){
 	this->shapes["RIGHT_BG"] -> setSize(sf::Vector2f{300.f, 650.f});
 	this->shapes["RIGHT_BG"] -> setPosition(sf::Vector2f{vm.x-325.f, 75.f});
 
-	this->shapes["MIDDLE_BG"] = std::make_shared<sf::RectangleShape>();
-	this->shapes["MIDDLE_BG"] -> setFillColor(sf::Color(214, 154, 58));
-	this->shapes["MIDDLE_BG"] -> setSize(sf::Vector2f{vm.x - 700.f, 300.f});
-	this->shapes["MIDDLE_BG"] -> setPosition(sf::Vector2f{350.f, 75.f});
+	
 
 	float buttonWidth = 100, buttonHeight = 50;
 	float topLeft_x = vm.x - buttonWidth;
@@ -297,6 +294,7 @@ void ConfigureHeroesState::renderHeroes()
 }
 
 void ConfigureHeroesState::updateButtons(){
+
 	for (auto &it : this->buttons)
 	{
 		it.second->update(this->mousePos);
@@ -305,7 +303,7 @@ void ConfigureHeroesState::updateButtons(){
 	for (auto &it : this->heroButtons)
 	{
 		it.second->update(this->mousePos);
-			if(it.second->isClicked()){
+		if(it.second->isClicked()){
 			for(auto &hero: firstPlayerHeroes){
 				if(std::get<0>(it.first) == hero->getType() && std::get<1>(it.first) == hero->getOwner()){
 					this->choosenHero = hero;
@@ -316,11 +314,29 @@ void ConfigureHeroesState::updateButtons(){
 					this->choosenHero = hero;
 				}	
 			}
+			this->showMenu();
 		}
 	}
 
 	for (auto &it : this->boardButtons)
 	{
+		int x = std::get<1>(it.first);
+		int y = std::get<0>(it.first);
+		if(gameController->getBoard()->getFieldByCoordinate(y, x)->isFree()){
+			it.second->setTexture(textures["FIELD"]);
+		}
+		if(choosenHero!= std::nullopt && choosenHero.value()->getOwner() == Player::First ){
+			if(x >= 0 && x<= 2){
+				it.second->setTexture(textures["FIELD_GREEN"]);
+			}
+		}
+		if(choosenHero!= std::nullopt && choosenHero.value()->getOwner() == Player::Second){
+			if(x >= 7 && x <= 9){
+				it.second->setTexture(textures["FIELD_RED"]);
+			}
+		}
+
+
 		if(it.second->isClicked() && choosenHero!= std::nullopt){
 			this->putHero(choosenHero.value(), std::get<0>(it.first), std::get<1>(it.first));
 		}
@@ -331,6 +347,14 @@ void ConfigureHeroesState::updateButtons(){
 	{
 		if(this->buttons["ERROR"]->isClicked()){
 			this->buttons.erase("ERROR");
+		}
+	}
+
+	if (this->buttons.find("CLOSE") != this->buttons.end())
+	{
+		if(this->buttons["CLOSE"]->isClicked()){
+			this->hideMenu();
+			this->choosenHero = std::nullopt;
 		}
 	}
 
@@ -372,6 +396,63 @@ void ConfigureHeroesState::updateButtons(){
 		}
     }
 
+}
+
+void ConfigureHeroesState::showMenu(){
+	const sf::Vector2u vm = this->window->getSize();
+
+	this->shapes["MIDDLE_BG"] = std::make_shared<sf::RectangleShape>();
+	this->shapes["MIDDLE_BG"] -> setFillColor(sf::Color(214, 154, 58));
+	this->shapes["MIDDLE_BG"] -> setSize(sf::Vector2f{vm.x - 700.f, 300.f});
+	this->shapes["MIDDLE_BG"] -> setPosition(sf::Vector2f{350.f, 75.f});
+
+	this->shapes["ZCHOOSEN_IMAGE"] = std::make_shared<sf::RectangleShape>(); 	// Z... will render last
+	this->shapes["ZCHOOSEN_IMAGE"]->setPosition(375.f, 125.f);
+	this->shapes["ZCHOOSEN_IMAGE"]->setSize(sf::Vector2f{100.f, 100.f});
+	this->shapes["ZCHOOSEN_IMAGE"]->setTexture(&textures[heroTypeToString(choosenHero.value()->getType())]);
+
+	if(choosenHero.value()->getOwner() == Player::First){
+		this->texts["PLAYER"] = std::make_shared<sf::Text>("PLAYER 1", this->font, 20);
+		
+	}
+	else{
+		this->texts["PLAYER"] = std::make_shared<sf::Text>("PLAYER 2", this->font, 20);
+	}
+	this->texts["PLAYER"]->setPosition(375.f, 100.f);
+	this->texts["PLAYER"] -> setFillColor(sf::Color::Black);
+	this->texts["PLAYER"] -> setStyle(sf::Text::Bold);
+
+	this->buttons["DAMAGE"] = std::make_shared<Button>(
+		500.f, 100.f, 100.f, 50.f, std::make_shared<sf::Font>(this->font), "DAMAGE", 20,
+		textures["BUTTON"], sf::Color::Yellow, sf::Color::Magenta, sf::Color::Blue, 1
+	);
+
+	this->buttons["BALANCED"] = std::make_shared<Button>(
+		600.f, 100.f, 100.f, 50.f, std::make_shared<sf::Font>(this->font), "BALANCED", 20,
+		textures["BUTTON"], sf::Color::Yellow, sf::Color::Magenta, sf::Color::Blue, 1
+	);
+
+	this->buttons["RANGE"] = std::make_shared<Button>(
+		700.f, 100.f, 100.f, 50.f, std::make_shared<sf::Font>(this->font), "RANGE", 20,
+		textures["BUTTON"], sf::Color::Yellow, sf::Color::Magenta, sf::Color::Blue, 1
+	);
+
+	this->buttons["CLOSE"] = std::make_shared<Button>(
+		1136.f, 75.f, 50.f, 50.f, std::make_shared<sf::Font>(this->font), "X", 20,
+		textures["BUTTON"], sf::Color::Yellow, sf::Color::Magenta, sf::Color::Blue, 1
+	);
+	
+}
+
+void ConfigureHeroesState::hideMenu(){
+	if(this->choosenHero == std::nullopt) return;
+	this->shapes.erase("MIDDLE_BG");
+	this->shapes.erase("ZCHOOSEN_IMAGE");
+	this->buttons.erase("DAMAGE");
+	this->buttons.erase("BALANCED");
+	this->buttons.erase("RANGE");
+	this->buttons.erase("CLOSE");
+	this->texts.erase("PLAYER");
 }
 
 void ConfigureHeroesState::putHero(std::shared_ptr<Hero> hero, int xCoo, int yCoo){

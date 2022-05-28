@@ -17,8 +17,7 @@ Button::Button(float topLeftX, float topLeftY, float width, float height,
     this->rect.setFillColor(normalColor);
 
     this->rect.setTexture(&this->texture, true);
-    //this->rect.setOutlineColor(sf::Color::Black);
-    //this->rect.setOutlineThickness(0.f);
+
 
     this->font = font;
     this->text.setFont(*this->font);
@@ -78,6 +77,7 @@ void Button::update(const sf::Vector2i &mousePosition)
         this->highlighted = true;
     }
     else this->highlighted = false;
+    
     if(sf::Mouse::isButtonPressed(sf::Mouse::Left) &&\
     this->rect.getGlobalBounds().contains(sf::Vector2f(mousePosition))&&\
     this->mouseHold == false)

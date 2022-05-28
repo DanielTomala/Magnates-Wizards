@@ -19,6 +19,13 @@ enum HeroType
     ETrebuchet
 };
 
+
+enum Parameters{ // AttackRange/Damage
+    LowHigh,
+    MediumMedium,
+    HighLow
+};
+
 enum Player
 {
     First,
