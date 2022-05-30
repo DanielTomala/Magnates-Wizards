@@ -37,6 +37,7 @@ public:
     unsigned int getId() const;
     sf::RectangleShape getRect() const;
 
+    void setTexture(const sf::Texture &texture);
     void setText(const std::string &text);
     void setId(const unsigned int &id);
     void setTexture(const sf::Texture &texture);

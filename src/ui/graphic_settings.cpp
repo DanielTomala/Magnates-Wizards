@@ -1,6 +1,8 @@
 #include "../../headers/ui/graphic_settings.hpp"
+#include <iostream>
 
-GraphicSettings::GraphicSettings(){
+GraphicSettings::GraphicSettings()
+{
     this->title = "Magnaci i czarodzieje";
     //Irek
     this->resolution = sf::VideoMode::getDesktopMode();

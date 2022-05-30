@@ -86,3 +86,19 @@ std::vector<std::shared_ptr<Field>> Board::getFieldsWithFieldBooster() const
     }
     return fieldsWithFieldBooster;
 }
+
+std::tuple<int, int> Board::findFieldCoordinates(std::shared_ptr<Field> field) const
+{
+    for (unsigned int row = 0; row < BOARD_ROWS; row++)
+    {
+        for (unsigned int column = 0; column < BOARD_COLUMNS; column++)
+        {
+            auto fieldToCompare = this->getFieldByCoordinate(row, column);
+            if (field == fieldToCompare)
+            {
+                return std::make_tuple<int, int>((int)row, (int)column);
+            }
+        }
+    }
+    return std::make_tuple<int, int>(-1, -1);
+}

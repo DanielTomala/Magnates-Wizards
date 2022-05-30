@@ -17,8 +17,10 @@ class HPBar{
         HPBar(float topLeftX, float topLeftY, float width, float height,
               std::shared_ptr<sf::Font> font, unsigned int maxHP);
         ~HPBar();
+        void changePosition(sf::Vector2f newPostion);
         void update(unsigned int HP);
         void render(sf::RenderTarget &window);
+
 };
 
 

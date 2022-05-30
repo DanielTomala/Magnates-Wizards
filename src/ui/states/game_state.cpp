@@ -7,6 +7,8 @@
 #include <stdlib.h> // srand, rand
 #include <time.h>	//time
 #include "../../../headers/consts.hpp"
+#include "../../../headers/ui/action_menu_buttons.hpp"
+#include "../../../headers/ui/HPbar.hpp"
 
 GameState::GameState(StatesStack *stackPointer,
 					 sf::RenderWindow *window,
@@ -19,7 +21,9 @@ GameState::GameState(StatesStack *stackPointer,
 	this->initFonts();
 	this->initGui();
 	this->initBoardButtons();
-	// this->drawBoard();
+	this->actionChosen = false;
+	this->setActionsLeft(ACTIONS_PER_TURN);
+	this->setCurrentPlayer(Player::First);
 }
 
 GameState::~GameState()
@@ -28,40 +32,83 @@ GameState::~GameState()
 
 void GameState::addTestValuesToBoard()
 {
+	auto weapon = Weapon(5, 50, 3);
+
 	auto board = this->gameController->getBoard();
 	auto field1 = board->getFieldByCoordinate(0, 2);
-	auto hero1 = std::make_shared<Knight>();
+	auto hero1 = std::make_shared<Knight>(30, 2);
 	hero1->setOwner(Player::First);
+	hero1->addWeapon(weapon);
 	field1->addHero(hero1);
 	auto field2 = board->getFieldByCoordinate(4, 0);
-	auto hero2 = std::make_shared<Catapult>();
+	auto hero2 = std::make_shared<Catapult>(100);
 	hero2->setOwner(Player::First);
+	hero2->addWeapon(weapon);
 	field2->addHero(hero2);
 	auto field3 = board->getFieldByCoordinate(5, 1);
-	auto hero3 = std::make_shared<Medic>();
+	auto hero3 = std::make_shared<Medic>(50, 3);
 	hero3->setOwner(Player::First);
+	hero3->addWeapon(weapon);
 	field3->addHero(hero3);
 	auto field4 = board->getFieldByCoordinate(3, 4);
-	auto hero4 = std::make_shared<Mage>();
+	auto hero4 = std::make_shared<Mage>(70, 1);
 	hero4->setOwner(Player::First);
+	hero4->addWeapon(weapon);
 	field4->addHero(hero4);
 
 	auto field5 = board->getFieldByCoordinate(3, 7);
-	auto hero5 = std::make_shared<Archer>();
+	auto hero5 = std::make_shared<Archer>(25, 2);
 	hero5->setOwner(Player::Second);
+	hero5->addWeapon(weapon);
 	field5->addHero(hero5);
 	auto field6 = board->getFieldByCoordinate(0, 9);
-	auto hero6 = std::make_shared<Trebuchet>();
+	auto hero6 = std::make_shared<Trebuchet>(90);
 	hero6->setOwner(Player::Second);
+	hero6->addWeapon(weapon);
 	field6->addHero(hero6);
 	auto field7 = board->getFieldByCoordinate(2, 6);
-	auto hero7 = std::make_shared<Ninja>();
+	auto hero7 = std::make_shared<Ninja>(20, 3);
 	hero7->setOwner(Player::Second);
+	hero7->addWeapon(weapon);
 	field7->addHero(hero7);
 	auto field8 = board->getFieldByCoordinate(5, 8);
-	auto hero8 = std::make_shared<IceDruid>();
+	auto hero8 = std::make_shared<IceDruid>(75, 1);
 	hero8->setOwner(Player::Second);
+	hero8->addWeapon(weapon);
 	field8->addHero(hero8);
+}
+
+Player GameState::getCurrentPlayer()
+{
+	return this->currentPlayer;
+}
+
+unsigned int GameState::getActionsLeft()
+{
+	return this->actionsLeft;
+}
+
+void GameState::setCurrentPlayer(Player player)
+{
+	this->currentPlayer = player;
+}
+
+void GameState::setActionsLeft(unsigned int actionsLeft)
+{
+	this->actionsLeft = actionsLeft;
+}
+
+void GameState::changeTurn()
+{
+	setActionsLeft(ACTIONS_PER_TURN);
+	if (getCurrentPlayer() == Player::First)
+	{
+		setCurrentPlayer(Player::Second);
+	}
+	else
+	{
+		setCurrentPlayer(Player::First);
+	}
 }
 
 void GameState::initTextures()
@@ -218,7 +265,8 @@ void GameState::initBoardButtons()
 
 void GameState::showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY)
 {
-	hero->sprite.setPosition(buttonX, buttonY);
+	hero->sprite.setPosition(buttonX + 10, buttonY);
+	hero->sprite.setScale(0.9, 0.9);
 	switch (hero->getType())
 	{
 	case HeroType::EKnight:
@@ -255,61 +303,67 @@ void GameState::showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY)
 	// 	hero->sprite.move(100, 0);
 	// }
 	window->draw(hero->sprite);
+	std::shared_ptr<HPBar> hPBar = std::make_shared<HPBar>(buttonX, buttonY + 90, 100, 10, std::make_shared<sf::Font>(this->font), hero->getMaxHealth());
+	this->HPBars[hero] = hPBar;
 }
 
 void GameState::showActionMenu(std::shared_ptr<Button> button)
 {
 	int buttonId = button->getId();
 	auto field = gameController->getBoard()->getFieldByCoordinate(buttonId / BOARD_COLUMNS, buttonId % BOARD_COLUMNS);
-	if (field->getHero() != std::nullopt)
+	if (field->getHero() != std::nullopt && field->getHero().value()->getOwner() == this->getCurrentPlayer())
 	{
-		sf::Texture actionMenuTX;
+		sf::Texture *actionMenuTX;
+		sf::Vector2f actionMenuSize;
+		ActionNumber actionNumber;
 		switch (field->getHero().value()->getType())
 		{
 		case EMedic:
-			actionMenuTX = textures["ACTION_MENU_3"];
+			actionMenuTX = &textures["ACTION_MENU_3"];
+			actionMenuSize = THREE_ACTION_SIZE;
+			actionNumber = ActionNumber::three;
 			break;
 		case ETrebuchet:
 		case ECatapult:
-			actionMenuTX = textures["ACTION_MENU_1"];
+			actionMenuTX = &textures["ACTION_MENU_1"];
+			actionMenuSize = ONE_ACTION_SIZE;
+			actionNumber = ActionNumber::one;
 			break;
 		default:
-			actionMenuTX = textures["ACTION_MENU_2"];
+			actionMenuTX = &textures["ACTION_MENU_2"];
+			actionMenuSize = TWO_ACTION_SIZE;
+			actionNumber = ActionNumber::two;
 			break;
 		}
-		actionMenuSprite.setTexture(actionMenuTX);
-		// actionMenuSprite.setPosition(button->getRect().getPosition());
-		actionMenuSprite.setPosition(0, 0);
+		auto butPos = button->getRect().getPosition();
+		float coorX = butPos.x + ((FIELD_SIZE - actionMenuSize.x) / 2);
+		float coorY = butPos.y - actionMenuTX->getSize().y / 2;
+
+		auto actionPtr = std::make_shared<ActionMenu>(sf::Vector2f(coorX, coorY), actionMenuSize, *actionMenuTX, button, field, actionNumber);
+		this->actionMenu = std::make_optional<std::shared_ptr<ActionMenu>>(actionPtr);
 	}
 }
-
-// void GameState::drawBoard()
-// {
-// 	updateSprites();
-// 	auto board = this->gameController->getBoard();
-// 	for (auto row : board->getFields())
-// 	{
-// 		for (auto field : row)
-// 		{
-// 			this->window->draw(field->sprite);
-
-// 			if (field->isFree() == false)
-// 			{
-// 				auto hero = field->getHero();
-// 				window->draw(hero.value()->sprite);
-// 			}
-// 		}
-// 	}
-// }
-
-// void GameState::updateSprites()
-// {
-// }
 
 void GameState::update()
 {
 	this->updateMousePosition();
-	this->updateButtons();
+	if (this->actionMenu != std::nullopt)
+	{
+		this->updateActionMenu();
+	}
+	if (this->actionMenu == std::nullopt || this->actionChosen)
+	{
+		this->updateButtons();
+	}
+	if (this->actionMenu != std::nullopt)
+	{
+		this->checkIfActionHasToBeDone();
+	}
+	if (this->getActionsLeft() == 0)
+	{
+		this->changeTurn();
+	}
+	updateHPBars();
 }
 
 void GameState::updateButtons()
@@ -323,12 +377,121 @@ void GameState::updateButtons()
 		it.second->update(this->mousePos);
 		if (it.second->isClicked())
 		{
-			showActionMenu(it.second);
+			if (!this->actionChosen)
+			{
+				showActionMenu(it.second);
+			}
+			else
+			{
+				int buttonId = it.second->getId();
+				auto field = gameController->getBoard()->getFieldByCoordinate(buttonId / BOARD_COLUMNS, buttonId % BOARD_COLUMNS);
+				this->chosenField = std::make_optional<std::shared_ptr<Field>>(field);
+				this->chosenButton = it.second;
+			}
 		}
 	}
 	if (this->buttons["EXIT"]->isClicked())
 	{
 		this->endState();
+	}
+}
+
+void GameState::updateActionMenu()
+{
+	this->actionMenu.value()->update(this->mousePos);
+}
+
+void GameState::updateHeroPosition(std::shared_ptr<Hero> hero, std::shared_ptr<Button> newButton)
+{
+	hero->sprite.setPosition(newButton->getRect().getPosition());
+	if (hero->getOwner() == Player::First)
+	{
+		newButton->setTexture(textures["FIELD_GREEN"]);
+	}
+	else
+	{
+		newButton->setTexture(textures["FIELD_RED"]);
+	}
+	actionMenu.value()->getParentButton()->setTexture(textures["FIELD"]);
+	sf::Vector2f newHPBarPos = sf::Vector2f(newButton->getRect().getPosition().x, newButton->getRect().getPosition().y + 90);
+	HPBars[hero]->changePosition(newHPBarPos);
+}
+
+void GameState::checkIfActionHasToBeDone()
+{
+	if (this->actionMenu.value()->isAttackClicked())
+	{
+		this->actionChosen = true;
+		if (this->chosenField != std::nullopt)
+		{
+			bool actionResult = this->gameController->attackAction(this->actionMenu.value()->getField(), this->chosenField.value());
+			if (actionResult)
+			{
+				this->setActionsLeft(this->getActionsLeft() - 1);
+				this->actionMenu = std::nullopt;
+				this->chosenField = std::nullopt;
+				this->chosenButton = std::nullopt;
+				this->actionChosen = false;
+				gameOutput();
+			}
+			else
+			{
+				this->chosenField = std::nullopt;
+			}
+		}
+	}
+	else if (this->actionMenu.value()->isMoveClicked())
+	{
+		this->actionChosen = true;
+		if (this->chosenField != std::nullopt)
+		{
+			auto hero = this->actionMenu.value()->getField()->getHero().value();
+			// TODO Może funkcje moveAction, attackAction powinny zwracać boola czy zostały wykonane poprawnie
+			bool actionResult = this->gameController->moveAction(this->actionMenu.value()->getField(), this->chosenField.value());
+			if (actionResult)
+			{
+				this->setActionsLeft(this->getActionsLeft() - 1);
+				updateHeroPosition(hero, this->chosenButton.value());
+				this->actionMenu = std::nullopt;
+				this->chosenField = std::nullopt;
+				this->chosenButton = std::nullopt;
+				this->actionChosen = false;
+				gameOutput();
+			}
+			else
+			{
+				this->chosenField = std::nullopt;
+			}
+		}
+	}
+	else if (this->actionMenu.value()->isHealClicked())
+	{
+		this->actionChosen = true;
+		if (this->chosenField != std::nullopt)
+		{
+			bool actionResult = this->gameController->healAction(this->actionMenu.value()->getField(), this->chosenField.value());
+			if (actionResult)
+			{
+				this->setActionsLeft(this->getActionsLeft() - 1);
+				this->actionMenu = std::nullopt;
+				this->chosenField = std::nullopt;
+				this->chosenButton = std::nullopt;
+				this->actionChosen = false;
+				gameOutput();
+			}
+			else
+			{
+				this->chosenField = std::nullopt;
+			}
+		}
+	}
+}
+
+void GameState::updateHPBars()
+{
+	for (auto &it : this->HPBars)
+	{
+		it.second->update(it.first->getCurrentHealth());
 	}
 }
 
@@ -349,7 +512,14 @@ void GameState::renderHeroes()
 
 void GameState::renderActionMenu()
 {
-	window->draw(actionMenuSprite);
+	if (this->actionMenu.value()->shouldBeClosed())
+	{
+		this->actionMenu = std::nullopt;
+	}
+	else
+	{
+		this->actionMenu.value()->render(*this->window);
+	}
 }
 
 void GameState::renderButtons()
@@ -364,11 +534,34 @@ void GameState::renderButtons()
 	}
 }
 
+void GameState::renderHPBars()
+{
+	for (auto &it : this->HPBars)
+	{
+		it.second->render(*this->window);
+	}
+}
+
 void GameState::render()
 {
-	std::cout << this->settings->resolution.width << "  " << this->settings->resolution.height << std::endl;
+	// std::cout << this->settings->resolution.width << "  " << this->settings->resolution.height << std::endl;
 	this->window->draw(this->backgroundRect);
 	this->renderButtons();
 	this->renderHeroes();
-	this->renderActionMenu();
+	if (this->actionMenu != std::nullopt)
+	{
+		this->renderActionMenu();
+	}
+	this->renderHPBars();
+}
+
+void GameState::gameOutput()
+{
+	for (auto field : this->gameController->getBoard()->getFieldsWithHeroes())
+	{
+		auto hero = field->getHero().value();
+		std::cout << hero->getType() << " " << hero->getCurrentHealth() << "/" << hero->getMaxHealth() << std::endl;
+	}
+	std::cout << "Actions left: " << this->getActionsLeft() << std::endl;
+	std::cout << "---------------------------------" << std::endl;
 }

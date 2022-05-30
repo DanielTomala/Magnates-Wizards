@@ -1,7 +1,8 @@
 #include "../../headers/ui/HPbar.hpp"
 #include <iostream>
 HPBar::HPBar(float topLeftX, float topLeftY, float width, float height,
-             std::shared_ptr<sf::Font> font, unsigned int maxHP){
+             std::shared_ptr<sf::Font> font, unsigned int maxHP)
+{
 
     this->maxHP = maxHP;
     this->font = font;
@@ -14,33 +15,45 @@ HPBar::HPBar(float topLeftX, float topLeftY, float width, float height,
     this->maxBar.setPosition(sf::Vector2f{topLeftX, topLeftY});
     this->maxBar.setSize(sf::Vector2f{width, height});
     this->maxBar.setFillColor(sf::Color::Yellow);
-    
+
     this->currentBar.setPosition(sf::Vector2f{topLeftX, topLeftY});
     this->currentBar.setSize(sf::Vector2f{width, height});
     this->currentBar.setFillColor(sf::Color::Green);
 
-    float textX = (topLeftX + width)/2 - 30;
+    float textX = (topLeftX + width) / 2 - 30;
     float textY = 0;
     this->description.setPosition(sf::Vector2f{textX, textY});
     this->description.setFillColor(sf::Color::Black);
     this->description.setStyle(sf::Text::Bold);
     this->description.setFont(*this->font);
     this->description.setCharacterSize(height - 6.f);
-    this->description.setString(std::to_string(maxHP) + "/" +std::to_string(maxHP));
+    this->description.setString(std::to_string(maxHP) + "/" + std::to_string(maxHP));
 }
 
-HPBar::~HPBar(){
-
+HPBar::~HPBar()
+{
 }
 
-void HPBar::update(unsigned int HP){
-    //sf::Vector2f size = this->maxBar.getSize();
-    float scale = (float)HP/this->maxHP;
+void HPBar::changePosition(sf::Vector2f newPostion)
+{
+    this->background.setPosition(newPostion);
+    this->maxBar.setPosition(newPostion);
+    this->currentBar.setPosition(newPostion);
+    float textX = (newPostion.x + this->background.getSize().x) / 2 - 30;
+    float textY = 0;
+    this->description.setPosition(sf::Vector2f{textX, textY});
+}
+
+void HPBar::update(unsigned int HP)
+{
+    // sf::Vector2f size = this->maxBar.getSize();
+    float scale = (float)HP / this->maxHP;
     this->currentBar.setScale(sf::Vector2f{scale, 1.f});
-    this->description.setString(std::to_string(HP) + "/" +std::to_string(maxHP));
+    this->description.setString(std::to_string(HP) + "/" + std::to_string(maxHP));
 }
 
-void HPBar::render(sf::RenderTarget &window){
+void HPBar::render(sf::RenderTarget &window)
+{
     window.draw(this->background);
     window.draw(this->maxBar);
     window.draw(this->currentBar);
