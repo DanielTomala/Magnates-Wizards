@@ -1,9 +1,10 @@
 #include "../../../headers/ui/states/main_menu_state.hpp"
 #include <iostream>
+
 MainMenuState::MainMenuState(StatesStack *stackPointer,
-                      sf::RenderWindow *window,
-                      GraphicSettings *settings,
-					  GameController *gameController)
+							 sf::RenderWindow *window,
+							 GraphicSettings *settings,
+							 GameController *gameController)
 	: State(stackPointer, window, settings, gameController)
 {
 
@@ -14,21 +15,19 @@ MainMenuState::MainMenuState(StatesStack *stackPointer,
 	this->initGui();
 
 	this->resetGui();
-
 }
 
-void MainMenuState::initTextures(){
-	if (!this->backgroundTX.loadFromFile("../textures/backgrounds/main_menu.png")){
+void MainMenuState::initTextures()
+{
+	if (!this->backgroundTX.loadFromFile("../textures/backgrounds/main_menu.png"))
+	{
 		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BACKGROUND_TEXTURE";
 	}
-	if (!this->textures["START_BUTTON"].loadFromFile("../textures/button.png")){
-		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_TEXTURE";
-	}
-	if (!this->textures["EXIT_BUTTON"].loadFromFile("../textures/button.png")){
+	if (!this->textures["BUTTON"].loadFromFile("../textures/button.png"))
+	{
 		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_TEXTURE";
 	}
 }
-
 
 void MainMenuState::initFonts()
 {
@@ -36,38 +35,27 @@ void MainMenuState::initFonts()
 	{
 		throw("ERROR::MAINMENUSTATE::COULD NOT LOAD FONT");
 	}
-
 }
 
-void MainMenuState::initGui(){
-	const sf::VideoMode& vm = this->settings->resolution;
+void MainMenuState::initGui()
+{
+	const sf::VideoMode &vm = this->settings->resolution;
 
 	this->backgroundRect.setSize(
 		sf::Vector2f(
 			(float)vm.width,
-			(float)vm.height)
-	);
-
+			(float)vm.height));
 
 	this->backgroundRect.setTexture(&this->backgroundTX);
 
-	float buttonWidth = 200, buttonHeight = 100;
-	float topLeft_x = (vm.width - buttonWidth) / 2;
-	float topLeft_y = 200;
-
-
-
 	this->buttons["NEW_GAME"] = std::make_shared<Button>(
-		topLeft_x, topLeft_y, buttonWidth, buttonHeight, std::make_shared<sf::Font>(this->font), "NEW GAME", 30,
-		textures["START_BUTTON"], sf::Color(214, 154, 58), sf::Color::Magenta, sf::Color::Blue, 1
-	);
+		xGrid * 38, yGrid * 32, xGrid * 24, yGrid * 16, std::make_shared<sf::Font>(this->font), "NEW GAME", 50,
+		textures["BUTTON"], sf::Color(214, 154, 58), sf::Color(233, 150, 123), sf::Color(200, 30, 19), 1);
 
-	topLeft_y += 2*buttonHeight;
 
 	this->buttons["EXIT"] = std::make_shared<Button>(
-		topLeft_x, topLeft_y, buttonWidth, buttonHeight, std::make_shared<sf::Font>(this->font), "EXIT", 30,
-		textures["EXIT_BUTTON"], sf::Color(214, 154, 58), sf::Color::Magenta, sf::Color::Blue, 1
-	);
+		xGrid * 38, yGrid * 52, xGrid * 24, yGrid * 16, std::make_shared<sf::Font>(this->font), "EXIT", 50,
+		textures["BUTTON"], sf::Color(214, 154, 58), sf::Color(233, 150, 123), sf::Color(200, 30, 19), 1);
 }
 
 void MainMenuState::resetGui()
@@ -77,30 +65,33 @@ void MainMenuState::resetGui()
 	this->initGui();
 }
 
-MainMenuState::~MainMenuState(){
-
+MainMenuState::~MainMenuState()
+{
 }
 
-void MainMenuState::updateButtons(){
+void MainMenuState::updateButtons()
+{
 	for (auto &it : this->buttons)
 	{
 		it.second->update(this->mousePos);
 	}
 
-	if (this->buttons["NEW_GAME"]->isClicked()){
+	if (this->buttons["NEW_GAME"]->isClicked())
+	{
 		this->states->push(new CreateHeroesState(this->states,
-                                                      this->window,
-                                                      this->settings,
-													  this->gameController));
+												 this->window,
+												 this->settings,
+												 this->gameController));
 	}
 
-	if (this->buttons["EXIT"]->isClicked()){
+	if (this->buttons["EXIT"]->isClicked())
+	{
 		this->endState();
 	}
-
 }
 
-void MainMenuState::update(){
+void MainMenuState::update()
+{
 	this->updateMousePosition();
 	this->updateButtons();
 }
@@ -113,7 +104,8 @@ void MainMenuState::renderButtons()
 	}
 }
 
-void MainMenuState::render(){
+void MainMenuState::render()
+{
 	this->window->draw(this->backgroundRect);
 	this->renderButtons();
 }

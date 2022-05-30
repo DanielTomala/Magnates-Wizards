@@ -11,10 +11,17 @@ State::State(StatesStack  *stackPointer,
     this->settings = settings;
     this->gameController = gameController;
     this->quit = false;
+    this->createGrid();
 }
 
 State::~State(){
 
+}
+
+void State::createGrid(){
+    auto vm = this->window->getSize();
+    this->xGrid = vm.x * 0.01;
+    this->yGrid = vm.y * 0.01;
 }
 
 void State::endState(){

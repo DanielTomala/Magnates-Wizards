@@ -22,6 +22,11 @@ protected:
 
     sf::Vector2i mousePos;
 
+    float xGrid;
+    float yGrid;
+
+    void createGrid();
+
 public:
     State(StatesStack *stackPointer,
           sf::RenderWindow *window,
