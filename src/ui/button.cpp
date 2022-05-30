@@ -18,7 +18,6 @@ Button::Button(float topLeftX, float topLeftY, float width, float height,
 
     this->rect.setTexture(&this->texture, true);
 
-
     this->font = font;
     this->text.setFont(*this->font);
     this->text.setString(text);
@@ -78,49 +77,48 @@ void Button::setTexture(const sf::Texture &texture)
 
 void Button::update(const sf::Vector2i &mousePosition)
 {
-    if(this->rect.getGlobalBounds().contains(sf::Vector2f(mousePosition))){
+    if (this->rect.getGlobalBounds().contains(sf::Vector2f(mousePosition)))
+    {
         this->highlighted = true;
     }
-    else this->highlighted = false;
-    
-    if(sf::Mouse::isButtonPressed(sf::Mouse::Left) &&\
-    this->rect.getGlobalBounds().contains(sf::Vector2f(mousePosition))&&\
-    this->mouseHold == false)
+    else
+        this->highlighted = false;
+
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left) &&
+        this->rect.getGlobalBounds().contains(sf::Vector2f(mousePosition)) &&
+        this->mouseHold == false)
     {
         this->highlighted = false;
         this->pressed = true;
         this->mouseHold = true;
     }
-    else if(sf::Mouse::isButtonPressed(sf::Mouse::Left) &&\
-    this->rect.getGlobalBounds().contains(sf::Vector2f(mousePosition)))
+    else if (sf::Mouse::isButtonPressed(sf::Mouse::Left) &&
+             this->rect.getGlobalBounds().contains(sf::Vector2f(mousePosition)))
     {
         this->mouseHold = true;
     }
-    if(sf::Mouse::isButtonPressed(sf::Mouse::Left) == false){
-        if(this->rect.getGlobalBounds().contains(sf::Vector2f(mousePosition))&&\
-        this->pressed)
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left) == false)
+    {
+        if (this->rect.getGlobalBounds().contains(sf::Vector2f(mousePosition)) &&
+            this->pressed)
         {
             this->active = true;
         }
         this->pressed = false;
         this->mouseHold = false;
     }
-    
+
     this->rect.setFillColor(this->normalColor);
-    
-    if(this->highlighted){
+
+    if (this->highlighted)
+    {
         this->rect.setFillColor(this->highlightedColor);
     }
-    if(this->pressed){
+    if (this->pressed)
+    {
         this->rect.setFillColor(this->clickedColor);
     }
 }
-
-void Button::setTexture(const sf::Texture &texture)
-{
-    this->texture = texture;
-}
-
 
 void Button::render(sf::RenderTarget &window)
 {

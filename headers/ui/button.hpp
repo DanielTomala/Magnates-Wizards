@@ -40,7 +40,6 @@ public:
     void setTexture(const sf::Texture &texture);
     void setText(const std::string &text);
     void setId(const unsigned int &id);
-    void setTexture(const sf::Texture &texture);
     void update(const sf::Vector2i &mousePosition);
     void render(sf::RenderTarget &window);
 };
