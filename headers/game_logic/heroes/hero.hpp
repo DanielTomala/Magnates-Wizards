@@ -64,7 +64,7 @@ public:
     void takeDamage(unsigned int damage);
 
     bool isAlive() const;
-    sf::Sprite sprite; // WILL BE PRIVATE
+    sf::Sprite sprite;
 
     virtual HeroType getType() = 0;
     virtual void setAttributes(Personalisation personalisation) = 0;
@@ -112,6 +112,8 @@ public:
     // jak dodać restrykcję co do Weapon?
 
     // funckja zadawania dmg przechodzącego przez kilka wrogów z pomniejszeniem wartości dmg
+
+    // glowny w range i wszyscy pozostali przeciwnika dostaja dmg 
 };
 
 class IceDruid : public Hero
@@ -125,6 +127,8 @@ public:
     // jak dodać restrykcję co do Weapon?
 
     // zamraza Hero na cala nastepna runde, dodatkowo zadaje dmg
+
+    // wektor zamrozonych, sprzwdzamy podczas akcji czy postać w wektorze
 };
 
 class Medic : public Hero
@@ -148,7 +152,8 @@ public:
     virtual ~Ninja(){};
     HeroType getType();
     void setAttributes(Personalisation personalisation);
-
+private:
+    unsigned int attacksLeft; //zmniejsza sie po ataku, jak == 0 nie moze atakowac
     // jak dodać restrykcję co do Weapon?
 
     // moze co 2 pola sie ruszac, może zaatakować dwa cele
@@ -161,7 +166,11 @@ public:
     Catapult(unsigned int maxHealth) : Hero(maxHealth){};
     virtual ~Catapult(){};
     HeroType getType();
-    void setAttributes(Personalisation personalisation);
+    void setAttributes(Personalisation personalisation); 
+
+private:
+    unsigned int reloadTurnsLeft; // 
+    // duzy range 
     // nie zmienia połozenia, musi sie ladowac, moze strzelac co x tur, zadaje duże obrażenia jednorazowo na danym polu
 };
 
@@ -173,7 +182,12 @@ public:
     virtual ~Trebuchet(){};
     HeroType getType();
     void setAttributes(Personalisation personalisation);
-    // Zadaje niewielkie obrażenia na pewnym obszarze przez kilka tur, stoi w jednym miejscu,
+
+private:
+    unsigned int reloadTurnsLeft; // 
+
+    // zadaje dmg na kwadracie dookoła atakowanego zawodnika
+    // Zadaje niewielkie obrażenia na pewnym obszarze, stoi w jednym miejscu,
 };
 
 #endif
