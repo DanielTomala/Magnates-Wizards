@@ -13,28 +13,24 @@ public:
     GameController(std::shared_ptr<Board> board);
     void startGame();
     void changeTurn();
-
+    void resetController();
+    
     std::shared_ptr<Board> getBoard();
-    Player getCurrentPlayer();
-    unsigned int getActionsLeft();
 
-    void setCurrentPlayer(Player player);
-    void setActionsLeft(unsigned int actionsLeft);
+    bool healAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);
+    bool moveAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);
+    bool attackAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);
+    void useAbilityAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord);
 
+    bool isFieldInRange(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField, unsigned int range);
 
 private:
     std::shared_ptr<Board> board;
-    Player currentPlayer;
-    unsigned int actionsLeft;
+
 
     void buyingPhase();
     void turnPhase();
     bool gameIsContinued();
-
-    void healAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord);
-    void moveAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord);
-    void attackAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord);
-    void useAbilityAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord);
 };
 
 #endif

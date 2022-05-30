@@ -20,9 +20,10 @@ public:
     unsigned int getColumnsNumber() const;
     std::shared_ptr<Field> getFieldByCoordinate(unsigned int row, unsigned int column) const;
     FieldsArray getFields() const;
-    std::vector<std::shared_ptr<Field> > getFieldsWithHeroes() const;
-    std::vector<std::shared_ptr<Field> > getFieldsWithBubbleBooster() const;
-    std::vector<std::shared_ptr<Field> > getFieldsWithFieldBooster() const;
+    std::vector<std::shared_ptr<Field>> getFieldsWithHeroes() const;
+    std::vector<std::shared_ptr<Field>> getFieldsWithBubbleBooster() const;
+    std::vector<std::shared_ptr<Field>> getFieldsWithFieldBooster() const;
+    std::tuple<int, int> findFieldCoordinates(std::shared_ptr<Field> field) const;
 };
 
 #endif

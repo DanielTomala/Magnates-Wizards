@@ -1,6 +1,7 @@
 #ifndef GRAPHIC_SETTINGS_HPP
 #define GRAPHIC_SETTINGS_HPP
 #include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 
 class GraphicSettings{
     public:

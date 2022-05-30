@@ -1,10 +1,12 @@
 #include "../../headers/ui/graphic_settings.hpp"
+#include <iostream>
 
-GraphicSettings::GraphicSettings(){
+GraphicSettings::GraphicSettings()
+{
     this->title = "Magnaci i czarodzieje";
     //Irek
-    // this->resolution = sf::VideoMode::getDesktopMode();
+    this->resolution = sf::VideoMode::getDesktopMode();
     //Daniel
-    this->resolution = sf::VideoMode(1920, 1080);
+    //this->resolution = sf::VideoMode(1920, 1080);
     this->contextSettings.antialiasingLevel = 0;
 }

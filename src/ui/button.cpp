@@ -5,8 +5,11 @@ Button::Button(float topLeftX, float topLeftY, float width, float height,
                const sf::Texture &texture, sf::Color normalColor, sf::Color highlightedColor, sf::Color clickedColor,
                unsigned int id)
 {
+    this->highlighted = false;
+    this->pressed = false;
+    this->mouseHold = false;
+    this->active = false;
     this->id = id;
-    this->state = normal;
     this->texture = texture;
 
     this->rect.setPosition(sf::Vector2f(topLeftX, topLeftY));
@@ -14,8 +17,6 @@ Button::Button(float topLeftX, float topLeftY, float width, float height,
     this->rect.setFillColor(normalColor);
 
     this->rect.setTexture(&this->texture, true);
-    this->rect.setOutlineColor(sf::Color::Black);
-    this->rect.setOutlineThickness(1.f);
 
     this->font = font;
     this->text.setFont(*this->font);
@@ -34,10 +35,11 @@ Button::Button(float topLeftX, float topLeftY, float width, float height,
 
 Button::~Button() {}
 
-bool Button::isClicked() const
+bool Button::isClicked()
 {
-    if (this->state == ButtonState::clicked)
+    if (this->active)
     {
+        this->active = false;
         return true;
     }
     return false;
@@ -68,35 +70,53 @@ void Button::setId(const unsigned int &id)
     this->id = id;
 }
 
+void Button::setTexture(const sf::Texture &texture)
+{
+    this->texture = texture;
+}
+
 void Button::update(const sf::Vector2i &mousePosition)
 {
-
-    this->state = normal;
-
     if (this->rect.getGlobalBounds().contains(sf::Vector2f(mousePosition)))
     {
-        this->state = highlighted;
+        this->highlighted = true;
+    }
+    else
+        this->highlighted = false;
 
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left) &&
+        this->rect.getGlobalBounds().contains(sf::Vector2f(mousePosition)) &&
+        this->mouseHold == false)
+    {
+        this->highlighted = false;
+        this->pressed = true;
+        this->mouseHold = true;
+    }
+    else if (sf::Mouse::isButtonPressed(sf::Mouse::Left) &&
+             this->rect.getGlobalBounds().contains(sf::Vector2f(mousePosition)))
+    {
+        this->mouseHold = true;
+    }
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left) == false)
+    {
+        if (this->rect.getGlobalBounds().contains(sf::Vector2f(mousePosition)) &&
+            this->pressed)
         {
-            this->state = clicked;
+            this->active = true;
         }
+        this->pressed = false;
+        this->mouseHold = false;
     }
 
-    switch (this->state)
+    this->rect.setFillColor(this->normalColor);
+
+    if (this->highlighted)
     {
-    case normal:
-        this->rect.setTexture(&this->texture);
-        this->rect.setFillColor(this->normalColor);
-        break;
-    case highlighted:
         this->rect.setFillColor(this->highlightedColor);
-        this->rect.setTexture(&this->texture);
-        break;
-    case clicked:
+    }
+    if (this->pressed)
+    {
         this->rect.setFillColor(this->clickedColor);
-        this->rect.setTexture(&this->texture);
-        break;
     }
 }
 

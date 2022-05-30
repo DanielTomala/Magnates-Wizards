@@ -14,7 +14,7 @@ private:
     std::optional<FieldBooster> fieldBooster;
     std::optional<BubbleBooster> bubbleBooster;
 public:
-    sf::Sprite sprite; //WILL BE PRIVATE
+    sf::Sprite sprite;
 
 
     Field();
