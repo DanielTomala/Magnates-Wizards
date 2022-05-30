@@ -39,9 +39,8 @@ class ConfigureHeroesState: public State{
     void initTextures();
     void initFonts();
     void initGui();
+
     void resetGui();
-    void renderHeroes();
-    void drawBoard();
     void showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY);
     void putHero(std::shared_ptr<Hero> hero, int xCoo, int yCoo);
     void showMenu();
@@ -50,6 +49,15 @@ class ConfigureHeroesState: public State{
 
     std::optional<std::shared_ptr<Hero>> choosenHero;
 
+
+
+    void renderBackground();
+    void renderShapes();
+    void renderTexts();
+    void renderBoardButtons();
+    void renderButtons();
+    void renderHeroButtons();
+    void renderHeroes();
     public:
     ConfigureHeroesState(StatesStack *stackPointer,
                       sf::RenderWindow *window,
@@ -63,7 +71,7 @@ class ConfigureHeroesState: public State{
     void updateButtons();
     void update();
 
-    void renderButtons();
+    
     void render();
 
 };

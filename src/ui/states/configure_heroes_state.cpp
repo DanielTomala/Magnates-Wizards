@@ -25,15 +25,11 @@ void ConfigureHeroesState::initHeroes(std::vector<HeroType> firstPlayerHeroes,
 		for(auto &it: firstPlayerHeroes){
 			auto newHero = this->createHero(it);
 			newHero->setOwner(First);
-			//newHero->sprite.setTexture(textures[heroTypeToString(newHero->getType())]);
-//			newHero->sprite.setTextureRect(sf::IntRect(0, 0, 100, 100));
 			this->firstPlayerHeroes.push_back(std::move(newHero));
 		}
 		for(auto &it: secondPlayerHeroes){
 			auto newHero = this->createHero(it);
 			newHero->setOwner(Second);
-			//newHero->sprite.setTexture(textures[heroTypeToString(newHero->getType())]);
-//			newHero->sprite.setTextureRect(sf::IntRect(0, 0, 100, 100));
 			this->secondPlayerHeroes.push_back(std::move(newHero));
 		}
 	}
@@ -132,7 +128,6 @@ void ConfigureHeroesState::resetGui()
 
 void ConfigureHeroesState::initGui(){
 	const sf::Vector2u vm = this->window->getSize();
-	std::cout<<vm.x<<" "<<vm.y<<"\n";
 	this->backgroundRect.setSize(
 		sf::Vector2f(
 			(float)vm.x,
@@ -157,7 +152,7 @@ void ConfigureHeroesState::initGui(){
 																			std::make_shared<sf::Font>(this->font), "", 0,
 																			this->textures[heroTypeToString(it->getType())], sf::Color::White,
 																			sf::Color::Green, sf::Color::Yellow, 1);
-	position.y += 150;
+		position.y += 150;
 	}
 
 	position = {vm.x-225.f, 150.f};
@@ -167,7 +162,7 @@ void ConfigureHeroesState::initGui(){
 																			std::make_shared<sf::Font>(this->font), "", 0,
 																			this->textures[heroTypeToString(it->getType())], sf::Color::White,
 																			sf::Color::Green, sf::Color::Yellow, 1);
-	position.y += 150;
+		position.y += 150;
 	}
 
 	this->shapes["LEFT_BG"] = std::make_shared<sf::RectangleShape>();
@@ -179,8 +174,6 @@ void ConfigureHeroesState::initGui(){
 	this->shapes["RIGHT_BG"] -> setFillColor(sf::Color(214, 154, 58));
 	this->shapes["RIGHT_BG"] -> setSize(sf::Vector2f{300.f, 650.f});
 	this->shapes["RIGHT_BG"] -> setPosition(sf::Vector2f{vm.x-325.f, 75.f});
-
-	
 
 	float buttonWidth = 100, buttonHeight = 50;
 	float topLeft_x = vm.x - buttonWidth;
@@ -226,7 +219,6 @@ void ConfigureHeroesState::initBoard()
 				{
 					fieldTX = textures["FIELD_RED"];
 				}
-				showHero(field->getHero().value(), buttonX, buttonY);
 			}
 
 			this->boardButtons[std::make_tuple(row, column)] = std::make_shared<Button>(buttonX, buttonY, 50, 50, std::make_shared<sf::Font>(this->font),
@@ -275,23 +267,9 @@ void ConfigureHeroesState::showHero(std::shared_ptr<Hero> hero, int buttonX, int
 		hero->sprite.setScale(-0.5, 0.5); // Symetria względem osi OY
 		hero->sprite.move(50, 0);
 	}
-	//window->draw(hero->sprite);
 }
 
-void ConfigureHeroesState::renderHeroes()
-{
-	auto board = gameController->getBoard();
-	for (auto row : board->getFields())
-	{
-		for (auto field : row)
-		{
-			if (field->getHero() != std::nullopt)
-			{
-				window->draw(field->getHero().value()->sprite);
-			}
-		}
-	}
-}
+
 
 void ConfigureHeroesState::updateButtons(){
 
@@ -312,6 +290,7 @@ void ConfigureHeroesState::updateButtons(){
 			for(auto &hero: secondPlayerHeroes){
 				if(std::get<0>(it.first) == hero->getType() && std::get<1>(it.first) == hero->getOwner()){
 					this->choosenHero = hero;
+					break;
 				}	
 			}
 			this->showMenu();
@@ -363,15 +342,6 @@ void ConfigureHeroesState::updateButtons(){
 		this->endState();
 	}
    	if (this->buttons["START"]->isClicked()){
-		// this->gameController->getBoard()->getFieldByCoordinate(0,0)->addHero(firstPlayerHeroes[0]);
-		// this->gameController->getBoard()->getFieldByCoordinate(1,0)->addHero(firstPlayerHeroes[1]);
-		// this->gameController->getBoard()->getFieldByCoordinate(2,0)->addHero(firstPlayerHeroes[2]);
-		// this->gameController->getBoard()->getFieldByCoordinate(3,0)->addHero(firstPlayerHeroes[3]);
-
-		// this->gameController->getBoard()->getFieldByCoordinate(0,9)->addHero(secondPlayerHeroes[0]);
-		// this->gameController->getBoard()->getFieldByCoordinate(1,9)->addHero(secondPlayerHeroes[1]);
-		// this->gameController->getBoard()->getFieldByCoordinate(2,9)->addHero(secondPlayerHeroes[2]);
-		// this->gameController->getBoard()->getFieldByCoordinate(3,9)->addHero(secondPlayerHeroes[3]);
 		unsigned int heroesCounter = 0;
 		for(auto &row: gameController->getBoard()->getFields()){
 			for(auto &field: row){
@@ -396,6 +366,29 @@ void ConfigureHeroesState::updateButtons(){
 		}
     }
 
+}
+
+std::string ConfigureHeroesState::heroTypeToString(HeroType herotype){
+	switch(herotype){
+		case EWizard:
+			return "WIZARD";
+		case EKnight:
+			return "KNIGHT";
+		case EArcher:
+			return "ARCHER";
+		case EMedic:
+			return "MEDIC";
+		case EIceDruid:
+			return "ICE_DRUID";
+		case ETrebuchet:
+			return "TREBUCHET";
+		case ECatapult:
+			return "CATAPULT";
+		case ENinja:
+			return "NINJA";
+		default:
+			return "HERO";
+	}
 }
 
 void ConfigureHeroesState::showMenu(){
@@ -465,9 +458,6 @@ void ConfigureHeroesState::putHero(std::shared_ptr<Hero> hero, int xCoo, int yCo
 	if(yCoo >= maxSecond && hero->getOwner() == Player::Second){
 		inRange = true;
 	}
-	// if(field->isFree() == false){
-	// 	field->removeHero();
-	// }
 	
 	if(inRange){
 		for(unsigned int col=0; col<BOARD_COLUMNS; col++){
@@ -497,61 +487,57 @@ void ConfigureHeroesState::update(){
 	this->updateButtons();
 }
 
-void ConfigureHeroesState::renderButtons()
-{
-	for (auto &it : this->shapes)
-	{
-		this->window->draw(*it.second);
-	}	
-
-	for (auto &it : this->buttons)
-	{
-		it.second->render(*this->window);
+void ConfigureHeroesState::renderHeroes(){
+	auto board = gameController->getBoard();
+	for (auto row : board->getFields()){
+		for (auto field : row){
+			if (field->getHero() != std::nullopt){
+				window->draw(field->getHero().value()->sprite);
+			}
+		}
 	}
+}
 
-	for (auto &it : this->heroButtons)
-	{
-		it.second->render(*this->window);
-	}	
+void ConfigureHeroesState::renderBackground(){
+	this->window->draw(this->backgroundRect);
+}
 
-	for (auto &it : this->texts)
-	{
-		this->window->draw(*it.second);
-	}
-	for (auto &it : this->boardButtons)
-	{
+void ConfigureHeroesState::renderBoardButtons(){
+	for (auto &it : this->boardButtons){
 		it.second->render(*this->window);
 	}
 }
 
-std::string ConfigureHeroesState::heroTypeToString(HeroType herotype){
-	switch(herotype){
-		case EWizard:
-			return "WIZARD";
-		case EKnight:
-			return "KNIGHT";
-		case EArcher:
-			return "ARCHER";
-		case EMedic:
-			return "MEDIC";
-		case EIceDruid:
-			return "ICE_DRUID";
-		case ETrebuchet:
-			return "TREBUCHET";
-		case ECatapult:
-			return "CATAPULT";
-		case ENinja:
-			return "NINJA";
-		default:
-			return "HERO";
+void ConfigureHeroesState::renderHeroButtons(){
+	for (auto &it : this->heroButtons){
+		it.second->render(*this->window);
 	}
 }
 
+void ConfigureHeroesState::renderShapes(){
+	for (auto &it : this->shapes){
+		this->window->draw(*it.second);
+	}	
+}
 
+void ConfigureHeroesState::renderTexts(){
+	for (auto &it : this->texts){
+		this->window->draw(*it.second);
+	}
+}
+
+void ConfigureHeroesState::renderButtons(){
+	for (auto &it : this->buttons){
+		it.second->render(*this->window);
+	}
+}
 
 void ConfigureHeroesState::render(){
-	this->window->draw(this->backgroundRect);
+	this->renderBackground();
+	this->renderShapes();
+	this->renderHeroButtons();
 	this->renderButtons();
+	this->renderTexts();
+	this->renderBoardButtons();
 	this->renderHeroes();
-
 }

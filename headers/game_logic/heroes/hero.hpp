@@ -32,6 +32,12 @@ enum Player
     Second
 };
 
+enum Personalisation{
+    Damage,
+    Balanced,
+    Range
+};
+
 class Hero
 {
 public:
@@ -61,6 +67,7 @@ public:
     sf::Sprite sprite; // WILL BE PRIVATE
 
     virtual HeroType getType() = 0;
+    virtual void setAttributes(Personalisation personalisation) = 0;
 
     void setOwner(Player owner);
     Player getOwner() const;
@@ -80,6 +87,7 @@ public:
     Archer(unsigned int maxHealth, Weapon weapon, Wearable wearable) : Hero(maxHealth, weapon, wearable){};
     virtual ~Archer(){};
     HeroType getType();
+    void setAttributes(Personalisation personalisation);
     // jak dodać restrykcję co do Weapon?
 };
 
@@ -90,6 +98,7 @@ public:
     Knight(unsigned int maxHealth, Weapon weapon, Wearable wearable) : Hero(maxHealth, weapon, wearable){};
     virtual ~Knight(){};
     HeroType getType();
+    void setAttributes(Personalisation personalisation);
 };
 
 class Mage : public Hero
@@ -99,6 +108,7 @@ public:
     Mage(unsigned int maxHealth, Weapon weapon, Wearable wearable) : Hero(maxHealth, weapon, wearable){};
     virtual ~Mage(){};
     HeroType getType();
+    void setAttributes(Personalisation personalisation);
     // jak dodać restrykcję co do Weapon?
 
     // funckja zadawania dmg przechodzącego przez kilka wrogów z pomniejszeniem wartości dmg
@@ -111,6 +121,7 @@ public:
     IceDruid(unsigned int maxHealth, Weapon weapon, Wearable wearable) : Hero(maxHealth, weapon, wearable){};
     virtual ~IceDruid(){};
     HeroType getType();
+    void setAttributes(Personalisation personalisation);
     // jak dodać restrykcję co do Weapon?
 
     // zamraza Hero na cala nastepna runde, dodatkowo zadaje dmg
@@ -123,6 +134,7 @@ public:
     Medic(unsigned int maxHealth, Weapon weapon, Wearable wearable) : Hero(maxHealth, weapon, wearable){};
     virtual ~Medic(){};
     HeroType getType();
+    void setAttributes(Personalisation personalisation);
     // jak dodać restrykcję co do Weapon?
 
     // leczenie innych heroes, nie zadaje dmg, wybór pomiędzy zasięgiem a stopniem leczenia (może uleczyć dużo blisko albo mało daleko)
@@ -135,6 +147,8 @@ public:
     Ninja(unsigned int maxHealth, Weapon weapon, Wearable wearable) : Hero(maxHealth, weapon, wearable){};
     virtual ~Ninja(){};
     HeroType getType();
+    void setAttributes(Personalisation personalisation);
+
     // jak dodać restrykcję co do Weapon?
 
     // moze co 2 pola sie ruszac, może zaatakować dwa cele
@@ -147,6 +161,7 @@ public:
     Catapult(unsigned int maxHealth) : Hero(maxHealth){};
     virtual ~Catapult(){};
     HeroType getType();
+    void setAttributes(Personalisation personalisation);
     // nie zmienia połozenia, musi sie ladowac, moze strzelac co x tur, zadaje duże obrażenia jednorazowo na danym polu
 };
 
@@ -157,6 +172,7 @@ public:
     Trebuchet(unsigned int maxHealth) : Hero(maxHealth){};
     virtual ~Trebuchet(){};
     HeroType getType();
+    void setAttributes(Personalisation personalisation);
     // Zadaje niewielkie obrażenia na pewnym obszarze przez kilka tur, stoi w jednym miejscu,
 };
 

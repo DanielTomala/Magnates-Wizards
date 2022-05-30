@@ -13,7 +13,8 @@ public:
     GameController(std::shared_ptr<Board> board);
     void startGame();
     void changeTurn();
-
+    void resetController();
+    
     std::shared_ptr<Board> getBoard();
     Player getCurrentPlayer();
     unsigned int getActionsLeft();

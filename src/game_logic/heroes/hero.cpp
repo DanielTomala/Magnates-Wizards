@@ -105,14 +105,42 @@ void Hero::setOwner(Player owner){
     this->owner = owner;
 }
 
+
+
+
+
 HeroType Archer::getType()
 {
     return EArcher;
 }
 
+void Archer::setAttributes(Personalisation personalisation){
+    switch(personalisation){
+        case Damage:
+            break;
+        case Balanced:
+            break;
+        case Range:
+            break;
+    }
+}
+
+
+
 HeroType Knight::getType()
 {
     return EKnight;
+}
+
+void Knight::setAttributes(Personalisation personalisation){
+    switch(personalisation){
+        case Damage:
+            break;
+        case Balanced:
+            break;
+        case Range:
+            break;
+    }
 }
 
 HeroType Mage::getType()
@@ -120,9 +148,31 @@ HeroType Mage::getType()
     return EWizard;
 }
 
+void Mage::setAttributes(Personalisation personalisation){
+    switch(personalisation){
+        case Damage:
+            break;
+        case Balanced:
+            break;
+        case Range:
+            break;
+    }
+}
+
 HeroType IceDruid::getType()
 {
     return EIceDruid;
+}
+
+void IceDruid::setAttributes(Personalisation personalisation){
+    switch(personalisation){
+        case Damage:
+            break;
+        case Balanced:
+            break;
+        case Range:
+            break;
+    }
 }
 
 HeroType Medic::getType()
@@ -130,9 +180,31 @@ HeroType Medic::getType()
     return EMedic;
 }
 
+void Medic::setAttributes(Personalisation personalisation){
+    switch(personalisation){
+        case Damage:
+            break;
+        case Balanced:
+            break;
+        case Range:
+            break;
+    }
+}
+
 HeroType Ninja::getType()
 {
     return ENinja;
+}
+
+void Ninja::setAttributes(Personalisation personalisation){
+    switch(personalisation){
+        case Damage:
+            break;
+        case Balanced:
+            break;
+        case Range:
+            break;
+    }
 }
 
 HeroType Catapult::getType()
@@ -140,7 +212,29 @@ HeroType Catapult::getType()
     return ECatapult;
 }
 
+void Catapult::setAttributes(Personalisation personalisation){
+    switch(personalisation){
+        case Damage:
+            break;
+        case Balanced:
+            break;
+        case Range:
+            break;
+    }
+}
+
 HeroType Trebuchet::getType()
 {
     return ETrebuchet;
+}
+
+void Trebuchet::setAttributes(Personalisation personalisation){
+    switch(personalisation){
+        case Damage:
+            break;
+        case Balanced:
+            break;
+        case Range:
+            break;
+    }
 }
