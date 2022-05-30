@@ -9,7 +9,6 @@
 
 enum HeroType
 {
-    EHero,
     EArcher,
     EKnight,
     EWizard,
@@ -20,10 +19,23 @@ enum HeroType
     ETrebuchet
 };
 
+
+enum Parameters{ // AttackRange/Damage
+    LowHigh,
+    MediumMedium,
+    HighLow
+};
+
 enum Player
 {
     First,
     Second
+};
+
+enum Personalisation{
+    Damage,
+    Balanced,
+    Range
 };
 
 class Hero
@@ -54,9 +66,10 @@ public:
     void takeDamage(unsigned int damage);
 
     bool isAlive() const;
-    sf::Sprite sprite; // WILL BE PRIVATE
+    sf::Sprite sprite;
 
-    virtual HeroType getType();
+    virtual HeroType getType() = 0;
+    virtual void setAttributes(Personalisation personalisation) = 0;
 
     void setOwner(Player owner);
     Player getOwner() const;
@@ -78,6 +91,7 @@ public:
     Archer(unsigned int maxHealth, unsigned int moveRange, Weapon weapon, Wearable wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
     virtual ~Archer(){};
     HeroType getType();
+    void setAttributes(Personalisation personalisation);
     // jak dodać restrykcję co do Weapon?
 };
 
@@ -89,6 +103,7 @@ public:
     Knight(unsigned int maxHealth, unsigned int moveRange, Weapon weapon, Wearable wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
     virtual ~Knight(){};
     HeroType getType();
+    void setAttributes(Personalisation personalisation);
 };
 
 class Mage : public Hero
@@ -99,9 +114,12 @@ public:
     Mage(unsigned int maxHealth, unsigned int moveRange, Weapon weapon, Wearable wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
     virtual ~Mage(){};
     HeroType getType();
+    void setAttributes(Personalisation personalisation);
     // jak dodać restrykcję co do Weapon?
 
     // funckja zadawania dmg przechodzącego przez kilka wrogów z pomniejszeniem wartości dmg
+
+    // glowny w range i wszyscy pozostali przeciwnika dostaja dmg 
 };
 
 class IceDruid : public Hero
@@ -112,9 +130,12 @@ public:
     IceDruid(unsigned int maxHealth, unsigned int moveRange, Weapon weapon, Wearable wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
     virtual ~IceDruid(){};
     HeroType getType();
+    void setAttributes(Personalisation personalisation);
     // jak dodać restrykcję co do Weapon?
 
     // zamraza Hero na cala nastepna runde, dodatkowo zadaje dmg
+
+    // wektor zamrozonych, sprzwdzamy podczas akcji czy postać w wektorze
 };
 
 class Medic : public Hero
@@ -125,6 +146,7 @@ public:
     Medic(unsigned int maxHealth, unsigned int moveRange, Weapon weapon, Wearable wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
     virtual ~Medic(){};
     HeroType getType();
+    void setAttributes(Personalisation personalisation);
     // jak dodać restrykcję co do Weapon?
 
     // leczenie innych heroes, nie zadaje dmg, wybór pomiędzy zasięgiem a stopniem leczenia (może uleczyć dużo blisko albo mało daleko)
@@ -138,6 +160,9 @@ public:
     Ninja(unsigned int maxHealth, unsigned int moveRange, Weapon weapon, Wearable wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
     virtual ~Ninja(){};
     HeroType getType();
+    void setAttributes(Personalisation personalisation);
+private:
+    unsigned int attacksLeft; //zmniejsza sie po ataku, jak == 0 nie moze atakowac
     // jak dodać restrykcję co do Weapon?
 
     // moze co 2 pola sie ruszac, może zaatakować dwa cele
@@ -150,6 +175,11 @@ public:
     Catapult(unsigned int maxHealth) : Hero(maxHealth, 0){};
     virtual ~Catapult(){};
     HeroType getType();
+    void setAttributes(Personalisation personalisation); 
+
+private:
+    unsigned int reloadTurnsLeft; // 
+    // duzy range 
     // nie zmienia połozenia, musi sie ladowac, moze strzelac co x tur, zadaje duże obrażenia jednorazowo na danym polu
 };
 
@@ -160,7 +190,13 @@ public:
     Trebuchet(unsigned int maxHealth) : Hero(maxHealth, 0){};
     virtual ~Trebuchet(){};
     HeroType getType();
-    // Zadaje niewielkie obrażenia na pewnym obszarze przez kilka tur, stoi w jednym miejscu,
+    void setAttributes(Personalisation personalisation);
+
+private:
+    unsigned int reloadTurnsLeft; // 
+
+    // zadaje dmg na kwadracie dookoła atakowanego zawodnika
+    // Zadaje niewielkie obrażenia na pewnym obszarze, stoi w jednym miejscu,
 };
 
 #endif

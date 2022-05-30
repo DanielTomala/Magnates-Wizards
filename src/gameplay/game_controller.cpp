@@ -7,6 +7,14 @@ GameController::GameController(std::shared_ptr<Board> board)
     this->board = board;
 }
 
+void GameController::resetController(){
+    for(auto &row: this->board->getFields()){
+        for(auto &field: row){
+            field->removeHero();            
+        }
+    }
+}
+
 std::shared_ptr<Board> GameController::getBoard()
 {
     return this->board;

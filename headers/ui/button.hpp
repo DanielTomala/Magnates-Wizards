@@ -4,19 +4,16 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
-enum ButtonState
-{
-    normal,
-    highlighted,
-    clicked
-};
 
 class Button
 {
 
 private:
-    ButtonState state;
     unsigned int id;
+    bool active;
+    bool pressed;
+    bool mouseHold;
+    bool highlighted;
 
     sf::Texture texture;
     sf::RectangleShape rect;
@@ -35,7 +32,7 @@ public:
 
     ~Button();
 
-    bool isClicked() const;
+    bool isClicked();
     std::string getText() const;
     unsigned int getId() const;
     sf::RectangleShape getRect() const;
@@ -43,7 +40,7 @@ public:
     void setTexture(const sf::Texture &texture);
     void setText(const std::string &text);
     void setId(const unsigned int &id);
-
+    void setTexture(const sf::Texture &texture);
     void update(const sf::Vector2i &mousePosition);
     void render(sf::RenderTarget &window);
 };

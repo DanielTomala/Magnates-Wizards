@@ -16,7 +16,7 @@ GameState::GameState(StatesStack *stackPointer,
 					 GameController *gameController)
 	: State(stackPointer, window, settings, gameController)
 {
-	this->addTestValuesToBoard();
+	//this->addTestValuesToBoard();
 	this->initTextures();
 	this->initFonts();
 	this->initGui();
@@ -297,10 +297,11 @@ void GameState::showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY)
 		hero->sprite.setTexture(textures["KNIGHT"]);
 		break;
 	}
-	if (hero->getOwner() == Player::Second)
-	{
-		hero->sprite.setTextureRect(sf::IntRect(FIELD_SIZE, 0, -FIELD_SIZE, FIELD_SIZE)); // Symetria względem osi OY
-	}
+	hero->sprite.setScale(1.f, 1.f);
+	// if (hero->getOwner() == Player::Second)
+	// {
+	// 	hero->sprite.move(100, 0);
+	// }
 	window->draw(hero->sprite);
 	std::shared_ptr<HPBar> hPBar = std::make_shared<HPBar>(buttonX, buttonY + 90, 100, 10, std::make_shared<sf::Font>(this->font), hero->getMaxHealth());
 	this->HPBars[hero] = hPBar;

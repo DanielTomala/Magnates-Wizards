@@ -5,10 +5,12 @@
 class Descriptions{
     private:
         std::map<HeroType, std::string> heroesDescriptions;
+        std::string manual;
     public:
         Descriptions();
         ~Descriptions();
-
+        
+        std::string getManual()const;
         std::string getDescription(const HeroType &heroType) const;
 };
 

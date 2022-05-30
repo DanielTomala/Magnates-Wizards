@@ -13,7 +13,8 @@ public:
     GameController(std::shared_ptr<Board> board);
     void startGame();
     void changeTurn();
-
+    void resetController();
+    
     std::shared_ptr<Board> getBoard();
 
     bool healAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);

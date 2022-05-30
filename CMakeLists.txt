@@ -26,6 +26,7 @@ set(SRC
     src/ui/states/player_menu_state.cpp
     src/ui/states/state.cpp
     src/ui/button.cpp
+    src/ui/HPbar.cpp
     src/ui/select_button.cpp
     src/ui/descriptions.cpp
     src/ui/graphic_settings.cpp
