@@ -17,7 +17,7 @@ ActionMenu::ActionMenu(float topLeftX, float topLeftY, float width, float height
     this->attackClicked = false;
     this->healClicked = false;
     this->close = false;
-    this->doNotHide = false;
+    // this->doNotHide = false;
     this->defaultColor = this->rect.getFillColor();
     sf::Color color;
     color.r = 179;
@@ -39,7 +39,7 @@ ActionMenu::ActionMenu(sf::Vector2f position, sf::Vector2f size, const sf::Textu
     this->attackClicked = false;
     this->healClicked = false;
     this->close = false;
-    this->doNotHide = false;
+    // this->doNotHide = false;
     this->defaultColor = this->rect.getFillColor();
     sf::Color color;
     color.r = 179;
@@ -136,7 +136,7 @@ void ActionMenu::update(const sf::Vector2i &mousePosition)
                     std::cout << "Attack" << std::endl;
                 }
             }
-            this->doNotHide = true;
+            // this->doNotHide = true;
         }
     }
     if (sf::Mouse::isButtonPressed(sf::Mouse::Right))

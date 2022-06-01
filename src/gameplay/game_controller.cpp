@@ -23,7 +23,7 @@ std::shared_ptr<Board> GameController::getBoard()
     return this->board;
 }
 
-// Heal na puste pole wyrzuca bad optional access
+// Nie powinno się dać uleczyć zmarłego bohatera
 //  Przed wywołaniem tej metody powinno zostać sprawdzone, czy leczony hero należy do naszej drużyny, czy jest w zasięgu i czy może zostać uleczony
 bool GameController::healAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField)
 {
@@ -69,6 +69,8 @@ bool GameController::moveAction(std::shared_ptr<Field> heroField, std::shared_pt
     }
 }
 
+// nie powinno się dać zaatakować zmarłego bohatera
+// Problem z atakiem przez catapult i trebuchet
 // Attack na puste pole wyrzuca bad optional access
 bool GameController::attackAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField)
 {

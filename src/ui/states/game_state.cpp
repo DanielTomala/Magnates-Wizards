@@ -424,6 +424,7 @@ void GameState::updateHeroPosition(std::shared_ptr<Hero> hero, std::shared_ptr<B
 	else
 	{
 		newButton->setTexture(textures["FIELD_RED"]);
+		hero->sprite.move(xGrid * 5, 0);
 	}
 	actionMenu.value()->getParentButton()->setTexture(textures["FIELD"]);
 	sf::Vector2f newHPBarPos = sf::Vector2f(newButton->getRect().getPosition().x, newButton->getRect().getPosition().y + 90);
@@ -462,7 +463,7 @@ void GameState::checkIfActionHasToBeDone()
 			bool actionResult = this->gameController->moveAction(this->actionMenu.value()->getField(), this->chosenField.value());
 			if (actionResult)
 			{
-				auto hero = this->actionMenu.value()->getField()->getHero().value();
+				auto hero = this->chosenField.value()->getHero().value();
 				this->setActionsLeft(this->getActionsLeft() - 1);
 				updateHeroPosition(hero, this->chosenButton.value());
 				this->actionMenu = std::nullopt;
@@ -508,6 +509,7 @@ void GameState::updateHPBars()
 	}
 }
 
+//Dodać usuwanie hero jeśli zginie
 void GameState::renderHeroes()
 {
 	auto board = gameController->getBoard();
@@ -530,6 +532,9 @@ void GameState::renderActionMenu()
 		if (this->actionMenu.value()->shouldBeClosed())
 		{
 			this->actionMenu = std::nullopt;
+			this->chosenField = std::nullopt;
+			this->chosenButton = std::nullopt;
+			this->actionChosen = false;
 		}
 		else
 		{
@@ -570,6 +575,7 @@ void GameState::render()
 
 void GameState::gameOutput()
 {
+	std::cout << "Game Output" << std::endl;
 	for (auto field : this->gameController->getBoard()->getFieldsWithHeroes())
 	{
 		auto hero = field->getHero().value();
