@@ -1,6 +1,7 @@
 #ifndef DESCRIPTIONS_HPP
 #define DESCRIPTIONS_HPP
 #include "../game_logic/heroes/hero.hpp"
+#include "../game_logic/heroes/hero_attributes.hpp"
 
 class Descriptions{
     private:

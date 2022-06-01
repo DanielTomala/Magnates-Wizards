@@ -6,25 +6,17 @@
 #include <algorithm> //std::min
 #include <optional>  //std::optional
 #include <SFML/Graphics.hpp>
+#include "hero_attributes.hpp"
 
-enum HeroType
-{
-    EArcher,
-    EKnight,
-    EWizard,
-    EIceDruid,
-    ECatapult,
-    EMedic,
-    ENinja,
-    ETrebuchet
-};
+#include "../weapons/bow.hpp"
+#include "../weapons/ice_druid_staff.hpp"
+#include "../weapons/mage_wand.hpp"
+#include "../weapons/medical_box.hpp"
+#include "../weapons/shuriken.hpp"
+#include "../weapons/sword.hpp"
+#include "../weapons/stone.hpp"
 
 
-enum Parameters{ // AttackRange/Damage
-    LowHigh,
-    MediumMedium,
-    HighLow
-};
 
 enum Player
 {
@@ -32,11 +24,6 @@ enum Player
     Second
 };
 
-enum Personalisation{
-    Damage,
-    Balanced,
-    Range
-};
 
 class Hero
 {
@@ -69,18 +56,22 @@ public:
     sf::Sprite sprite;
 
     virtual HeroType getType() = 0;
-    virtual void setAttributes(Personalisation personalisation) = 0;
+    virtual void setAttributes() = 0;
+
+    void setPersonalisation(const Personalisation &personalisation);
+    void setMoveRange(unsigned int range);
 
     void setOwner(Player owner);
     Player getOwner() const;
 
-private:
+protected:
     unsigned int moveRange;
     unsigned int maxHealth;
     unsigned int currentHealth;
     std::optional<Weapon> weapon;
     std::optional<Wearable> wearable;
     Player owner;
+    Personalisation personalisation;
 };
 
 class Archer : public Hero
@@ -91,7 +82,7 @@ public:
     Archer(unsigned int maxHealth, unsigned int moveRange, Weapon weapon, Wearable wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
     virtual ~Archer(){};
     HeroType getType();
-    void setAttributes(Personalisation personalisation);
+    void setAttributes();
     // jak dodać restrykcję co do Weapon?
 };
 
@@ -103,7 +94,7 @@ public:
     Knight(unsigned int maxHealth, unsigned int moveRange, Weapon weapon, Wearable wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
     virtual ~Knight(){};
     HeroType getType();
-    void setAttributes(Personalisation personalisation);
+    void setAttributes();
 };
 
 class Mage : public Hero
@@ -114,12 +105,12 @@ public:
     Mage(unsigned int maxHealth, unsigned int moveRange, Weapon weapon, Wearable wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
     virtual ~Mage(){};
     HeroType getType();
-    void setAttributes(Personalisation personalisation);
+    void setAttributes();
     // jak dodać restrykcję co do Weapon?
 
     // funckja zadawania dmg przechodzącego przez kilka wrogów z pomniejszeniem wartości dmg
 
-    // glowny w range i wszyscy pozostali przeciwnika dostaja dmg 
+    // glowny w range i wszyscy pozostali przeciwnika dostaja dmg
 };
 
 class IceDruid : public Hero
@@ -130,7 +121,7 @@ public:
     IceDruid(unsigned int maxHealth, unsigned int moveRange, Weapon weapon, Wearable wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
     virtual ~IceDruid(){};
     HeroType getType();
-    void setAttributes(Personalisation personalisation);
+    void setAttributes();
     // jak dodać restrykcję co do Weapon?
 
     // zamraza Hero na cala nastepna runde, dodatkowo zadaje dmg
@@ -146,7 +137,7 @@ public:
     Medic(unsigned int maxHealth, unsigned int moveRange, Weapon weapon, Wearable wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
     virtual ~Medic(){};
     HeroType getType();
-    void setAttributes(Personalisation personalisation);
+    void setAttributes();
     // jak dodać restrykcję co do Weapon?
 
     // leczenie innych heroes, nie zadaje dmg, wybór pomiędzy zasięgiem a stopniem leczenia (może uleczyć dużo blisko albo mało daleko)
@@ -160,9 +151,10 @@ public:
     Ninja(unsigned int maxHealth, unsigned int moveRange, Weapon weapon, Wearable wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
     virtual ~Ninja(){};
     HeroType getType();
-    void setAttributes(Personalisation personalisation);
+    void setAttributes();
+
 private:
-    unsigned int attacksLeft; //zmniejsza sie po ataku, jak == 0 nie moze atakowac
+    unsigned int attacksLeft; // zmniejsza sie po ataku, jak == 0 nie moze atakowac
     // jak dodać restrykcję co do Weapon?
 
     // moze co 2 pola sie ruszac, może zaatakować dwa cele
@@ -175,11 +167,11 @@ public:
     Catapult(unsigned int maxHealth) : Hero(maxHealth, 0){};
     virtual ~Catapult(){};
     HeroType getType();
-    void setAttributes(Personalisation personalisation); 
+    void setAttributes();
 
 private:
-    unsigned int reloadTurnsLeft; // 
-    // duzy range 
+    unsigned int reloadTurnsLeft; //
+    // duzy range
     // nie zmienia połozenia, musi sie ladowac, moze strzelac co x tur, zadaje duże obrażenia jednorazowo na danym polu
 };
 
@@ -190,10 +182,10 @@ public:
     Trebuchet(unsigned int maxHealth) : Hero(maxHealth, 0){};
     virtual ~Trebuchet(){};
     HeroType getType();
-    void setAttributes(Personalisation personalisation);
+    void setAttributes();
 
 private:
-    unsigned int reloadTurnsLeft; // 
+    unsigned int reloadTurnsLeft; //
 
     // zadaje dmg na kwadracie dookoła atakowanego zawodnika
     // Zadaje niewielkie obrażenia na pewnym obszarze, stoi w jednym miejscu,

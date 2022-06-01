@@ -125,6 +125,7 @@ void CreateHeroesState::initGui()
 	this->buttons["START"] = std::make_shared<Button>(
 		xGrid * 93, yGrid * 94, xGrid * 7, yGrid * 6, std::make_shared<sf::Font>(this->font), "START", 30,
 		textures["BUTTON"], sf::Color(214, 154, 58), sf::Color(233, 150, 123), sf::Color(200, 30, 19), 1);
+		
 
 	this->heroButtons["ARCHER_1"] = std::make_shared<SelectButton>(
 		xGrid * 6, yGrid * 18, xGrid * 7, yGrid * 12, textures["ARCHER"], sf::Color::Green, heroesDescriptions.getDescription(EArcher), First, EArcher);
