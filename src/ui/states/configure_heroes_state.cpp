@@ -225,8 +225,6 @@ void ConfigureHeroesState::initBoard()
 
 void ConfigureHeroesState::showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY)
 {
-	hero->sprite.setPosition(buttonX, buttonY);
-	hero->sprite.setScale((xGrid * 5) / 100, (yGrid * 80 / 9) / 100);
 	switch (hero->getType())
 	{
 	case HeroType::EKnight:
@@ -257,9 +255,12 @@ void ConfigureHeroesState::showHero(std::shared_ptr<Hero> hero, int buttonX, int
 		hero->sprite.setTexture(textures["KNIGHT"]);
 		break;
 	}
+	hero->sprite.setPosition(buttonX, buttonY);
+	auto textureSize = hero->sprite.getTexture()->getSize().x;
+	hero->sprite.setScale((xGrid * 5) / textureSize, (yGrid * 80 / 9) / textureSize);
 	if (hero->getOwner() == Player::Second)
 	{
-		hero->sprite.setScale(- (xGrid * 5) / 100, (yGrid * 80 / 9) / 100);
+		hero->sprite.setScale(-(xGrid * 5) / textureSize, (yGrid * 80 / 9) / textureSize);
 		hero->sprite.move(xGrid * 5, 0);
 	}
 }

@@ -297,12 +297,23 @@ void GameState::showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY)
 		hero->sprite.setTexture(textures["KNIGHT"]);
 		break;
 	}
-	//hero->sprite.setScale(1.f, 1.f);
-	// if (hero->getOwner() == Player::Second)
-	// {
-	// 	hero->sprite.setScale(-0.9, 0.9);
-	// 	hero->sprite.move(90, 0);
-	// }
+	// hero->sprite.setScale(1.f, 1.f);
+	//  if (hero->getOwner() == Player::Second)
+	//  {
+	//  	hero->sprite.setScale(-0.9, 0.9);
+	//  	hero->sprite.move(90, 0);
+	//  }
+	auto textureSize = hero->sprite.getTexture()->getSize().x;
+	if (hero->getOwner() == Player::First)
+	{
+		hero->sprite.setScale((xGrid * 5) / textureSize, (yGrid * 80 / 9) / textureSize);
+	}
+	else
+	{
+		hero->sprite.setScale(-(xGrid * 5) / textureSize, (yGrid * 80 / 9) / textureSize);
+		hero->sprite.move(xGrid * 5, 0);
+	}
+
 	window->draw(hero->sprite);
 	std::shared_ptr<HPBar> hPBar = std::make_shared<HPBar>(buttonX, buttonY + 90, 100, 10, std::make_shared<sf::Font>(this->font), hero->getMaxHealth());
 	this->HPBars[hero] = hPBar;

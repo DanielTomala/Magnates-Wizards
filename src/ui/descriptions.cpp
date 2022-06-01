@@ -74,7 +74,7 @@ Descriptions::Descriptions()
     this->manual = "MAGNATES & HEROES\n\n"
                    "Game for 2 players.\n"
                    "Each player has to choose 4 heroes.\n"
-                   "You can presonalise your heroes.\n"
+                   "You can personalise your heroes.\n"
                    "Kill all opponent heroes to win.";
 }
 
