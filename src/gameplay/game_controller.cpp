@@ -23,45 +23,6 @@ std::shared_ptr<Board> GameController::getBoard()
     return this->board;
 }
 
-// void GameController::startGame()
-// {
-//     setActionsLeft(ACTIONS_PER_TURN);
-//     setCurrentPlayer(Player::First);
-//     // Call window for buying phase
-//     buyingPhase();
-//     // Call window for turn phase
-//     turnPhase();
-// }
-
-// void GameController::changeTurn()
-// {
-//     setActionsLeft(ACTIONS_PER_TURN);
-//     if (getCurrentPlayer() == Player::First)
-//     {
-//         setCurrentPlayer(Player::Second);
-//     }
-//     else
-//     {
-//         setCurrentPlayer(Player::First);
-//     }
-// }
-
-void GameController::buyingPhase()
-{
-}
-
-void GameController::turnPhase()
-{
-    while (gameIsContinued())
-    {
-    }
-}
-
-bool GameController::gameIsContinued()
-{
-    return true;
-}
-
 // Heal na puste pole wyrzuca bad optional access
 //  Przed wywołaniem tej metody powinno zostać sprawdzone, czy leczony hero należy do naszej drużyny, czy jest w zasięgu i czy może zostać uleczony
 bool GameController::healAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField)

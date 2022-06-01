@@ -139,12 +139,9 @@ void ActionMenu::update(const sf::Vector2i &mousePosition)
             this->doNotHide = true;
         }
     }
-    else if (!this->parentButton->getRect().getGlobalBounds().contains(sf::Vector2f(mousePosition)) && !this->doNotHide)
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
     {
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-        {
-            this->close = true;
-        }
+        this->close = true;
     }
 }
 void ActionMenu::render(sf::RenderTarget &window)
