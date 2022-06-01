@@ -162,17 +162,31 @@ HeroType Knight::getType()
 
 void Knight::setAttributes()
 {
+    Sword sword;
+    Attributes attributes;
     switch (personalisation)
     {
     case Damage:
+        attributes = heroAttributes.at(std::make_tuple(EKnight, Damage));
         break;
     case Balanced:
+        attributes = heroAttributes.at(std::make_tuple(EKnight, Balanced));
         break;
     case Range:
+        attributes = heroAttributes.at(std::make_tuple(EKnight, Range));
         break;
     default:
+        attributes = heroAttributes.at(std::make_tuple(EKnight, Balanced));
         break;
     }
+    sword.setDamage(attributes.weaponDamage);
+    sword.setRange(attributes.weaponRange);
+    sword.setDurability(attributes.weaponDurability);
+    this->addWeapon(sword);
+
+    this->setMaxHealth(attributes.maxHealth);
+    this->setCurrentHealth(attributes.maxHealth);
+    this->setMoveRange(attributes.moveRange);
 }
 
 HeroType Mage::getType()
@@ -182,17 +196,31 @@ HeroType Mage::getType()
 
 void Mage::setAttributes()
 {
+    MageWand wand;
+    Attributes attributes;
     switch (personalisation)
     {
     case Damage:
+        attributes = heroAttributes.at(std::make_tuple(EWizard, Damage));
         break;
     case Balanced:
+        attributes = heroAttributes.at(std::make_tuple(EWizard, Balanced));
         break;
     case Range:
+        attributes = heroAttributes.at(std::make_tuple(EWizard, Range));
         break;
     default:
+        attributes = heroAttributes.at(std::make_tuple(EWizard, Balanced));
         break;
     }
+    wand.setDamage(attributes.weaponDamage);
+    wand.setRange(attributes.weaponRange);
+    wand.setDurability(attributes.weaponDurability);
+    this->addWeapon(wand);
+
+    this->setMaxHealth(attributes.maxHealth);
+    this->setCurrentHealth(attributes.maxHealth);
+    this->setMoveRange(attributes.moveRange);
 }
 
 HeroType IceDruid::getType()
@@ -202,17 +230,31 @@ HeroType IceDruid::getType()
 
 void IceDruid::setAttributes()
 {
+    IceDruidStaff staff;
+    Attributes attributes;
     switch (personalisation)
     {
     case Damage:
+        attributes = heroAttributes.at(std::make_tuple(EIceDruid, Damage));
         break;
     case Balanced:
+        attributes = heroAttributes.at(std::make_tuple(EIceDruid, Balanced));
         break;
     case Range:
+        attributes = heroAttributes.at(std::make_tuple(EIceDruid, Range));
         break;
     default:
+        attributes = heroAttributes.at(std::make_tuple(EIceDruid, Balanced));
         break;
     }
+    staff.setDamage(attributes.weaponDamage);
+    staff.setRange(attributes.weaponRange);
+    staff.setDurability(attributes.weaponDurability);
+    this->addWeapon(staff);
+
+    this->setMaxHealth(attributes.maxHealth);
+    this->setCurrentHealth(attributes.maxHealth);
+    this->setMoveRange(attributes.moveRange);
 }
 
 HeroType Medic::getType()
@@ -222,17 +264,32 @@ HeroType Medic::getType()
 
 void Medic::setAttributes()
 {
+    MedicalBox medicalBox;
+    Attributes attributes;
     switch (personalisation)
     {
     case Damage:
+        attributes = heroAttributes.at(std::make_tuple(EMedic, Damage));
         break;
     case Balanced:
+        attributes = heroAttributes.at(std::make_tuple(EMedic, Balanced));
         break;
     case Range:
+        attributes = heroAttributes.at(std::make_tuple(EMedic, Range));
         break;
     default:
+        attributes = heroAttributes.at(std::make_tuple(EMedic, Balanced));
         break;
     }
+    medicalBox.setDamage(attributes.weaponDamage);
+    medicalBox.setRange(attributes.weaponRange);
+    medicalBox.setDurability(attributes.weaponDurability);
+    medicalBox.setMedicalHealth(attributes.healing);
+    
+    this->addWeapon(medicalBox);
+    this->setMaxHealth(attributes.maxHealth);
+    this->setCurrentHealth(attributes.maxHealth);
+    this->setMoveRange(attributes.moveRange);
 }
 
 HeroType Ninja::getType()
@@ -242,17 +299,31 @@ HeroType Ninja::getType()
 
 void Ninja::setAttributes()
 {
+    Shuriken shuriken;
+    Attributes attributes;
     switch (personalisation)
     {
     case Damage:
+        attributes = heroAttributes.at(std::make_tuple(ENinja, Damage));
         break;
     case Balanced:
+        attributes = heroAttributes.at(std::make_tuple(ENinja, Balanced));
         break;
     case Range:
+        attributes = heroAttributes.at(std::make_tuple(ENinja, Range));
         break;
     default:
+        attributes = heroAttributes.at(std::make_tuple(ENinja, Balanced));
         break;
     }
+    shuriken.setDamage(attributes.weaponDamage);
+    shuriken.setRange(attributes.weaponRange);
+    shuriken.setDurability(attributes.weaponDurability);
+    this->addWeapon(shuriken);
+
+    this->setMaxHealth(attributes.maxHealth);
+    this->setCurrentHealth(attributes.maxHealth);
+    this->setMoveRange(attributes.moveRange);
 }
 
 HeroType Catapult::getType()
@@ -262,17 +333,31 @@ HeroType Catapult::getType()
 
 void Catapult::setAttributes()
 {
+    Stone stone;
+    Attributes attributes;
     switch (personalisation)
     {
     case Damage:
+        attributes = heroAttributes.at(std::make_tuple(ECatapult, Damage));
         break;
     case Balanced:
+        attributes = heroAttributes.at(std::make_tuple(ECatapult, Balanced));
         break;
     case Range:
+        attributes = heroAttributes.at(std::make_tuple(ECatapult, Range));
         break;
     default:
+        attributes = heroAttributes.at(std::make_tuple(ECatapult, Balanced));
         break;
     }
+    stone.setDamage(attributes.weaponDamage);
+    stone.setRange(attributes.weaponRange);
+    stone.setDurability(attributes.weaponDurability);
+    this->addWeapon(stone);
+
+    this->setMaxHealth(attributes.maxHealth);
+    this->setCurrentHealth(attributes.maxHealth);
+    this->setMoveRange(attributes.moveRange);
 }
 
 HeroType Trebuchet::getType()
@@ -282,15 +367,29 @@ HeroType Trebuchet::getType()
 
 void Trebuchet::setAttributes()
 {
+    Stone stone;
+    Attributes attributes;
     switch (personalisation)
     {
     case Damage:
+        attributes = heroAttributes.at(std::make_tuple(ETrebuchet, Damage));
         break;
     case Balanced:
+        attributes = heroAttributes.at(std::make_tuple(ETrebuchet, Balanced));
         break;
     case Range:
+        attributes = heroAttributes.at(std::make_tuple(ETrebuchet, Range));
         break;
     default:
+        attributes = heroAttributes.at(std::make_tuple(ETrebuchet, Balanced));
         break;
     }
+    stone.setDamage(attributes.weaponDamage);
+    stone.setRange(attributes.weaponRange);
+    stone.setDurability(attributes.weaponDurability);
+    this->addWeapon(stone);
+
+    this->setMaxHealth(attributes.maxHealth);
+    this->setCurrentHealth(attributes.maxHealth);
+    this->setMoveRange(attributes.moveRange);
 }

@@ -331,7 +331,6 @@ void ConfigureHeroesState::updateButtons()
 
 					auto hero = field->getHero().value();
 					hero->setAttributes();
-					std::cout << hero->getMaxHealth() << '\n';
 				}
 			}
 		}

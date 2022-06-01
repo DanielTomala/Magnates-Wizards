@@ -30,7 +30,7 @@ struct Attributes
     unsigned int weaponDamage;
     unsigned int weaponDurability;
     unsigned int weaponRange;
-    unsigned int healing;
+    unsigned int healing = 0;
 };
 
 typedef std::map<std::tuple<HeroType, Personalisation>, Attributes> HeroAttributes;

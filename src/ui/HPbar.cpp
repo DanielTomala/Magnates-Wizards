@@ -39,8 +39,8 @@ void HPBar::changePosition(sf::Vector2f newPostion)
     this->background.setPosition(newPostion);
     this->maxBar.setPosition(newPostion);
     this->currentBar.setPosition(newPostion);
-    float textX = (newPostion.x + this->background.getSize().x) / 2 - 30;
-    float textY = 0;
+    float textX = newPostion.x + (this->background.getGlobalBounds().width / 2) - 15;
+    float textY = newPostion.y;
     this->description.setPosition(sf::Vector2f{textX, textY});
 }
 

@@ -14,6 +14,7 @@
 #include "../weapons/medical_box.hpp"
 #include "../weapons/shuriken.hpp"
 #include "../weapons/sword.hpp"
+#include "../weapons/stone.hpp"
 
 
 
