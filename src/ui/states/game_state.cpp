@@ -16,7 +16,7 @@ GameState::GameState(StatesStack *stackPointer,
 					 GameController *gameController)
 	: State(stackPointer, window, settings, gameController)
 {
-	//this->addTestValuesToBoard();
+	// this->addTestValuesToBoard();
 	this->initTextures();
 	this->initFonts();
 	this->initGui();
@@ -445,11 +445,11 @@ void GameState::checkIfActionHasToBeDone()
 		this->actionChosen = true;
 		if (this->chosenField != std::nullopt)
 		{
-			auto hero = this->actionMenu.value()->getField()->getHero().value();
 			// TODO Może funkcje moveAction, attackAction powinny zwracać boola czy zostały wykonane poprawnie
 			bool actionResult = this->gameController->moveAction(this->actionMenu.value()->getField(), this->chosenField.value());
 			if (actionResult)
 			{
+				auto hero = this->actionMenu.value()->getField()->getHero().value();
 				this->setActionsLeft(this->getActionsLeft() - 1);
 				updateHeroPosition(hero, this->chosenButton.value());
 				this->actionMenu = std::nullopt;
@@ -512,13 +512,16 @@ void GameState::renderHeroes()
 
 void GameState::renderActionMenu()
 {
-	if (this->actionMenu.value()->shouldBeClosed())
+	if (this->actionMenu != std::nullopt)
 	{
-		this->actionMenu = std::nullopt;
-	}
-	else
-	{
-		this->actionMenu.value()->render(*this->window);
+		if (this->actionMenu.value()->shouldBeClosed())
+		{
+			this->actionMenu = std::nullopt;
+		}
+		else
+		{
+			this->actionMenu.value()->render(*this->window);
+		}
 	}
 }
 
@@ -548,10 +551,7 @@ void GameState::render()
 	this->window->draw(this->backgroundRect);
 	this->renderButtons();
 	this->renderHeroes();
-	if (this->actionMenu != std::nullopt)
-	{
-		this->renderActionMenu();
-	}
+	this->renderActionMenu();
 	this->renderHPBars();
 }
 

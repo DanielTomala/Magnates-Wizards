@@ -7,10 +7,13 @@ GameController::GameController(std::shared_ptr<Board> board)
     this->board = board;
 }
 
-void GameController::resetController(){
-    for(auto &row: this->board->getFields()){
-        for(auto &field: row){
-            field->removeHero();            
+void GameController::resetController()
+{
+    for (auto &row : this->board->getFields())
+    {
+        for (auto &field : row)
+        {
+            field->removeHero();
         }
     }
 }
@@ -19,7 +22,6 @@ std::shared_ptr<Board> GameController::getBoard()
 {
     return this->board;
 }
-
 
 // void GameController::startGame()
 // {
@@ -60,10 +62,15 @@ bool GameController::gameIsContinued()
     return true;
 }
 
-//Heal na puste pole wyrzuca bad optional access
-// Przed wywołaniem tej metody powinno zostać sprawdzone, czy leczony hero należy do naszej drużyny, czy jest w zasięgu i czy może zostać uleczony
+// Heal na puste pole wyrzuca bad optional access
+//  Przed wywołaniem tej metody powinno zostać sprawdzone, czy leczony hero należy do naszej drużyny, czy jest w zasięgu i czy może zostać uleczony
 bool GameController::healAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField)
 {
+    if (actionField->getHero() == std::nullopt)
+    {
+        return false;
+    }
+
     auto hero = heroField->getHero().value();
     auto actionHero = actionField->getHero().value();
 
@@ -101,13 +108,21 @@ bool GameController::moveAction(std::shared_ptr<Field> heroField, std::shared_pt
     }
 }
 
-//Attack na puste pole wyrzuca bad optional access
+// Attack na puste pole wyrzuca bad optional access
 bool GameController::attackAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField)
 {
+    if (actionField->getHero() == std::nullopt)
+    {
+        return false;
+    }
     auto hero = heroField->getHero().value();
     auto actionHero = actionField->getHero().value();
     if (!actionField->isFree() && hero->getOwner() != actionHero->getOwner() && isFieldInRange(heroField, actionField, hero->getWeapon()->getRange())) // Pytanie czy Hero będzie miał weapon
     {
+        if (hero->getWeapon() == std::nullopt)
+        {
+            return false;
+        }
         actionHero->takeDamage(hero->getWeapon().value().getDamage());
         // actionHero.getWearable().value().takeDurabilityLoss(1); //Jakieś zniszczenie części pancerza
         // hero.getWeapon().value().takeDurabilityLoss(1); //Jakieś zniszczenie broni
