@@ -5,36 +5,33 @@
 #include "../button.hpp"
 #include "../select_button.hpp"
 
-
-class ConfigureHeroesState: public State{
-    private:
-    
+class ConfigureHeroesState : public State
+{
+private:
     sf::Texture backgroundTX;
     sf::RectangleShape backgroundRect;
     sf::Font font;
 
-
     std::map<std::string, std::shared_ptr<Button>> buttons;
-    
-    //std::map<std::string, std::shared_ptr<SelectButton>> heroButtons;
+
+    // std::map<std::string, std::shared_ptr<SelectButton>> heroButtons;
 
     std::map<std::string, std::shared_ptr<sf::Text>> texts;
 
     std::map<std::string, std::shared_ptr<sf::RectangleShape>> shapes;
-    
+
     std::vector<std::shared_ptr<Hero>> firstPlayerHeroes;
     std::vector<std::shared_ptr<Hero>> secondPlayerHeroes;
 
     std::map<std::tuple<HeroType, Player>, std::shared_ptr<Button>> heroButtons;
 
     std::map<std::tuple<int, int>, std::shared_ptr<Button>> boardButtons;
-    
 
     void initHeroes(std::vector<HeroType> firstPlayerHeroes,
                     std::vector<HeroType> secondPlayerHeroes);
 
     std::shared_ptr<Hero> createHero(HeroType heroType);
-    
+
     void initBoard();
     void initTextures();
     void initFonts();
@@ -49,8 +46,6 @@ class ConfigureHeroesState: public State{
 
     std::optional<std::shared_ptr<Hero>> choosenHero;
 
-
-
     void renderBackground();
     void renderShapes();
     void renderTexts();
@@ -58,22 +53,22 @@ class ConfigureHeroesState: public State{
     void renderButtons();
     void renderHeroButtons();
     void renderHeroes();
-    public:
-    ConfigureHeroesState(StatesStack *stackPointer,
-                      sf::RenderWindow *window,
-                      GraphicSettings *settings,
-                      GameController *gameController,
-                      std::vector<HeroType> firstPlayerHeroes,
-                      std::vector<HeroType> secondPlayerHeroes);
-                      
-    virtual ~ConfigureHeroesState();
 
     void updateButtons();
+    void updateBoardButtons();
+    void updateHeroButtons();
+
+public:
+    ConfigureHeroesState(StatesStack *stackPointer,
+                         sf::RenderWindow *window,
+                         GraphicSettings *settings,
+                         GameController *gameController,
+                         std::vector<HeroType> firstPlayerHeroes,
+                         std::vector<HeroType> secondPlayerHeroes);
+
+    virtual ~ConfigureHeroesState();
     void update();
-
-    
     void render();
-
 };
 
 #endif

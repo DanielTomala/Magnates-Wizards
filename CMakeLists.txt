@@ -4,6 +4,7 @@ project(PROI_project)
 set(SRC
     #Game_Logic
     src/game_logic/heroes/hero.cpp
+    src/game_logic/heroes/hero_attributes.cpp
     src/game_logic/weapons/bow.cpp
     src/game_logic/weapons/ground_druid_staff.cpp
     src/game_logic/weapons/ice_druid_staff.cpp
