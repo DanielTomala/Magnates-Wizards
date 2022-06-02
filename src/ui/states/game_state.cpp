@@ -575,8 +575,8 @@ void GameState::render()
 	this->window->draw(this->backgroundRect);
 	this->renderButtons();
 	this->renderHeroes();
-	this->renderActionMenu();
 	this->renderHPBars();
+	this->renderActionMenu();
 }
 
 void GameState::gameOutput()
