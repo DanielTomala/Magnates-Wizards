@@ -36,11 +36,15 @@ public:
     void updateHeroPosition(std::shared_ptr<Hero> hero, std::shared_ptr<Button> newField);
     void updateHPBars();
     void checkIfActionHasToBeDone();
+    bool checkIfGameEnded();
 
     void renderHeroes();
     void renderActionMenu();
     void renderButtons();
     void renderHPBars();
+    void updateTexts();
+    void initShapesAndTexts();
+    void renderShapesAndTexts();
 
     void render();
 
@@ -56,6 +60,9 @@ private:
     std::map<std::string, std::shared_ptr<Button>> buttons;
     std::map<std::tuple<int, int>, std::shared_ptr<Button>> boardButtons;
     std::map<std::shared_ptr<Hero>, std::shared_ptr<HPBar>> HPBars;
+
+    std::map<std::string, std::shared_ptr<sf::Text>> texts;
+    std::map<std::string, std::shared_ptr<sf::RectangleShape>> shapes;
 
     std::optional<std::shared_ptr<ActionMenu>> actionMenu;
     std::optional<std::shared_ptr<Field>> chosenField;

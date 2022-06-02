@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <array>
 #include <sstream>
 #include <stdlib.h> // srand, rand
@@ -21,6 +22,7 @@ GameState::GameState(StatesStack *stackPointer,
 	this->initFonts();
 	this->initGui();
 	this->initBoardButtons();
+	this->initShapesAndTexts();
 	this->actionChosen = false;
 	this->setActionsLeft(ACTIONS_PER_TURN);
 	this->setCurrentPlayer(Player::First);
@@ -358,6 +360,7 @@ void GameState::showActionMenu(std::shared_ptr<Button> button)
 
 void GameState::update()
 {
+	checkIfGameEnded();
 	this->updateMousePosition();
 	if (this->actionMenu != std::nullopt)
 	{
@@ -376,6 +379,7 @@ void GameState::update()
 		this->changeTurn();
 	}
 	updateHPBars();
+	updateTexts();
 }
 
 void GameState::updateButtons()
@@ -500,6 +504,37 @@ void GameState::checkIfActionHasToBeDone()
 	}
 }
 
+bool GameState::checkIfGameEnded()
+{
+	auto fieldsWithHeroes = this->gameController->getBoard()->getFieldsWithHeroes();
+	bool firstPlayerHasHeroes = false;
+	bool secondPlayerHasHeroes = false;
+
+	for (auto field : fieldsWithHeroes)
+	{
+		if (field->getHero().value()->getOwner() == Player::First)
+		{
+			firstPlayerHasHeroes = true;
+		}
+		else
+		{
+			secondPlayerHasHeroes = true;
+		}
+	}
+
+	if (!firstPlayerHasHeroes)
+	{
+		this->texts["WINNER"]->setString("Winner is Player: 2");
+		return true;
+	}
+	else if (!secondPlayerHasHeroes)
+	{
+		this->texts["WINNER"]->setString("Winner is Player: 1");
+		return true;
+	}
+	return false;
+}
+
 void GameState::updateHPBars()
 {
 	for (auto &it : this->HPBars)
@@ -570,9 +605,48 @@ void GameState::renderHPBars()
 	}
 }
 
+void GameState::updateTexts()
+{
+	std::stringstream ss;
+	ss << "Current Player: " << getCurrentPlayer() + 1 << "\nActions left: " << getActionsLeft();
+	this->texts["ACTION_INFO"]->setString(ss.str());
+}
+
+void GameState::initShapesAndTexts()
+{
+	this->texts["ACTION_INFO"] = std::make_shared<sf::Text>("", this->font, (int)(yGrid * 2.3));
+	this->texts["ACTION_INFO"]->setPosition(xGrid * 45, yGrid * 10);
+	this->texts["ACTION_INFO"]->setFillColor(sf::Color::Black);
+	this->texts["ACTION_INFO"]->setStyle(sf::Text::Bold);
+
+	this->texts["WINNER"] = std::make_shared<sf::Text>("", this->font, (int)(yGrid * 2.3));
+	this->texts["WINNER"]->setPosition(xGrid * 45, yGrid * 15);
+	this->texts["WINNER"]->setFillColor(sf::Color::Black);
+	this->texts["WINNER"]->setStyle(sf::Text::Bold);
+
+	this->shapes["TOP"] = std::make_shared<sf::RectangleShape>();
+	this->shapes["TOP"]->setFillColor(sf::Color(214, 154, 58));
+	this->shapes["TOP"]->setSize(sf::Vector2f{xGrid * 10, yGrid * 10});
+	this->shapes["TOP"]->setPosition(xGrid * 45, yGrid * 10);
+}
+
+void GameState::renderShapesAndTexts()
+{
+	for (auto &it : this->shapes)
+	{
+		this->window->draw(*it.second);
+	}
+
+	for (auto &it : this->texts)
+	{
+		this->window->draw(*it.second);
+	}
+}
+
 void GameState::render()
 {
 	this->window->draw(this->backgroundRect);
+	this->renderShapesAndTexts();
 	this->renderButtons();
 	this->renderHeroes();
 	this->renderHPBars();
