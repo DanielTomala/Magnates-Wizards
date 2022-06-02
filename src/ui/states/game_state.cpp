@@ -509,7 +509,6 @@ void GameState::updateHPBars()
 	}
 }
 
-//Dodać usuwanie hero jeśli zginie
 void GameState::renderHeroes()
 {
 	auto board = gameController->getBoard();
@@ -519,7 +518,16 @@ void GameState::renderHeroes()
 		{
 			if (field->getHero() != std::nullopt)
 			{
-				window->draw(field->getHero().value()->sprite);
+				if (field->getHero().value()->isAlive())
+				{
+					window->draw(field->getHero().value()->sprite);
+				}
+				else
+				{
+					HPBars.erase(field->getHero().value());
+					boardButtons.at(board->findFieldCoordinates(field))->setTexture(textures["FIELD"]);
+					field->removeHero();
+				}
 			}
 		}
 	}
