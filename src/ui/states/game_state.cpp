@@ -459,7 +459,6 @@ void GameState::checkIfActionHasToBeDone()
 		this->actionChosen = true;
 		if (this->chosenField != std::nullopt)
 		{
-			// TODO Może funkcje moveAction, attackAction powinny zwracać boola czy zostały wykonane poprawnie
 			bool actionResult = this->gameController->moveAction(this->actionMenu.value()->getField(), this->chosenField.value());
 			if (actionResult)
 			{
@@ -573,7 +572,6 @@ void GameState::renderHPBars()
 
 void GameState::render()
 {
-	// std::cout << this->settings->resolution.width << "  " << this->settings->resolution.height << std::endl;
 	this->window->draw(this->backgroundRect);
 	this->renderButtons();
 	this->renderHeroes();

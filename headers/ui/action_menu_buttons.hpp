@@ -42,6 +42,8 @@ private:
     bool moveClicked;
     bool attackClicked;
     bool healClicked;
+    bool mouseHold;
+    bool pressed;
     bool close;
     bool doNotHide;
     std::shared_ptr<Field> field;
