@@ -6,6 +6,7 @@ Hero::Hero()
 {
     this->maxHealth = 0;
     this->currentHealth = 0;
+    this->personalisation = Balanced;
 }
 
 Hero::Hero(unsigned int maxHealth, unsigned int moveRange)
@@ -37,6 +38,10 @@ unsigned int Hero::getCurrentHealth() const
 unsigned int Hero::getMoveRange() const
 {
     return moveRange;
+}
+
+Personalisation Hero::getPersonalisation() const{
+    return this->personalisation;
 }
 
 std::optional<Weapon> Hero::getWeapon() const

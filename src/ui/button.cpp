@@ -70,6 +70,10 @@ void Button::setId(const unsigned int &id)
     this->id = id;
 }
 
+void Button::setColor(const sf::Color &color){
+    this->normalColor = color;
+}
+
 void Button::setTexture(const sf::Texture &texture)
 {
     this->texture = texture;

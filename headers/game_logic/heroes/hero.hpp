@@ -36,6 +36,7 @@ public:
     unsigned int getMaxHealth() const;
     unsigned int getCurrentHealth() const;
     unsigned int getMoveRange() const;
+    Personalisation getPersonalisation() const;
 
     std::optional<Weapon> getWeapon() const;
     std::optional<Wearable> getWearable() const;

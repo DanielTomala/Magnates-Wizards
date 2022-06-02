@@ -39,6 +39,7 @@ public:
 
     void setTexture(const sf::Texture &texture);
     void setText(const std::string &text);
+    void setColor(const sf::Color &color);
     void setId(const unsigned int &id);
     void update(const sf::Vector2i &mousePosition);
     void render(sf::RenderTarget &window);

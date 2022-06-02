@@ -4,6 +4,7 @@
 #include "game_state.hpp"
 #include "../button.hpp"
 #include "../select_button.hpp"
+#include "../descriptions.hpp"
 
 class ConfigureHeroesState : public State
 {
@@ -12,9 +13,8 @@ private:
     sf::RectangleShape backgroundRect;
     sf::Font font;
 
+    Descriptions descriptions;
     std::map<std::string, std::shared_ptr<Button>> buttons;
-
-    // std::map<std::string, std::shared_ptr<SelectButton>> heroButtons;
 
     std::map<std::string, std::shared_ptr<sf::Text>> texts;
 
@@ -26,6 +26,9 @@ private:
     std::map<std::tuple<HeroType, Player>, std::shared_ptr<Button>> heroButtons;
 
     std::map<std::tuple<int, int>, std::shared_ptr<Button>> boardButtons;
+
+    std::map<Personalisation, std::shared_ptr<Button>> menuButtons;
+
 
     void initHeroes(std::vector<HeroType> firstPlayerHeroes,
                     std::vector<HeroType> secondPlayerHeroes);
@@ -52,11 +55,13 @@ private:
     void renderBoardButtons();
     void renderButtons();
     void renderHeroButtons();
+    void renderMenuButtons();
     void renderHeroes();
 
     void updateButtons();
     void updateBoardButtons();
     void updateHeroButtons();
+    void updateMenuButtons();
 
 public:
     ConfigureHeroesState(StatesStack *stackPointer,

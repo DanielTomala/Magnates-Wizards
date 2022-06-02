@@ -6,6 +6,7 @@
 class Descriptions{
     private:
         std::map<HeroType, std::string> heroesDescriptions;
+        std::map<std::tuple<HeroType, Personalisation>, std::string> personalisationDescriptions;
         std::string manual;
     public:
         Descriptions();
@@ -13,6 +14,7 @@ class Descriptions{
         
         std::string getManual()const;
         std::string getDescription(const HeroType &heroType) const;
+    std::string getPersonalisationDescription(std::tuple<HeroType, Personalisation> data) const;
 };
 
 #endif
