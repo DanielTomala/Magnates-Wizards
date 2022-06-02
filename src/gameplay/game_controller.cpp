@@ -82,7 +82,6 @@ bool GameController::attackAction(std::shared_ptr<Field> heroField, std::shared_
         }
         if (hero->getType() == HeroType::EMage)
         {
-            // Powinien móc zamrozić tylko jednego boahtera
             mageSpecialAttack(hero, heroToAttack);
         }
         else if (hero->getType() == HeroType::EIceDruid)
@@ -110,12 +109,30 @@ bool GameController::attackAction(std::shared_ptr<Field> heroField, std::shared_
                 return false;
             }
         }
-        // else if (hero->getType() == HeroType::ECatapult)
-        // {
-        // }
-        // else if (hero->getType() == HeroType::ETrebuchet)
-        // {
-        // }
+        else if (hero->getType() == HeroType::ECatapult)
+        {
+            if (hero->getLoads() >= SIEGE_LOADS_NUMBER)
+            {
+                heroToAttack->takeDamage(hero->getWeapon().value()->getDamage());
+                hero->setLoads(0);
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else if (hero->getType() == HeroType::ETrebuchet)
+        {
+            if (hero->getLoads() >= SIEGE_LOADS_NUMBER)
+            {
+                heroToAttack->takeDamage(hero->getWeapon().value()->getDamage());
+                hero->setLoads(0);
+            }
+            else
+            {
+                return false;
+            }
+        }
         else
         {
             heroToAttack->takeDamage(hero->getWeapon().value()->getDamage());

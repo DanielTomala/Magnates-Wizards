@@ -106,7 +106,7 @@ void GameState::resetLoads()
 		}
 		else if (type == ECatapult || type == ETrebuchet)
 		{
-			hero.value()->setLoads(SIEGE_LOADS_NUMBER);
+			hero.value()->setLoads(hero.value()->getLoads() + 1);
 		}
 		else if (type == EIceDruid)
 		{
