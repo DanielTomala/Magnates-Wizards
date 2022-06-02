@@ -34,12 +34,14 @@ public:
     unsigned int getMaxHealth() const;
     unsigned int getCurrentHealth() const;
     unsigned int getMoveRange() const;
+    unsigned int getLoads() const;
 
     std::optional<std::shared_ptr<Weapon>> getWeapon() const;
     std::optional<std::shared_ptr<Wearable>> getWearable() const;
 
     void setMaxHealth(unsigned int health);
     void setCurrentHealth(unsigned int health);
+    void setLoads(unsigned int loads);
 
     void addWeapon(std::shared_ptr<Weapon> weapon);
     void addWearable(std::shared_ptr<Wearable> wearable);
@@ -66,6 +68,7 @@ protected:
     unsigned int moveRange;
     unsigned int maxHealth;
     unsigned int currentHealth;
+    unsigned int loads;
     std::optional<std::shared_ptr<Weapon>> weapon;
     std::optional<std::shared_ptr<Wearable>> wearable;
     Player owner;

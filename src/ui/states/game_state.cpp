@@ -53,6 +53,7 @@ void GameState::setActionsLeft(unsigned int actionsLeft)
 	this->actionsLeft = actionsLeft;
 }
 
+// Dodać skip turn
 void GameState::changeTurn()
 {
 	setActionsLeft(ACTIONS_PER_TURN);
@@ -66,6 +67,7 @@ void GameState::changeTurn()
 		setCurrentPlayer(Player::First);
 		unfreezeHeores(Player::Second);
 	}
+	resetLoads();
 }
 
 void GameState::unfreezeHeores(Player player)
@@ -88,6 +90,19 @@ void GameState::updateFrozenHeroes()
 	for (auto frozenHero : gameController->frozenHeroes)
 	{
 		frozenHero->sprite.setColor((sf::Color(17, 182, 244)));
+	}
+}
+
+void GameState::resetLoads()
+{
+	for (auto field : gameController->getBoard()->getFieldsWithHeroes())
+	{
+		auto hero = field->getHero();
+		HeroType type = hero.value()->getType();
+		if (type == ENinja || type == ECatapult || type == ETrebuchet)
+		{
+			hero.value()->setLoads(LOADS_NUMBER);
+		}
 	}
 }
 
@@ -277,12 +292,6 @@ void GameState::showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY)
 		hero->sprite.setTexture(textures["KNIGHT"]);
 		break;
 	}
-	// hero->sprite.setScale(1.f, 1.f);
-	//  if (hero->getOwner() == Player::Second)
-	//  {
-	//  	hero->sprite.setScale(-0.9, 0.9);
-	//  	hero->sprite.move(90, 0);
-	//  }
 	auto textureSize = hero->sprite.getTexture()->getSize().x;
 	if (hero->getOwner() == Player::First)
 	{
@@ -297,6 +306,13 @@ void GameState::showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY)
 	window->draw(hero->sprite);
 	std::shared_ptr<HPBar> hPBar = std::make_shared<HPBar>(buttonX, buttonY + 90, 100, 10, std::make_shared<sf::Font>(this->font), hero->getMaxHealth());
 	this->HPBars[hero] = hPBar;
+
+	HeroType type = hero->getType();
+	if (type == ENinja || type == ECatapult || type == ETrebuchet)
+	{
+		Loads heroLoads(buttonX, buttonY + 50, xGrid * 0.25, sf::Color(210, 3, 6));
+		loads[hero] = std::make_shared<Loads>(heroLoads);
+	}
 }
 
 void GameState::showActionMenu(std::shared_ptr<Button> button)
@@ -421,6 +437,8 @@ void GameState::updateHeroPosition(std::shared_ptr<Hero> hero, std::shared_ptr<B
 	actionMenu.value()->getParentButton()->setTexture(textures["FIELD"]);
 	sf::Vector2f newHPBarPos = sf::Vector2f(newButton->getRect().getPosition().x, newButton->getRect().getPosition().y + 90);
 	HPBars[hero]->changePosition(newHPBarPos);
+
+	loads[hero]->changePosition(newButton->getRect().getPosition().x, newButton->getRect().getPosition().y + 50);
 }
 
 void GameState::checkIfActionHasToBeDone()
@@ -531,6 +549,14 @@ void GameState::updateHPBars()
 	}
 }
 
+void GameState::updateLoads()
+{
+	for (auto &it : this->loads)
+	{
+		it.second->update(it.first->getLoads());
+	}
+}
+
 void GameState::renderHeroes()
 {
 	auto board = gameController->getBoard();
@@ -593,6 +619,14 @@ void GameState::renderHPBars()
 	}
 }
 
+void GameState::renderLoads()
+{
+	for (auto &it : this->loads)
+	{
+		it.second->render(*this->window);
+	}
+}
+
 void GameState::updateTexts()
 {
 	std::stringstream ss;
@@ -638,6 +672,7 @@ void GameState::render()
 	this->renderButtons();
 	this->renderHeroes();
 	this->renderHPBars();
+	this->renderLoads();
 	this->renderActionMenu();
 }
 

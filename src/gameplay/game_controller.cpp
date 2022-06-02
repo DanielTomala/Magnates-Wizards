@@ -82,6 +82,7 @@ bool GameController::attackAction(std::shared_ptr<Field> heroField, std::shared_
         }
         if (hero->getType() == HeroType::EMage)
         {
+            //Powinien móc zamrozić tylko jednego boahtera
             mageSpecialAttack(hero, heroToAttack);
         }
         else if (hero->getType() == HeroType::EIceDruid)

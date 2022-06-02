@@ -8,6 +8,7 @@
 #include "../../ui/action_menu_buttons.hpp"
 #include "../../ui/button.hpp"
 #include "../../ui/HPbar.hpp"
+#include "../../ui/loads.hpp"
 
 class GameState : public State
 {
@@ -26,6 +27,7 @@ public:
     void changeTurn();
     void unfreezeHeores(Player player);
     void updateFrozenHeroes();
+    void resetLoads();
 
     void update();
     void updateSprites();
@@ -33,6 +35,7 @@ public:
     void updateActionMenu();
     void updateHeroPosition(std::shared_ptr<Hero> hero, std::shared_ptr<Button> newField);
     void updateHPBars();
+    void updateLoads();
     void checkIfActionHasToBeDone();
     bool checkIfGameEnded();
 
@@ -40,6 +43,7 @@ public:
     void renderActionMenu();
     void renderButtons();
     void renderHPBars();
+    void renderLoads();
     void updateTexts();
     void initShapesAndTexts();
     void renderShapesAndTexts();
@@ -58,6 +62,7 @@ private:
     std::map<std::string, std::shared_ptr<Button>> buttons;
     std::map<std::tuple<int, int>, std::shared_ptr<Button>> boardButtons;
     std::map<std::shared_ptr<Hero>, std::shared_ptr<HPBar>> HPBars;
+    std::map<std::shared_ptr<Hero>, std::shared_ptr<Loads>> loads;
 
     std::map<std::string, std::shared_ptr<sf::Text>> texts;
     std::map<std::string, std::shared_ptr<sf::RectangleShape>> shapes;

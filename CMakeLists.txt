@@ -28,6 +28,7 @@ set(SRC
     src/ui/states/state.cpp
     src/ui/button.cpp
     src/ui/HPbar.cpp
+    src/ui/loads.cpp
     src/ui/select_button.cpp
     src/ui/descriptions.cpp
     src/ui/graphic_settings.cpp

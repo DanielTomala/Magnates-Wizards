@@ -9,6 +9,7 @@ Hero::Hero()
 {
     this->maxHealth = 0;
     this->currentHealth = 0;
+    this->loads = 0;
 }
 
 Hero::Hero(unsigned int maxHealth, unsigned int moveRange)
@@ -16,6 +17,7 @@ Hero::Hero(unsigned int maxHealth, unsigned int moveRange)
     this->maxHealth = maxHealth;
     this->currentHealth = maxHealth;
     this->moveRange = moveRange;
+    this->loads = 0;
 }
 
 Hero::Hero(unsigned int maxHealth, unsigned int moveRange, std::shared_ptr<Weapon> weapon, std::shared_ptr<Wearable> wearable)
@@ -23,6 +25,7 @@ Hero::Hero(unsigned int maxHealth, unsigned int moveRange, std::shared_ptr<Weapo
     this->maxHealth = maxHealth;
     this->currentHealth = maxHealth;
     this->moveRange = moveRange;
+    this->loads = 0;
     this->weapon = std::make_optional<std::shared_ptr<Weapon>>(weapon);
     this->wearable = std::make_optional<std::shared_ptr<Wearable>>(wearable);
 }
@@ -40,6 +43,11 @@ unsigned int Hero::getCurrentHealth() const
 unsigned int Hero::getMoveRange() const
 {
     return moveRange;
+}
+
+unsigned int Hero::getLoads() const
+{
+    return loads;
 }
 
 std::optional<std::shared_ptr<Weapon>> Hero::getWeapon() const
@@ -64,6 +72,11 @@ void Hero::setMaxHealth(unsigned int health)
 void Hero::setCurrentHealth(unsigned int health)
 {
     this->currentHealth = health;
+}
+
+void Hero::setLoads(unsigned int loads)
+{
+    this->loads = loads;
 }
 
 void Hero::addWeapon(std::shared_ptr<Weapon> weapon)
