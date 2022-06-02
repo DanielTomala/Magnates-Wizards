@@ -18,16 +18,14 @@ public:
               GameController *gameController);
     virtual ~GameState();
 
-    // Test
-    void addTestValuesToBoard();
-    // End test
-
     Player getCurrentPlayer();
     unsigned int getActionsLeft();
     void setCurrentPlayer(Player player);
     void setActionsLeft(unsigned int actionsLeft);
 
     void changeTurn();
+    void unfreezeHeores(Player player);
+    void updateFrozenHeroes();
 
     void update();
     void updateSprites();

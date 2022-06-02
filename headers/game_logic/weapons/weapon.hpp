@@ -33,6 +33,7 @@ public:
 
     virtual WeaponType getType() const;
     virtual unsigned int getSecondaryDamage() const; //For Mage Wand
+    virtual unsigned int getMedicalHealth() const; //For Medical Box
 
 protected:
     unsigned int damage;

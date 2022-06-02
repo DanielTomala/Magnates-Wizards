@@ -10,7 +10,7 @@ protected:
 
 public:
     ~MedicalBox(){};
-    unsigned int getMedicalHealth() const;
+    unsigned int getMedicalHealth() const override;
     void setMedicalHealth(unsigned int medical_health);
     void subtractMedicalHealth(unsigned int points_of_health);
     WeaponType getType() const override;

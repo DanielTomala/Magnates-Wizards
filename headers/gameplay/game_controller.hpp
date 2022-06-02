@@ -14,12 +14,13 @@ public:
     void resetController();
 
     std::shared_ptr<Board> getBoard();
+    std::vector<std::shared_ptr<Hero>> frozenHeroes;
 
     bool healAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);
     bool moveAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);
     bool attackAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);
     void mageSpecialAttack(std::shared_ptr<Hero> hero, std::shared_ptr<Hero> heroToAttack);
-    void useAbilityAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord);
+    void iceDruidSpecialAttack(std::shared_ptr<Hero> hero, std::shared_ptr<Hero> heroToAttack);
 
     bool isFieldInRange(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField, unsigned int range);
 

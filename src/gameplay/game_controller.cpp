@@ -23,6 +23,7 @@ std::shared_ptr<Board> GameController::getBoard()
     return this->board;
 }
 
+//Jeżeli hero ma 100% życia nie powinno się go dać uleczyć
 bool GameController::healAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField)
 {
     if (actionField->getHero() == std::nullopt)
@@ -39,12 +40,10 @@ bool GameController::healAction(std::shared_ptr<Field> heroField, std::shared_pt
     }
     if (hero->getOwner() == actionHero->getOwner() && isFieldInRange(heroField, actionField, hero->getWeapon().value()->getRange()))
     {
-        // unsigned int healPoints = hero.getHealPoints(); // Some medic's method, which return heal points
-        unsigned int healPoints = 10;
+        unsigned int healPoints = hero->getWeapon().value()->getMedicalHealth();
         actionHero->heal(healPoints);
         std::cout << "Healed hero" << std::endl;
 
-        // Może dodatkowo, będzie należało odjąć jakieś punkty many medykowi
         return true;
     }
     return false;
@@ -67,8 +66,6 @@ bool GameController::moveAction(std::shared_ptr<Field> heroField, std::shared_pt
     }
 }
 
-// Problem z atakiem przez catapult i trebuchet
-// Attack na puste pole wyrzuca bad optional access
 bool GameController::attackAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField)
 {
     if (actionField->getHero() == std::nullopt)
@@ -85,15 +82,26 @@ bool GameController::attackAction(std::shared_ptr<Field> heroField, std::shared_
         }
         if (hero->getType() == HeroType::EMage)
         {
-            std::cout << "Hero Type " << hero->getType() << std::endl;
             mageSpecialAttack(hero, heroToAttack);
         }
+        else if (hero->getType() == HeroType::EIceDruid)
+        {
+            iceDruidSpecialAttack(hero, heroToAttack);
+        }
+        // else if (hero->getType() == HeroType::ENinja)
+        // {
+        // }
+        // else if (hero->getType() == HeroType::ECatapult)
+        // {
+        // }
+        // else if (hero->getType() == HeroType::ETrebuchet)
+        // {
+        // }
         else
         {
             heroToAttack->takeDamage(hero->getWeapon().value()->getDamage());
         }
-        // actionHero.getWearable().value().takeDurabilityLoss(1); //Jakieś zniszczenie części pancerza
-        // hero.getWeapon().value().takeDurabilityLoss(1); //Jakieś zniszczenie broni
+
         std::cout << "Damage given" << std::endl;
         return true;
     }
@@ -113,18 +121,11 @@ void GameController::mageSpecialAttack(std::shared_ptr<Hero> hero, std::shared_p
     }
 }
 
-// void GameController::useAbilityAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord)
-// {
-//     auto board = this->getBoard();
-//     auto heroField = board->getFieldByCoordinate(std::get<0>(heroFieldCoord), std::get<1>(heroFieldCoord));
-//     auto actionField = board->getFieldByCoordinate(std::get<0>(actionFieldCoord), std::get<1>(actionFieldCoord));
-//     auto hero = heroField->getHero().value();         // Skoro trafiliśmy do tej metody to już raczej nie jest wymagane sprawdzenie czy hero nie jest nullopt
-//     auto actionHero = actionField->getHero().value(); // Hero jest w zasięgu
-
-//     // Wykonanie akcji specjalnej
-
-//     // actionsLeft--;
-// }
+void GameController::iceDruidSpecialAttack(std::shared_ptr<Hero> hero, std::shared_ptr<Hero> heroToAttack)
+{
+    heroToAttack->takeDamage(hero->getWeapon().value()->getDamage());
+    frozenHeroes.push_back(heroToAttack);
+}
 
 bool GameController::isFieldInRange(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField, unsigned int range)
 {

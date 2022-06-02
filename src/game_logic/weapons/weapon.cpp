@@ -61,6 +61,11 @@ unsigned int Weapon::getSecondaryDamage() const
     return 0;
 }
 
+unsigned int Weapon::getMedicalHealth() const
+{
+    return 0;
+}
+
 WeaponType Weapon::getType() const
 {
     return WeaponType::EWeapon;

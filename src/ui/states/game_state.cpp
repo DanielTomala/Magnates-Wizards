@@ -7,6 +7,7 @@
 #include <sstream>
 #include <stdlib.h> // srand, rand
 #include <time.h>	//time
+#include <vector>
 #include "../../../headers/consts.hpp"
 #include "../../../headers/ui/action_menu_buttons.hpp"
 #include "../../../headers/ui/HPbar.hpp"
@@ -31,54 +32,6 @@ GameState::GameState(StatesStack *stackPointer,
 GameState::~GameState()
 {
 }
-
-// void GameState::addTestValuesToBoard()
-// {
-// 	auto weapon = Weapon(5, 50, 3);
-
-// 	auto board = this->gameController->getBoard();
-// 	auto field1 = board->getFieldByCoordinate(0, 2);
-// 	auto hero1 = std::make_shared<Knight>(30, 2);
-// 	hero1->setOwner(Player::First);
-// 	hero1->addWeapon(weapon);
-// 	field1->addHero(hero1);
-// 	auto field2 = board->getFieldByCoordinate(4, 0);
-// 	auto hero2 = std::make_shared<Catapult>(100);
-// 	hero2->setOwner(Player::First);
-// 	hero2->addWeapon(weapon);
-// 	field2->addHero(hero2);
-// 	auto field3 = board->getFieldByCoordinate(5, 1);
-// 	auto hero3 = std::make_shared<Medic>(50, 3);
-// 	hero3->setOwner(Player::First);
-// 	hero3->addWeapon(weapon);
-// 	field3->addHero(hero3);
-// 	auto field4 = board->getFieldByCoordinate(3, 4);
-// 	auto hero4 = std::make_shared<Mage>(70, 1);
-// 	hero4->setOwner(Player::First);
-// 	hero4->addWeapon(weapon);
-// 	field4->addHero(hero4);
-
-// 	auto field5 = board->getFieldByCoordinate(3, 7);
-// 	auto hero5 = std::make_shared<Archer>(25, 2);
-// 	hero5->setOwner(Player::Second);
-// 	hero5->addWeapon(weapon);
-// 	field5->addHero(hero5);
-// 	auto field6 = board->getFieldByCoordinate(0, 9);
-// 	auto hero6 = std::make_shared<Trebuchet>(90);
-// 	hero6->setOwner(Player::Second);
-// 	hero6->addWeapon(weapon);
-// 	field6->addHero(hero6);
-// 	auto field7 = board->getFieldByCoordinate(2, 6);
-// 	auto hero7 = std::make_shared<Ninja>(20, 3);
-// 	hero7->setOwner(Player::Second);
-// 	hero7->addWeapon(weapon);
-// 	field7->addHero(hero7);
-// 	auto field8 = board->getFieldByCoordinate(5, 8);
-// 	auto hero8 = std::make_shared<IceDruid>(75, 1);
-// 	hero8->setOwner(Player::Second);
-// 	hero8->addWeapon(weapon);
-// 	field8->addHero(hero8);
-// }
 
 Player GameState::getCurrentPlayer()
 {
@@ -106,10 +59,35 @@ void GameState::changeTurn()
 	if (getCurrentPlayer() == Player::First)
 	{
 		setCurrentPlayer(Player::Second);
+		unfreezeHeores(Player::First);
 	}
 	else
 	{
 		setCurrentPlayer(Player::First);
+		unfreezeHeores(Player::Second);
+	}
+}
+
+void GameState::unfreezeHeores(Player player)
+{
+	auto frozenHeroes = gameController->frozenHeroes;
+	gameController->frozenHeroes.erase(
+		std::remove_if(
+			gameController->frozenHeroes.begin(),
+			gameController->frozenHeroes.end(),
+			[player](std::shared_ptr<Hero> const &h)
+			{
+				h->sprite.setColor(sf::Color(255, 255, 255));
+				return h->getOwner() == player;
+			}),
+		gameController->frozenHeroes.end());
+}
+
+void GameState::updateFrozenHeroes()
+{
+	for (auto frozenHero : gameController->frozenHeroes)
+	{
+		frozenHero->sprite.setColor((sf::Color(17, 182, 244)));
 	}
 }
 
@@ -325,7 +303,16 @@ void GameState::showActionMenu(std::shared_ptr<Button> button)
 {
 	int buttonId = button->getId();
 	auto field = gameController->getBoard()->getFieldByCoordinate(buttonId / BOARD_COLUMNS, buttonId % BOARD_COLUMNS);
-	if (field->getHero() != std::nullopt && field->getHero().value()->getOwner() == this->getCurrentPlayer())
+	bool isHeroFrozen = false;
+	for (auto frozenHero : gameController->frozenHeroes)
+	{
+		if (field->getHero() != std::nullopt && field->getHero().value() == frozenHero)
+		{
+			isHeroFrozen = true;
+			break;
+		}
+	}
+	if (field->getHero() != std::nullopt && field->getHero().value()->getOwner() == this->getCurrentPlayer() && !isHeroFrozen)
 	{
 		sf::Texture *actionMenuTX;
 		sf::Vector2f actionMenuSize;
@@ -378,6 +365,7 @@ void GameState::update()
 	{
 		this->changeTurn();
 	}
+	updateFrozenHeroes();
 	updateHPBars();
 	updateTexts();
 }
@@ -450,7 +438,7 @@ void GameState::checkIfActionHasToBeDone()
 				this->chosenField = std::nullopt;
 				this->chosenButton = std::nullopt;
 				this->actionChosen = false;
-				gameOutput();
+				// gameOutput();
 			}
 			else
 			{
@@ -473,7 +461,7 @@ void GameState::checkIfActionHasToBeDone()
 				this->chosenField = std::nullopt;
 				this->chosenButton = std::nullopt;
 				this->actionChosen = false;
-				gameOutput();
+				// gameOutput();
 			}
 			else
 			{
@@ -494,7 +482,7 @@ void GameState::checkIfActionHasToBeDone()
 				this->chosenField = std::nullopt;
 				this->chosenButton = std::nullopt;
 				this->actionChosen = false;
-				gameOutput();
+				// gameOutput();
 			}
 			else
 			{
