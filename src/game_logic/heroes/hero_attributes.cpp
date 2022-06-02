@@ -25,9 +25,9 @@ const HeroAttributes heroAttributes{
     {std::make_tuple(EIceDruid, Balanced), {150, 2, 25, 1, 2}},
     {std::make_tuple(EIceDruid, Range), {150, 2, 20, 1, 3}},
 
-    {std::make_tuple(ETrebuchet, Damage), {100, 0, 50, 1, 4}},
-    {std::make_tuple(ETrebuchet, Balanced), {100, 0, 45, 1, 5}},
-    {std::make_tuple(ETrebuchet, Range), {100, 0, 40, 1, 6}},
+    {std::make_tuple(ETrebuchet, Damage), {100, 0, 30, 1, 4}},
+    {std::make_tuple(ETrebuchet, Balanced), {100, 0, 25, 1, 5}},
+    {std::make_tuple(ETrebuchet, Range), {100, 0, 20, 1, 6}},
 
     {std::make_tuple(ECatapult, Damage), {100, 0, 70, 1, 4}},
     {std::make_tuple(ECatapult, Balanced), {100, 0, 60, 1, 5}},

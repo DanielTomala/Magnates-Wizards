@@ -68,6 +68,7 @@ void GameState::changeTurn()
 		setCurrentPlayer(Player::First);
 		unfreezeHeores(Player::Second);
 	}
+	continueTrebuchetAttack();
 	resetLoads();
 }
 
@@ -92,6 +93,52 @@ void GameState::updateFrozenHeroes()
 	{
 		frozenHero->sprite.setColor((sf::Color(17, 182, 244)));
 	}
+}
+
+void GameState::continueTrebuchetAttack()
+{
+	for (auto data : gameController->trebuchetAttack)
+	{
+		if (data.second[0] > 0)
+		{
+			gameController->trebuchetSpecialAttack(data.first, data.second[1]);
+			data.second[0] = data.second[0] - 1;
+		}
+		else
+		{
+			gameController->trebuchetAttack.erase(data.first);
+		}
+	}
+
+	// for (auto data : gameController->trebuchetAttack)
+	// {
+	// 	if (std::get<1>(data.second) > 0)
+	// 	{
+	// 		gameController->trebuchetSpecialAttack(std::get<0>(data.second), data.first);
+	// 		gameController->trebuchetAttack.erase(data.first);
+	// 		gameController->trebuchetAttack[data.first] = std::make_tuple(std::get<0>(data.second), std::get<1>(data.second) - 1);
+	// 	}
+	// 	else
+	// 	{
+	// 		gameController->trebuchetAttack.erase(data.first);
+	// 	}
+	// }
+	// for (std::map<std::shared_ptr<Field>, std::array<int, 2UL>>::const_iterator * it = gameController->trebuchetAttack.cbegin(); it != gameController->trebuchetAttack.cend();)
+	// {
+	// 	if ((*it)->second[0] > 0)
+	// 	{
+	// 		gameController->trebuchetSpecialAttack(it->first, it->second[1]);
+	// 		(*it)->second.swap(0) = 1;
+	// 	}
+	// 	else if ((*it)->second[0] <= 0)
+	// 	{
+	// 		it = gameController->trebuchetAttack.erase(it);
+	// 	}
+	// 	else
+	// 	{
+	// 		++it;
+	// 	}
+	// }
 }
 
 void GameState::resetLoads()

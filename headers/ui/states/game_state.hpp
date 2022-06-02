@@ -28,6 +28,7 @@ public:
     void unfreezeHeores(Player player);
     void updateFrozenHeroes();
     void resetLoads();
+    void continueTrebuchetAttack();
 
     void update();
     void updateSprites();

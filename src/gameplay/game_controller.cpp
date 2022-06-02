@@ -125,7 +125,9 @@ bool GameController::attackAction(std::shared_ptr<Field> heroField, std::shared_
         {
             if (hero->getLoads() >= SIEGE_LOADS_NUMBER)
             {
-                heroToAttack->takeDamage(hero->getWeapon().value()->getDamage());
+                int damage = heroField->getHero().value()->getWeapon().value()->getDamage();
+                trebuchetSpecialAttack(actionField, damage);
+                this->trebuchetAttack[actionField] = std::array<int, 2>{{TREBUCHET_ATTACK_TURNS, damage}};
                 hero->setLoads(0);
             }
             else
@@ -161,6 +163,23 @@ void GameController::iceDruidSpecialAttack(std::shared_ptr<Hero> hero, std::shar
 {
     heroToAttack->takeDamage(hero->getWeapon().value()->getDamage());
     frozenHeroes.push_back(heroToAttack);
+}
+
+void GameController::trebuchetSpecialAttack(std::shared_ptr<Field> actionField, unsigned int damage)
+{
+    auto opponentsHeroesFields = board->getFieldsAround(actionField);
+    for (auto field : opponentsHeroesFields)
+    {
+        if (field->getHero() != std::nullopt)
+        {
+            // Friendly Fire ON
+            //  if (field->getHero().value()->getOwner() == actionField->getHero().value()->getOwner())
+            //  {
+            field->getHero().value()->takeDamage(damage);
+            // }
+        }
+    }
+    actionField->getHero().value()->takeDamage(damage);
 }
 
 bool GameController::isFieldInRange(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField, unsigned int range)

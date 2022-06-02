@@ -118,9 +118,6 @@ public:
     virtual ~IceDruid(){};
     HeroType getType() const override;
     void setAttributes() override;
-    // zamraza Hero na cala nastepna runde, dodatkowo zadaje dmg
-
-    // wektor zamrozonych, sprzwdzamy podczas akcji czy postać w wektorze
 };
 
 class Medic : public Hero
@@ -143,9 +140,6 @@ public:
     virtual ~Ninja(){};
     HeroType getType() const override;
     void setAttributes() override;
-
-private:
-    // moze co 2 pola sie ruszac, może zaatakować dwa cele
 };
 
 class Catapult : public Hero
@@ -156,11 +150,6 @@ public:
     virtual ~Catapult(){};
     HeroType getType() const override;
     void setAttributes() override;
-
-private:
-    unsigned int reloadTurnsLeft; //
-    // duzy range
-    // nie zmienia połozenia, musi sie ladowac, moze strzelac co x tur, zadaje duże obrażenia jednorazowo na danym polu
 };
 
 class Trebuchet : public Hero
@@ -171,10 +160,6 @@ public:
     virtual ~Trebuchet(){};
     HeroType getType() const override;
     void setAttributes() override;
-
-private:
-    unsigned int reloadTurnsLeft; //
-
     // zadaje dmg na kwadracie dookoła atakowanego zawodnika
     // Zadaje niewielkie obrażenia na pewnym obszarze, stoi w jednym miejscu,
 };

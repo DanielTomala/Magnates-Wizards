@@ -15,12 +15,14 @@ public:
 
     std::shared_ptr<Board> getBoard();
     std::vector<std::shared_ptr<Hero>> frozenHeroes;
+    std::map<std::shared_ptr<Field>, std::array<int, 2>> trebuchetAttack;
 
     bool healAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);
     bool moveAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);
     bool attackAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);
     void mageSpecialAttack(std::shared_ptr<Hero> hero, std::shared_ptr<Hero> heroToAttack);
     void iceDruidSpecialAttack(std::shared_ptr<Hero> hero, std::shared_ptr<Hero> heroToAttack);
+    void trebuchetSpecialAttack(std::shared_ptr<Field> actionField, unsigned int damage);
 
     bool isFieldInRange(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField, unsigned int range);
 
