@@ -27,6 +27,7 @@ GameState::GameState(StatesStack *stackPointer,
 	this->actionChosen = false;
 	this->setActionsLeft(ACTIONS_PER_TURN);
 	this->setCurrentPlayer(Player::First);
+	this->resetLoads();
 }
 
 GameState::~GameState()
@@ -99,9 +100,17 @@ void GameState::resetLoads()
 	{
 		auto hero = field->getHero();
 		HeroType type = hero.value()->getType();
-		if (type == ENinja || type == ECatapult || type == ETrebuchet)
+		if (type == ENinja)
 		{
-			hero.value()->setLoads(LOADS_NUMBER);
+			hero.value()->setLoads(NINJA_LOADS_NUMBER);
+		}
+		else if (type == ECatapult || type == ETrebuchet)
+		{
+			hero.value()->setLoads(SIEGE_LOADS_NUMBER);
+		}
+		else if (type == EIceDruid)
+		{
+			hero.value()->setLoads(ICE_DRUID_LOADS_NUMBER);
 		}
 	}
 }
@@ -308,7 +317,7 @@ void GameState::showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY)
 	this->HPBars[hero] = hPBar;
 
 	HeroType type = hero->getType();
-	if (type == ENinja || type == ECatapult || type == ETrebuchet)
+	if (type == ENinja || type == ECatapult || type == ETrebuchet || type == EIceDruid)
 	{
 		Loads heroLoads(buttonX, buttonY + 50, xGrid * 0.25, sf::Color(210, 3, 6));
 		loads[hero] = std::make_shared<Loads>(heroLoads);
@@ -383,6 +392,7 @@ void GameState::update()
 	}
 	updateFrozenHeroes();
 	updateHPBars();
+	updateLoads();
 	updateTexts();
 }
 
@@ -438,7 +448,11 @@ void GameState::updateHeroPosition(std::shared_ptr<Hero> hero, std::shared_ptr<B
 	sf::Vector2f newHPBarPos = sf::Vector2f(newButton->getRect().getPosition().x, newButton->getRect().getPosition().y + 90);
 	HPBars[hero]->changePosition(newHPBarPos);
 
-	loads[hero]->changePosition(newButton->getRect().getPosition().x, newButton->getRect().getPosition().y + 50);
+	HeroType type = hero->getType();
+	if (type == ENinja || type == ECatapult || type == ETrebuchet || type == EIceDruid)
+	{
+		loads[hero]->changePosition(newButton->getRect().getPosition().x, newButton->getRect().getPosition().y + 50);
+	}
 }
 
 void GameState::checkIfActionHasToBeDone()
@@ -451,7 +465,11 @@ void GameState::checkIfActionHasToBeDone()
 			bool actionResult = this->gameController->attackAction(this->actionMenu.value()->getField(), this->chosenField.value());
 			if (actionResult)
 			{
-				this->setActionsLeft(this->getActionsLeft() - 1);
+				auto hero = this->actionMenu.value()->getField()->getHero().value();
+				if (hero->getType() != ENinja || hero->getLoads() == 0)
+				{
+					this->setActionsLeft(this->getActionsLeft() - 1);
+				}
 				this->actionMenu = std::nullopt;
 				this->chosenField = std::nullopt;
 				this->chosenButton = std::nullopt;
@@ -573,6 +591,7 @@ void GameState::renderHeroes()
 				else
 				{
 					HPBars.erase(field->getHero().value());
+					loads.erase(field->getHero().value());
 					boardButtons.at(board->findFieldCoordinates(field))->setTexture(textures["FIELD"]);
 					field->removeHero();
 				}

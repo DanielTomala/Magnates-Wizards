@@ -23,7 +23,7 @@ std::shared_ptr<Board> GameController::getBoard()
     return this->board;
 }
 
-//Jeżeli hero ma 100% życia nie powinno się go dać uleczyć
+// Jeżeli hero ma 100% życia nie powinno się go dać uleczyć
 bool GameController::healAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField)
 {
     if (actionField->getHero() == std::nullopt)
@@ -82,16 +82,34 @@ bool GameController::attackAction(std::shared_ptr<Field> heroField, std::shared_
         }
         if (hero->getType() == HeroType::EMage)
         {
-            //Powinien móc zamrozić tylko jednego boahtera
+            // Powinien móc zamrozić tylko jednego boahtera
             mageSpecialAttack(hero, heroToAttack);
         }
         else if (hero->getType() == HeroType::EIceDruid)
         {
-            iceDruidSpecialAttack(hero, heroToAttack);
+            if (hero->getLoads() > 0)
+            {
+
+                iceDruidSpecialAttack(hero, heroToAttack);
+                hero->setLoads(hero->getLoads() - 1);
+            }
+            else
+            {
+                return false;
+            }
         }
-        // else if (hero->getType() == HeroType::ENinja)
-        // {
-        // }
+        else if (hero->getType() == HeroType::ENinja)
+        {
+            if (hero->getLoads() > 0)
+            {
+                heroToAttack->takeDamage(hero->getWeapon().value()->getDamage());
+                hero->setLoads(hero->getLoads() - 1);
+            }
+            else
+            {
+                return false;
+            }
+        }
         // else if (hero->getType() == HeroType::ECatapult)
         // {
         // }

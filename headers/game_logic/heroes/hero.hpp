@@ -145,8 +145,6 @@ public:
     void setAttributes() override;
 
 private:
-    unsigned int attacksLeft; // zmniejsza sie po ataku, jak == 0 nie moze atakowac
-
     // moze co 2 pola sie ruszac, może zaatakować dwa cele
 };
 
