@@ -6,7 +6,7 @@
 class Sword : public Weapon
 {
 protected:
-    unsigned int range = 1;
+    unsigned int range;
 };
 
 #endif
