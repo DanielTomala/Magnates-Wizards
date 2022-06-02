@@ -210,15 +210,13 @@ void GameState::initGui()
 
 	this->backgroundRect.setTexture(&this->backgroundTX);
 
-	// float buttonWidth = 200, buttonHeight = 100;
-	// float topLeft_x = (vm.width - buttonWidth) / 2;
-	// float topLeft_y = 200;
-
-	// topLeft_y += 2*buttonHeight;
-
 	this->buttons["EXIT"] = std::make_shared<Button>(
 		vm.width - 100.f, 0.f, 100.f, 50.f, std::make_shared<sf::Font>(this->font), "EXIT", 30,
 		textures["EXIT_BUTTON"], sf::Color::Yellow, sf::Color::Magenta, sf::Color::Blue, 1);
+
+	this->buttons["SKIP"] = std::make_shared<Button>(
+		xGrid * 30, yGrid * 12.5, xGrid * 7.5, yGrid * 7.5, std::make_shared<sf::Font>(this->font), "SKIP TURN", 30,
+		textures["EXIT_BUTTON"], sf::Color(214, 154, 58), sf::Color(233, 150, 123), sf::Color(200, 30, 19), 2);
 }
 
 void GameState::resetGui()
@@ -424,6 +422,10 @@ void GameState::updateButtons()
 	{
 		this->gameController->resetController();
 		this->endState();
+	}
+	if (this->buttons["SKIP"]->isClicked())
+	{
+		this->changeTurn();
 	}
 }
 
