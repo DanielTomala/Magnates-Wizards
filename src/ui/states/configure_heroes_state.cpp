@@ -43,7 +43,7 @@ std::shared_ptr<Hero> ConfigureHeroesState::createHero(HeroType heroType)
 	case EKnight:
 		return std::make_shared<Knight>();
 		break;
-	case EWizard:
+	case EMage:
 		return std::make_shared<Mage>();
 		break;
 	case EMedic:
@@ -233,7 +233,7 @@ void ConfigureHeroesState::showHero(std::shared_ptr<Hero> hero, int buttonX, int
 	case HeroType::EArcher:
 		hero->sprite.setTexture(textures["ARCHER"]);
 		break;
-	case HeroType::EWizard:
+	case HeroType::EMage:
 		hero->sprite.setTexture(textures["WIZARD"]);
 		break;
 	case HeroType::EIceDruid:
@@ -417,7 +417,7 @@ std::string ConfigureHeroesState::heroTypeToString(HeroType herotype)
 {
 	switch (herotype)
 	{
-	case EWizard:
+	case EMage:
 		return "WIZARD";
 	case EKnight:
 		return "KNIGHT";

@@ -1,6 +1,18 @@
 #ifndef WEAPON_HPP
 #define WEAPON_HPP
 
+enum WeaponType
+{
+    EWeapon,
+    EBow,
+    ESword,
+    EMagicWand,
+    EIceDruidStaff,
+    EStone,
+    EMedicalBox,
+    EShuriken
+};
+
 class Weapon
 {
 public:
@@ -18,6 +30,9 @@ public:
 
     void takeDurabilityLoss(unsigned int durabilityPoints);
     bool isNotCrashed() const;
+
+    virtual WeaponType getType() const;
+    virtual unsigned int getSecondaryDamage() const; //For Mage Wand
 
 protected:
     unsigned int damage;

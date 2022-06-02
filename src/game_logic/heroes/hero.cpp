@@ -1,5 +1,8 @@
 #include "../../../headers/game_logic/heroes/hero.hpp"
 
+#include <iostream>
+#include <memory>
+
 Hero::~Hero() {}
 
 Hero::Hero()
@@ -15,13 +18,13 @@ Hero::Hero(unsigned int maxHealth, unsigned int moveRange)
     this->moveRange = moveRange;
 }
 
-Hero::Hero(unsigned int maxHealth, unsigned int moveRange, Weapon weapon, Wearable wearable)
+Hero::Hero(unsigned int maxHealth, unsigned int moveRange, std::shared_ptr<Weapon> weapon, std::shared_ptr<Wearable> wearable)
 {
     this->maxHealth = maxHealth;
     this->currentHealth = maxHealth;
     this->moveRange = moveRange;
-    this->weapon = std::make_optional<Weapon>(weapon);
-    this->wearable = std::make_optional<Wearable>(wearable);
+    this->weapon = std::make_optional<std::shared_ptr<Weapon>>(weapon);
+    this->wearable = std::make_optional<std::shared_ptr<Wearable>>(wearable);
 }
 
 unsigned int Hero::getMaxHealth() const
@@ -39,12 +42,16 @@ unsigned int Hero::getMoveRange() const
     return moveRange;
 }
 
-std::optional<Weapon> Hero::getWeapon() const
+std::optional<std::shared_ptr<Weapon>> Hero::getWeapon() const
 {
+    if (weapon != std::nullopt)
+    {
+        std::cout << "Weapon type " << weapon.value()->getType() << std::endl;
+    }
     return weapon;
 }
 
-std::optional<Wearable> Hero::getWearable() const
+std::optional<std::shared_ptr<Wearable>> Hero::getWearable() const
 {
     return wearable;
 }
@@ -59,14 +66,14 @@ void Hero::setCurrentHealth(unsigned int health)
     this->currentHealth = health;
 }
 
-void Hero::addWeapon(Weapon weapon)
+void Hero::addWeapon(std::shared_ptr<Weapon> weapon)
 {
-    this->weapon = std::make_optional<Weapon>(weapon);
+    this->weapon = std::make_optional<std::shared_ptr<Weapon>>(weapon);
 }
 
-void Hero::addWearable(Wearable wearable)
+void Hero::addWearable(std::shared_ptr<Wearable> wearable)
 {
-    this->wearable = std::make_optional<Wearable>(wearable);
+    this->wearable = std::make_optional<std::shared_ptr<Wearable>>(wearable);
 }
 
 void Hero::removeWeapon()
@@ -114,22 +121,24 @@ void Hero::setOwner(Player owner)
     this->owner = owner;
 }
 
-void Hero::setMoveRange(unsigned int range){
+void Hero::setMoveRange(unsigned int range)
+{
     this->moveRange = range;
 }
 
-void Hero::setPersonalisation(const Personalisation& personalisation)
+void Hero::setPersonalisation(const Personalisation &personalisation)
 {
     this->personalisation = personalisation;
 }
 
-HeroType Archer::getType()
+HeroType Archer::getType() const
 {
     return EArcher;
 }
 
 void Archer::setAttributes()
-{   Bow bow;
+{
+    Bow bow;
     Attributes attributes;
     switch (personalisation)
     {
@@ -149,13 +158,13 @@ void Archer::setAttributes()
     bow.setDamage(attributes.weaponDamage);
     bow.setRange(attributes.weaponRange);
     bow.setDurability(attributes.weaponDurability);
-    this->addWeapon(bow);
+    this->addWeapon(std::make_shared<Bow>(bow));
     this->setMaxHealth(attributes.maxHealth);
     this->setCurrentHealth(attributes.maxHealth);
     this->setMoveRange(attributes.moveRange);
 }
 
-HeroType Knight::getType()
+HeroType Knight::getType() const
 {
     return EKnight;
 }
@@ -182,16 +191,16 @@ void Knight::setAttributes()
     sword.setDamage(attributes.weaponDamage);
     sword.setRange(attributes.weaponRange);
     sword.setDurability(attributes.weaponDurability);
-    this->addWeapon(sword);
+    this->addWeapon(std::make_shared<Sword>(sword));
 
     this->setMaxHealth(attributes.maxHealth);
     this->setCurrentHealth(attributes.maxHealth);
     this->setMoveRange(attributes.moveRange);
 }
 
-HeroType Mage::getType()
+HeroType Mage::getType() const
 {
-    return EWizard;
+    return EMage;
 }
 
 void Mage::setAttributes()
@@ -201,29 +210,29 @@ void Mage::setAttributes()
     switch (personalisation)
     {
     case Damage:
-        attributes = heroAttributes.at(std::make_tuple(EWizard, Damage));
+        attributes = heroAttributes.at(std::make_tuple(EMage, Damage));
         break;
     case Balanced:
-        attributes = heroAttributes.at(std::make_tuple(EWizard, Balanced));
+        attributes = heroAttributes.at(std::make_tuple(EMage, Balanced));
         break;
     case Range:
-        attributes = heroAttributes.at(std::make_tuple(EWizard, Range));
+        attributes = heroAttributes.at(std::make_tuple(EMage, Range));
         break;
     default:
-        attributes = heroAttributes.at(std::make_tuple(EWizard, Balanced));
+        attributes = heroAttributes.at(std::make_tuple(EMage, Balanced));
         break;
     }
     wand.setDamage(attributes.weaponDamage);
     wand.setRange(attributes.weaponRange);
     wand.setDurability(attributes.weaponDurability);
-    this->addWeapon(wand);
+    this->addWeapon(std::make_shared<MageWand>(wand));
 
     this->setMaxHealth(attributes.maxHealth);
     this->setCurrentHealth(attributes.maxHealth);
     this->setMoveRange(attributes.moveRange);
 }
 
-HeroType IceDruid::getType()
+HeroType IceDruid::getType() const
 {
     return EIceDruid;
 }
@@ -250,14 +259,14 @@ void IceDruid::setAttributes()
     staff.setDamage(attributes.weaponDamage);
     staff.setRange(attributes.weaponRange);
     staff.setDurability(attributes.weaponDurability);
-    this->addWeapon(staff);
+    this->addWeapon(std::make_shared<IceDruidStaff>(staff));
 
     this->setMaxHealth(attributes.maxHealth);
     this->setCurrentHealth(attributes.maxHealth);
     this->setMoveRange(attributes.moveRange);
 }
 
-HeroType Medic::getType()
+HeroType Medic::getType() const
 {
     return EMedic;
 }
@@ -285,14 +294,14 @@ void Medic::setAttributes()
     medicalBox.setRange(attributes.weaponRange);
     medicalBox.setDurability(attributes.weaponDurability);
     medicalBox.setMedicalHealth(attributes.healing);
-    
-    this->addWeapon(medicalBox);
+
+    this->addWeapon(std::make_shared<MedicalBox>(medicalBox));
     this->setMaxHealth(attributes.maxHealth);
     this->setCurrentHealth(attributes.maxHealth);
     this->setMoveRange(attributes.moveRange);
 }
 
-HeroType Ninja::getType()
+HeroType Ninja::getType() const
 {
     return ENinja;
 }
@@ -319,14 +328,14 @@ void Ninja::setAttributes()
     shuriken.setDamage(attributes.weaponDamage);
     shuriken.setRange(attributes.weaponRange);
     shuriken.setDurability(attributes.weaponDurability);
-    this->addWeapon(shuriken);
+    this->addWeapon(std::make_shared<Shuriken>(shuriken));
 
     this->setMaxHealth(attributes.maxHealth);
     this->setCurrentHealth(attributes.maxHealth);
     this->setMoveRange(attributes.moveRange);
 }
 
-HeroType Catapult::getType()
+HeroType Catapult::getType() const
 {
     return ECatapult;
 }
@@ -353,14 +362,14 @@ void Catapult::setAttributes()
     stone.setDamage(attributes.weaponDamage);
     stone.setRange(attributes.weaponRange);
     stone.setDurability(attributes.weaponDurability);
-    this->addWeapon(stone);
+    this->addWeapon(std::make_shared<Stone>(stone));
 
     this->setMaxHealth(attributes.maxHealth);
     this->setCurrentHealth(attributes.maxHealth);
     this->setMoveRange(attributes.moveRange);
 }
 
-HeroType Trebuchet::getType()
+HeroType Trebuchet::getType() const
 {
     return ETrebuchet;
 }
@@ -387,7 +396,7 @@ void Trebuchet::setAttributes()
     stone.setDamage(attributes.weaponDamage);
     stone.setRange(attributes.weaponRange);
     stone.setDurability(attributes.weaponDurability);
-    this->addWeapon(stone);
+    this->addWeapon(std::make_shared<Stone>(stone));
 
     this->setMaxHealth(attributes.maxHealth);
     this->setCurrentHealth(attributes.maxHealth);

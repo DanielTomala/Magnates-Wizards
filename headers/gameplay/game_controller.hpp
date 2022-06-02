@@ -18,6 +18,7 @@ public:
     bool healAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);
     bool moveAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);
     bool attackAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);
+    void mageSpecialAttack(std::shared_ptr<Hero> hero, std::shared_ptr<Hero> heroToAttack);
     void useAbilityAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord);
 
     bool isFieldInRange(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField, unsigned int range);

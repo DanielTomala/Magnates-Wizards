@@ -20,13 +20,13 @@ Descriptions::Descriptions()
                                         "HP: " + std::to_string(heroAttributes.at(std::make_tuple(EKnight, Damage)).maxHealth) + "\n";
 
 
-    this->heroesDescriptions[EWizard] = "Wizard can attack many heroes.\n"
+    this->heroesDescriptions[EMage] = "Wizard can attack many heroes.\n"
                                         "Damage decrease on each hero.\n"
                                         "Attack range: " +
-                                        std::to_string(heroAttributes.at(std::make_tuple(EWizard, Damage)).weaponRange) + " - " + std::to_string(heroAttributes.at(std::make_tuple(EWizard, Range)).weaponRange) + "\n"
-                                        "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(EWizard, Damage)).moveRange) + "\n"
-                                        "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(EWizard, Range)).weaponDamage) + " - " + std::to_string(heroAttributes.at(std::make_tuple(EWizard, Damage)).weaponDamage) + "\n"
-                                        "HP: " + std::to_string(heroAttributes.at(std::make_tuple(EWizard, Damage)).maxHealth) + "\n";
+                                        std::to_string(heroAttributes.at(std::make_tuple(EMage, Damage)).weaponRange) + " - " + std::to_string(heroAttributes.at(std::make_tuple(EMage, Range)).weaponRange) + "\n"
+                                        "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(EMage, Damage)).moveRange) + "\n"
+                                        "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(EMage, Range)).weaponDamage) + " - " + std::to_string(heroAttributes.at(std::make_tuple(EMage, Damage)).weaponDamage) + "\n"
+                                        "HP: " + std::to_string(heroAttributes.at(std::make_tuple(EMage, Damage)).maxHealth) + "\n";
 
     this->heroesDescriptions[EIceDruid] = "Ice Druid frozes hero\n"
                                           "Attack range: " +

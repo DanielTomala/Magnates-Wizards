@@ -5,6 +5,10 @@
 
 class Bow : public Weapon
 {
+public:
+    ~Bow(){};
+    WeaponType getType() const override;
+    unsigned int getSecondaryDamage() const { return 0; };
 };
 
 #endif

@@ -8,7 +8,7 @@ enum HeroType
 {
     EArcher,
     EKnight,
-    EWizard,
+    EMage,
     EIceDruid,
     ECatapult,
     EMedic,

@@ -19,3 +19,8 @@ void IceDruidStaff::setFreezeTime(unsigned int freeze_time)
 {
     this->freeze_time = freeze_time;
 }
+
+WeaponType IceDruidStaff::getType() const
+{
+    return WeaponType::EIceDruidStaff;
+}

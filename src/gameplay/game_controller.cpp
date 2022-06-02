@@ -37,7 +37,7 @@ bool GameController::healAction(std::shared_ptr<Field> heroField, std::shared_pt
     {
         throw std::invalid_argument("Only Medic can heal other heroes");
     }
-    if (hero->getOwner() == actionHero->getOwner() && isFieldInRange(heroField, actionField, hero->getWeapon()->getRange()))
+    if (hero->getOwner() == actionHero->getOwner() && isFieldInRange(heroField, actionField, hero->getWeapon().value()->getRange()))
     {
         // unsigned int healPoints = hero.getHealPoints(); // Some medic's method, which return heal points
         unsigned int healPoints = 10;
@@ -76,14 +76,22 @@ bool GameController::attackAction(std::shared_ptr<Field> heroField, std::shared_
         return false;
     }
     auto hero = heroField->getHero().value();
-    auto actionHero = actionField->getHero().value();
-    if (!actionField->isFree() && hero->getOwner() != actionHero->getOwner() && isFieldInRange(heroField, actionField, hero->getWeapon()->getRange())) // Pytanie czy Hero będzie miał weapon
+    auto heroToAttack = actionField->getHero().value();
+    if (!actionField->isFree() && hero->getOwner() != heroToAttack->getOwner() && isFieldInRange(heroField, actionField, hero->getWeapon().value()->getRange())) // Pytanie czy Hero będzie miał weapon
     {
         if (hero->getWeapon() == std::nullopt)
         {
             return false;
         }
-        actionHero->takeDamage(hero->getWeapon().value().getDamage());
+        if (hero->getType() == HeroType::EMage)
+        {
+            std::cout << "Hero Type " << hero->getType() << std::endl;
+            mageSpecialAttack(hero, heroToAttack);
+        }
+        else
+        {
+            heroToAttack->takeDamage(hero->getWeapon().value()->getDamage());
+        }
         // actionHero.getWearable().value().takeDurabilityLoss(1); //Jakieś zniszczenie części pancerza
         // hero.getWeapon().value().takeDurabilityLoss(1); //Jakieś zniszczenie broni
         std::cout << "Damage given" << std::endl;
@@ -92,18 +100,31 @@ bool GameController::attackAction(std::shared_ptr<Field> heroField, std::shared_
     return false;
 }
 
-void GameController::useAbilityAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord)
+void GameController::mageSpecialAttack(std::shared_ptr<Hero> hero, std::shared_ptr<Hero> heroToAttack)
 {
-    auto board = this->getBoard();
-    auto heroField = board->getFieldByCoordinate(std::get<0>(heroFieldCoord), std::get<1>(heroFieldCoord));
-    auto actionField = board->getFieldByCoordinate(std::get<0>(actionFieldCoord), std::get<1>(actionFieldCoord));
-    auto hero = heroField->getHero().value();         // Skoro trafiliśmy do tej metody to już raczej nie jest wymagane sprawdzenie czy hero nie jest nullopt
-    auto actionHero = actionField->getHero().value(); // Hero jest w zasięgu
-
-    // Wykonanie akcji specjalnej
-
-    // actionsLeft--;
+    heroToAttack->takeDamage(hero->getWeapon().value()->getDamage());
+    auto opponentsHeroesFields = board->getFieldsWithHeroes();
+    for (auto field : opponentsHeroesFields)
+    {
+        if (field->getHero().value()->getOwner() == heroToAttack->getOwner())
+        {
+            field->getHero().value()->takeDamage(hero->getWeapon().value()->getSecondaryDamage());
+        }
+    }
 }
+
+// void GameController::useAbilityAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord)
+// {
+//     auto board = this->getBoard();
+//     auto heroField = board->getFieldByCoordinate(std::get<0>(heroFieldCoord), std::get<1>(heroFieldCoord));
+//     auto actionField = board->getFieldByCoordinate(std::get<0>(actionFieldCoord), std::get<1>(actionFieldCoord));
+//     auto hero = heroField->getHero().value();         // Skoro trafiliśmy do tej metody to już raczej nie jest wymagane sprawdzenie czy hero nie jest nullopt
+//     auto actionHero = actionField->getHero().value(); // Hero jest w zasięgu
+
+//     // Wykonanie akcji specjalnej
+
+//     // actionsLeft--;
+// }
 
 bool GameController::isFieldInRange(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField, unsigned int range)
 {

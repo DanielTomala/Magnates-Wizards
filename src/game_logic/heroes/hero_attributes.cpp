@@ -9,9 +9,9 @@ const HeroAttributes heroAttributes{
     {std::make_tuple(EKnight, Balanced), {200, 2, 45, 1, 1}},
     {std::make_tuple(EKnight, Range), {200, 3, 40, 1, 1}},
 
-    {std::make_tuple(EWizard, Damage), {150, 2, 35, 1, 1}},
-    {std::make_tuple(EWizard, Balanced), {150, 2, 30, 1, 2}},
-    {std::make_tuple(EWizard, Range), {150, 2, 25, 1, 3}},
+    {std::make_tuple(EMage, Damage), {150, 2, 35, 1, 1}},
+    {std::make_tuple(EMage, Balanced), {150, 2, 30, 1, 2}},
+    {std::make_tuple(EMage, Range), {150, 2, 25, 1, 3}},
 
     {std::make_tuple(EMedic, Damage), {80, 2, 15, 1, 1, 30}},
     {std::make_tuple(EMedic, Balanced), {80, 2, 10, 1, 2, 40}},

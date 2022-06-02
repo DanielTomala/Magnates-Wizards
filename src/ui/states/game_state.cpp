@@ -30,53 +30,53 @@ GameState::~GameState()
 {
 }
 
-void GameState::addTestValuesToBoard()
-{
-	auto weapon = Weapon(5, 50, 3);
+// void GameState::addTestValuesToBoard()
+// {
+// 	auto weapon = Weapon(5, 50, 3);
 
-	auto board = this->gameController->getBoard();
-	auto field1 = board->getFieldByCoordinate(0, 2);
-	auto hero1 = std::make_shared<Knight>(30, 2);
-	hero1->setOwner(Player::First);
-	hero1->addWeapon(weapon);
-	field1->addHero(hero1);
-	auto field2 = board->getFieldByCoordinate(4, 0);
-	auto hero2 = std::make_shared<Catapult>(100);
-	hero2->setOwner(Player::First);
-	hero2->addWeapon(weapon);
-	field2->addHero(hero2);
-	auto field3 = board->getFieldByCoordinate(5, 1);
-	auto hero3 = std::make_shared<Medic>(50, 3);
-	hero3->setOwner(Player::First);
-	hero3->addWeapon(weapon);
-	field3->addHero(hero3);
-	auto field4 = board->getFieldByCoordinate(3, 4);
-	auto hero4 = std::make_shared<Mage>(70, 1);
-	hero4->setOwner(Player::First);
-	hero4->addWeapon(weapon);
-	field4->addHero(hero4);
+// 	auto board = this->gameController->getBoard();
+// 	auto field1 = board->getFieldByCoordinate(0, 2);
+// 	auto hero1 = std::make_shared<Knight>(30, 2);
+// 	hero1->setOwner(Player::First);
+// 	hero1->addWeapon(weapon);
+// 	field1->addHero(hero1);
+// 	auto field2 = board->getFieldByCoordinate(4, 0);
+// 	auto hero2 = std::make_shared<Catapult>(100);
+// 	hero2->setOwner(Player::First);
+// 	hero2->addWeapon(weapon);
+// 	field2->addHero(hero2);
+// 	auto field3 = board->getFieldByCoordinate(5, 1);
+// 	auto hero3 = std::make_shared<Medic>(50, 3);
+// 	hero3->setOwner(Player::First);
+// 	hero3->addWeapon(weapon);
+// 	field3->addHero(hero3);
+// 	auto field4 = board->getFieldByCoordinate(3, 4);
+// 	auto hero4 = std::make_shared<Mage>(70, 1);
+// 	hero4->setOwner(Player::First);
+// 	hero4->addWeapon(weapon);
+// 	field4->addHero(hero4);
 
-	auto field5 = board->getFieldByCoordinate(3, 7);
-	auto hero5 = std::make_shared<Archer>(25, 2);
-	hero5->setOwner(Player::Second);
-	hero5->addWeapon(weapon);
-	field5->addHero(hero5);
-	auto field6 = board->getFieldByCoordinate(0, 9);
-	auto hero6 = std::make_shared<Trebuchet>(90);
-	hero6->setOwner(Player::Second);
-	hero6->addWeapon(weapon);
-	field6->addHero(hero6);
-	auto field7 = board->getFieldByCoordinate(2, 6);
-	auto hero7 = std::make_shared<Ninja>(20, 3);
-	hero7->setOwner(Player::Second);
-	hero7->addWeapon(weapon);
-	field7->addHero(hero7);
-	auto field8 = board->getFieldByCoordinate(5, 8);
-	auto hero8 = std::make_shared<IceDruid>(75, 1);
-	hero8->setOwner(Player::Second);
-	hero8->addWeapon(weapon);
-	field8->addHero(hero8);
-}
+// 	auto field5 = board->getFieldByCoordinate(3, 7);
+// 	auto hero5 = std::make_shared<Archer>(25, 2);
+// 	hero5->setOwner(Player::Second);
+// 	hero5->addWeapon(weapon);
+// 	field5->addHero(hero5);
+// 	auto field6 = board->getFieldByCoordinate(0, 9);
+// 	auto hero6 = std::make_shared<Trebuchet>(90);
+// 	hero6->setOwner(Player::Second);
+// 	hero6->addWeapon(weapon);
+// 	field6->addHero(hero6);
+// 	auto field7 = board->getFieldByCoordinate(2, 6);
+// 	auto hero7 = std::make_shared<Ninja>(20, 3);
+// 	hero7->setOwner(Player::Second);
+// 	hero7->addWeapon(weapon);
+// 	field7->addHero(hero7);
+// 	auto field8 = board->getFieldByCoordinate(5, 8);
+// 	auto hero8 = std::make_shared<IceDruid>(75, 1);
+// 	hero8->setOwner(Player::Second);
+// 	hero8->addWeapon(weapon);
+// 	field8->addHero(hero8);
+// }
 
 Player GameState::getCurrentPlayer()
 {
@@ -275,7 +275,7 @@ void GameState::showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY)
 	case HeroType::EArcher:
 		hero->sprite.setTexture(textures["ARCHER"]);
 		break;
-	case HeroType::EWizard:
+	case HeroType::EMage:
 		hero->sprite.setTexture(textures["WIZARD"]);
 		break;
 	case HeroType::EIceDruid:

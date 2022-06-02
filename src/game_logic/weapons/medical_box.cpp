@@ -14,3 +14,8 @@ void MedicalBox::subtractMedicalHealth(unsigned int points_of_health)
 {
     this->medical_health -= points_of_health;
 }
+
+WeaponType MedicalBox::getType() const
+{
+    return WeaponType::EMedicalBox;
+}
