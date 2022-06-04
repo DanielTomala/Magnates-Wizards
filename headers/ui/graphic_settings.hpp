@@ -10,6 +10,7 @@ class GraphicSettings{
         std::string title;
         sf::VideoMode resolution;
         sf::ContextSettings contextSettings;
+        unsigned int frameLimit;
 };
 
 #endif

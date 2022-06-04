@@ -3,10 +3,8 @@
 
 GraphicSettings::GraphicSettings()
 {
-    this->title = "Magnaci i czarodzieje";
-    //Irek
+    this->title = "Magnates & Wizards";
     this->resolution = sf::VideoMode::getDesktopMode();
-    //Daniel
-    //this->resolution = sf::VideoMode(1920, 1080);
     this->contextSettings.antialiasingLevel = 0;
+    this->frameLimit = 60;
 }

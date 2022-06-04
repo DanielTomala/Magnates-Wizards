@@ -1,7 +1,4 @@
 #include "../../headers/ui/descriptions.hpp"
-#include <iostream>
-// PRZYKŁADOWE WARTOŚCI
-// NAJLEPIEJ BĘDZIE STWORZYĆ JAKIŚ CONFIG HEROSÓW
 
 Descriptions::Descriptions()
 {
@@ -232,7 +229,9 @@ Descriptions::Descriptions()
                    "Kill all opponent heroes to win.";
 }
 
-Descriptions::~Descriptions() {}
+Descriptions::~Descriptions()
+{
+}
 
 std::string Descriptions::getManual() const
 {
@@ -244,8 +243,7 @@ std::string Descriptions::getDescription(const HeroType &heroType) const
     return this->heroesDescriptions.at(heroType);
 }
 
-std::string Descriptions::getPersonalisationDescription(std::tuple<HeroType, Personalisation> data) const
+std::string Descriptions::getPersonalisationDescription(const std::tuple<HeroType, Personalisation> &data) const
 {
-    std::cout<<this->personalisationDescriptions.at(data);
     return this->personalisationDescriptions.at(data);
 }

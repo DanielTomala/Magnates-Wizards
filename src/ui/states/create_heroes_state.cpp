@@ -1,6 +1,5 @@
 #include "../../../headers/ui/states/create_heroes_state.hpp"
 
-#include <iostream>
 CreateHeroesState::CreateHeroesState(StatesStack *stackPointer,
 									 sf::RenderWindow *window,
 									 GraphicSettings *settings,
@@ -11,7 +10,6 @@ CreateHeroesState::CreateHeroesState(StatesStack *stackPointer,
 	this->initTextures();
 	this->initFonts();
 	this->initGui();
-	this->resetGui();
 }
 
 void CreateHeroesState::initTextures()
@@ -69,7 +67,7 @@ void CreateHeroesState::initFonts()
 void CreateHeroesState::initGui()
 {
 	const sf::Vector2u vm = this->window->getSize();
-	std::cout << vm.x << " " << vm.y << "\n";
+
 	this->backgroundRect.setSize(
 		sf::Vector2f(
 			(float)vm.x,
@@ -152,7 +150,6 @@ void CreateHeroesState::initGui()
 		xGrid * 15, yGrid * 69, xGrid * 7, yGrid * 12, textures["TREBUCHET"], sf::Color::Green, heroesDescriptions.getDescription(ETrebuchet), First, ETrebuchet);
 
 
-
 	this->heroButtons["ARCHER_2"] = std::make_shared<SelectButton>(
 		xGrid * 78, yGrid * 18, xGrid * 7, yGrid * 12, textures["ARCHER"], sf::Color::Green, heroesDescriptions.getDescription(EArcher), Second, EArcher);
 
@@ -177,12 +174,7 @@ void CreateHeroesState::initGui()
 	this->heroButtons["TREBUCHET_2"] = std::make_shared<SelectButton>(
 		xGrid * 87, yGrid * 69, xGrid * 7, yGrid * 12, textures["TREBUCHET"], sf::Color::Green, heroesDescriptions.getDescription(ETrebuchet), Second, ETrebuchet);
 }
-void CreateHeroesState::resetGui()
-{
-	this->buttons.clear();
 
-	this->initGui();
-}
 
 CreateHeroesState::~CreateHeroesState()
 {

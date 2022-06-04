@@ -14,21 +14,16 @@ private:
     sf::Font font;
 
     Descriptions descriptions;
+
     std::map<std::string, std::shared_ptr<Button>> buttons;
-
+    std::map<std::tuple<HeroType, Player>, std::shared_ptr<Button>> heroButtons;
+    std::map<std::tuple<int, int>, std::shared_ptr<Button>> boardButtons;
+    std::map<Personalisation, std::shared_ptr<Button>> menuButtons;
     std::map<std::string, std::shared_ptr<sf::Text>> texts;
-
     std::map<std::string, std::shared_ptr<sf::RectangleShape>> shapes;
 
     std::vector<std::shared_ptr<Hero>> firstPlayerHeroes;
     std::vector<std::shared_ptr<Hero>> secondPlayerHeroes;
-
-    std::map<std::tuple<HeroType, Player>, std::shared_ptr<Button>> heroButtons;
-
-    std::map<std::tuple<int, int>, std::shared_ptr<Button>> boardButtons;
-
-    std::map<Personalisation, std::shared_ptr<Button>> menuButtons;
-
 
     void initHeroes(std::vector<HeroType> firstPlayerHeroes,
                     std::vector<HeroType> secondPlayerHeroes);

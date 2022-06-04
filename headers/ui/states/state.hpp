@@ -12,10 +12,10 @@ typedef std::stack<State *> StatesStack;
 class State
 {
 protected:
-    GraphicSettings *settings; // settings of window
-    StatesStack *states;       // stack of states
-    sf::RenderWindow *window;  // pointer for window
-    GameController *gameController;
+    GraphicSettings *settings;      // settings of window
+    StatesStack *states;            // stack of states
+    sf::RenderWindow *window;       // pointer for window
+    GameController *gameController; // game logic
 
     bool quit;
     std::map<std::string, sf::Texture> textures;

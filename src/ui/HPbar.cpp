@@ -1,5 +1,5 @@
 #include "../../headers/ui/HPbar.hpp"
-#include <iostream>
+
 HPBar::HPBar(float topLeftX, float topLeftY, float width, float height,
              std::shared_ptr<sf::Font> font, unsigned int maxHP)
 {
@@ -34,19 +34,19 @@ HPBar::~HPBar()
 {
 }
 
-void HPBar::changePosition(sf::Vector2f newPostion)
+void HPBar::changePosition(const sf::Vector2f &newPostion)
 {
     this->background.setPosition(newPostion);
     this->maxBar.setPosition(newPostion);
     this->currentBar.setPosition(newPostion);
+    
     float textX = newPostion.x + (this->background.getGlobalBounds().width / 2) - 15;
     float textY = newPostion.y;
     this->description.setPosition(sf::Vector2f{textX, textY});
 }
 
-void HPBar::update(unsigned int HP)
+void HPBar::update(const unsigned int &HP)
 {
-    // sf::Vector2f size = this->maxBar.getSize();
     float scale = (float)HP / this->maxHP;
     this->currentBar.setScale(sf::Vector2f{scale, 1.f});
     this->description.setString(std::to_string(HP) + "/" + std::to_string(maxHP));

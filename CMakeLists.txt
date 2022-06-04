@@ -25,7 +25,6 @@ set(SRC
     src/ui/states/configure_heroes_state.cpp
     src/ui/states/game_state.cpp
     src/ui/states/main_menu_state.cpp
-    src/ui/states/player_menu_state.cpp
     src/ui/states/state.cpp
     src/ui/button.cpp
     src/ui/HPbar.cpp
