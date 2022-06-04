@@ -1,6 +1,5 @@
 #include "../../../headers/ui/states/configure_heroes_state.hpp"
 
-#include <iostream>
 ConfigureHeroesState::ConfigureHeroesState(StatesStack *stackPointer,
 										   sf::RenderWindow *window,
 										   GraphicSettings *settings,
@@ -15,7 +14,6 @@ ConfigureHeroesState::ConfigureHeroesState(StatesStack *stackPointer,
 	this->initFonts();
 	this->initGui();
 	this->initBoard();
-	this->resetGui();
 }
 
 ConfigureHeroesState::~ConfigureHeroesState() {}
@@ -132,13 +130,6 @@ void ConfigureHeroesState::initFonts()
 	{
 		throw("ERROR::CreateHeroesSTATE::COULD NOT LOAD FONT");
 	}
-}
-
-void ConfigureHeroesState::resetGui()
-{
-	this->buttons.clear();
-
-	this->initGui();
 }
 
 void ConfigureHeroesState::initGui()
@@ -532,6 +523,7 @@ void ConfigureHeroesState::hideMenu()
 {
 	if (this->choosenHero == std::nullopt)
 		return;
+
 	this->shapes.erase("MIDDLE_BG");
 	this->shapes.erase("ZCHOOSEN_IMAGE");
 	this->menuButtons.erase(Range);

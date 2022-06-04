@@ -25,24 +25,23 @@ private:
     std::vector<std::shared_ptr<Hero>> firstPlayerHeroes;
     std::vector<std::shared_ptr<Hero>> secondPlayerHeroes;
 
-    void initHeroes(std::vector<HeroType> firstPlayerHeroes,
-                    std::vector<HeroType> secondPlayerHeroes);
-
     std::shared_ptr<Hero> createHero(HeroType heroType);
+    std::optional<std::shared_ptr<Hero>> choosenHero;
+
 
     void initBoard();
     void initTextures();
     void initFonts();
     void initGui();
+    void initHeroes(std::vector<HeroType> firstPlayerHeroes,
+                    std::vector<HeroType> secondPlayerHeroes);
 
-    void resetGui();
     void showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY);
     void putHero(std::shared_ptr<Hero> hero, int xCoo, int yCoo);
     void showMenu();
     void hideMenu();
-    std::string heroTypeToString(HeroType herotype);
 
-    std::optional<std::shared_ptr<Hero>> choosenHero;
+    std::string heroTypeToString(HeroType herotype);
 
     void renderBackground();
     void renderShapes();
@@ -67,6 +66,7 @@ public:
                          std::vector<HeroType> secondPlayerHeroes);
 
     virtual ~ConfigureHeroesState();
+
     void update();
     void render();
 };
