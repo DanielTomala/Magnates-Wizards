@@ -189,7 +189,7 @@ void GameState::initTextures()
 
 void GameState::initFonts()
 {
-	if (!this->font.loadFromFile("../src/ui/states/Dosis-Light.ttf"))
+	if (!this->font.loadFromFile("../Dosis-Light.ttf"))
 	{
 		throw("ERROR::GameSTATE::COULD NOT LOAD FONT");
 	}

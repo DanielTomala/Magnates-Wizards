@@ -126,7 +126,7 @@ void ConfigureHeroesState::initTextures()
 
 void ConfigureHeroesState::initFonts()
 {
-	if (!this->font.loadFromFile("../src/ui/states/Dosis-Light.ttf"))
+	if (!this->font.loadFromFile("../Dosis-Light.ttf"))
 	{
 		throw("ERROR::CreateHeroesSTATE::COULD NOT LOAD FONT");
 	}
@@ -348,12 +348,11 @@ void ConfigureHeroesState::updateButtons()
 		}
 		if (heroesCounter == 8)
 		{
-			this->states->pop();
-			this->states->push(new GameState(this->states,
+			this->endState();
+			this->states->push(std::make_shared<GameState>(this->states,
 											 this->window,
 											 this->settings,
 											 this->gameController));
-			this->endState();
 		}
 		else
 		{

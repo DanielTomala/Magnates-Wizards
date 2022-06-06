@@ -28,9 +28,9 @@ void MainMenuState::initTextures()
 
 void MainMenuState::initFonts()
 {
-	if (!this->font.loadFromFile("../src/ui/states/Dosis-Light.ttf"))
+	if (!this->font.loadFromFile("../Dosis-Light.ttf"))
 	{
-		throw("ERROR::MAINMENUSTATE::COULD NOT LOAD FONT");
+		throw("ERROR::MainMenuSTATE::COULD NOT LOAD FONT");
 	}
 }
 
@@ -67,7 +67,7 @@ void MainMenuState::updateButtons()
 
 	if (this->buttons["NEW_GAME"]->isClicked())
 	{
-		this->states->push(new CreateHeroesState(this->states,
+		this->states->push(std::make_shared<CreateHeroesState>(this->states,
 												 this->window,
 												 this->settings,
 												 this->gameController));

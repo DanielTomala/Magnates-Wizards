@@ -12,9 +12,14 @@ enum SelectButtonState
 };
 
 class SelectButton
+/*
+    button to select heroes
+    collor depends on choosen od not choosen
+
+*/
 {
 private:
-    SelectButtonState state;
+    SelectButtonState state; // choosen/notchoosen
     sf::Texture texture;
     sf::RectangleShape rect;
 

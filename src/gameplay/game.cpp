@@ -13,7 +13,6 @@ Game::~Game()
     delete this->window;
     while (this->states.empty() == false)
     {
-        delete this->states.top();
         this->states.pop();
     }
 }
@@ -33,7 +32,7 @@ void Game::initWindow()
 
 void Game::initStates()
 {
-    this->states.push(new MainMenuState(&this->states,
+    this->states.push(std::make_shared<MainMenuState>(&this->states,
                                         this->window,
                                         &this->settings,
                                         &this->controller));
@@ -69,7 +68,6 @@ void Game::update()
             if (this->states.top()->getQuit())
             {
                 this->states.top()->endState();
-                delete this->states.top();
                 this->states.pop();
             }
         }

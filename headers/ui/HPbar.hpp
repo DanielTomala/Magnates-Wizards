@@ -6,12 +6,16 @@
 #include <SFML/Graphics.hpp>
 
 class HPBar
+/*
+    HP is showed next to hero
+    has bar proportional to hero current HP
+*/
 {
 private:
-    sf::RectangleShape background;
-    sf::RectangleShape maxBar;
-    sf::RectangleShape currentBar;
-    sf::Text description;
+    sf::RectangleShape background; // shape of bar
+    sf::RectangleShape maxBar; // full hp bar
+    sf::RectangleShape currentBar; // bar proportional to current hp
+    sf::Text description; // currentHP/maxHP
     unsigned int maxHP;
     std::shared_ptr<sf::Font> font;
 

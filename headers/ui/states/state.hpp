@@ -7,7 +7,7 @@
 #include <stack>
 
 class State;
-typedef std::stack<State *> StatesStack;
+typedef std::stack<std::shared_ptr<State>> StatesStack;
 
 class State
 {

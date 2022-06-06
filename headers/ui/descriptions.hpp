@@ -1,14 +1,18 @@
 #ifndef DESCRIPTIONS_HPP
 #define DESCRIPTIONS_HPP
+
 #include "../game_logic/heroes/hero.hpp"
 #include "../game_logic/heroes/hero_attributes.hpp"
 
 class Descriptions
+/*
+    class Description includes texts displaying in GUI
+*/
 {
 private:
-    std::map<HeroType, std::string> heroesDescriptions;
-    std::map<std::tuple<HeroType, Personalisation>, std::string> personalisationDescriptions;
-    std::string manual;
+    std::map<HeroType, std::string> heroesDescriptions; // descriptions of heroes before choosen attributes
+    std::map<std::tuple<HeroType, Personalisation>, std::string> personalisationDescriptions; //descriptions of heroes with choosen attributes
+    std::string manual; // manual for players
 
 public:
     Descriptions();

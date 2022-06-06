@@ -28,7 +28,12 @@ private:
     void initGui();
 
     void renderButtons();
+    void renderHeroButtons();
+    void renderTexts();
+    void renderShapes();
+    
     void updateButtons();
+    void updateHeroButtons();
 
     void loadHeroes();
 
