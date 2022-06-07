@@ -8,7 +8,9 @@ Team 25/25:
 - Daniel Tomala
 
 ## Opis projektu / rozwiązywanego problemu
-    jaki opis wariacie
+W ramach projektu tworzymy grę strategiczną Magnates & Wizards dla dwóch graczy. Rozgrywka polega na wyborze czterech postaci (z ośmiu dostępnych), które w następnej fazie będą ze sobą rywalizować. Wszystkie postaci różnią się między sobą, reprezentują wiele ciekawych umiejętności i sposobów ataku przeciwnika. Wraz z wyborem konkretnej postaci gracz dostaje możliwość wyboru pomiędzy szerokim zasięgiem ataku, zadawaniem większych obrażeń lub opcją zbalansowaną, co urozmaica rozgrywkę i daje graczom pole do przeprowadzenia ciekawszej bitwy. Gra kończy się wraz z pokonaniem wszystkich postaci przeciwnika.
+
+W realizacji naszego projektu korzystamy z języka C++ oraz biblioteki SFML.
 
 ## Struktura repozytorium
 W repozytorium **22L_PROI_PROJ_ZD_IO_PR_DT** znajdują się foldery *headers*, *src*, *tests*, *textures* oraz plik *main.cpp*. 
@@ -38,19 +40,21 @@ Zawiera pliki nagłówkowe z rozszerzeniem *.hpp* używane w logice gry, jej roz
 
 - ***ui***
 
-    - ***states*** 
+    - ***states*** - widoki w grze
 
-    - *action_menu_buttons.hpp*
+    - *action_menu_buttons.hpp* - menu wyboru akcji postaci
 
-    - *button.hpp*
+    - *button.hpp* - przycisk interfejsu graficznego
 
-    - *descriptions*
+    - *descriptions* - opisy postaci
 
-    - *graphic_settings.hpp*
+    - *graphic_settings.hpp* - ustawienia graficzne okna gry
 
-    - *HPbar.hpp*
+    - *HPbar.hpp* - pasek życia bohatera
 
-    - *select_button.hpp*
+    - *select_button.hpp* - przycisk wyboru postaci 
+
+    - *loads.hpp* - dostępne ataki bohatera
 
 #### source
 Zawiera pliki źródłowe z rozszerzeniem *.cpp* zawierające implementację funkcji zadeklarowanych w plikach nagłówkowych.
@@ -73,28 +77,44 @@ Zawiera tekstury użwane w interfejsie graficznym
 
 - ***backgrounds*** - tekstury tła 
 
-- ***heroes*** - tekstury bohaterów
+- tekstury bohaterów
 
-- ***buttons*** - texstry pól i przycisków
+- tekstury przycisków
 
 ## Struktura programu
 Aby umożliwić łatwe rozwijanie naszego projektu podzieliliśmy go na trzy główne pola:
 
 - **Logika gry** - klasy reprezentujące najbardziej podstawowe części naszego programu. Od tej części rozpoczęliśmy jego tworzenie.
-    
-    - **Field** - klasa Field reprezentuje pole na planszy. Została ona stworzona w celu uproszczenia logiki przeprowadzania działań podczas rozgrywki (np. ataku na danego zawodnika). Zawiera ona informacje o tym, czy znajduje się na nim Hero, umożliwia dodanie i usunięcie go z konkretnego pola
-
-    - **Board** - klasa Board reprezentuje całą planszę, umożliwia jej utworzenie i dostęp do informacji o konkretnym polu
 
     - **Hero** - klasa Hero reprezentuje bohatera, czyli postać biorącą udział w rozgrywce. Jest ona niezbędna w kontekście logiki gry (atak, leczenie itp.)
+        
+        - **Knight** - rycerz jest najbardziej "zwykłym" rodzajem postaci. Może atakować jedynie sąsiadujące pola. Nie posiada umiejętności specjalnych.
 
-    - **Weapon** - klasa Weapon reprezentuje broń, którą może posiadać tylko konkretny typ Hero. Urozmaica ona rozgrywkę poprzez różnorodność atrybutów, które wnosi ze sobą dana broń
+        - **Archer** - łucznik posiada duży zasięg ataku, ale małe obrażenia i ilość życia. Nie posiada specjalnych umiejętności.
 
-    - **Wearable** - klasa nieużywana, miała reprezentować specjalne przedmioty, które mogą posiadać postaci
+        - **Mage** - mag zadaje duże obrażenia wybranemu przeciwnikowi oraz mniejsze wszystkim z jego drużyny.
+
+        - **IceDruid** - druid lodu zadaje obrażenia oraz zamraża przeciwnika. Zamrożona postać nie może sie poruszać oraz zadawać obrażen.
+
+        - **Medic** - medyk zadaje niewielkie obrażenia, ale posiada umiejętność leczenia wybranej postaci ze swojej drużyny.
+
+        - **Ninja** - postać mająca duży zakres ruchu, oraz mogąca wykonać 3 ataki w jednej turze.
+
+        - **Catapult** - nie może się poruszać, zadaje duże obrażenia na obszarze jednego pola.
+
+        - **Trebuchet** - podobnie jak katapulta, nie może się poruszać. Zadaje obrażenia przez 2 rundy na kilku sąsiadujących polach(również graczom swojej drużyny).
+
+    - **Field** - reprezentuje pole na planszy. Została ona stworzona w celu uproszczenia logiki przeprowadzania działań podczas rozgrywki (np. ataku na danego zawodnika). Zawiera ona informacje o tym, czy znajduje się na nim Hero, umożliwia dodanie i usunięcie go z konkretnego pola
+
+    - **Board** - reprezentuje całą planszę, umożliwia jej utworzenie i dostęp do informacji o konkretnym polu
+
+    - **Weapon** - reprezentuje broń, którą może posiadać tylko konkretny typ Hero. Urozmaica ona rozgrywkę poprzez różnorodność atrybutów, które wnosi ze sobą dana broń.
+
+    - **Wearable** - klasa nieużywana, miała reprezentować specjalne przedmioty, które mogą posiadać postaci.
     
-    - **BubbleBooster** - klasa nieużywana, miała reprezentować bonus możliwy do podniesienia przez gracza
+    - **BubbleBooster** - klasa nieużywana, miała reprezentować bonus możliwy do podniesienia przez gracza.
 
-    - **FieldBooster** - klasa nieużywana, miała reprezentować bonus ulepszający postać stojącą na danym polu
+    - **FieldBooster** - klasa nieużywana, miała reprezentować bonus ulepszający postać stojącą na danym polu.
 
 - **Rozgrywka** - klasy odpowiadające za rozgrywkę. Mają za zadanie obsługę różnych interakcji pomiedzy obiektami klas znajgujących się w logice gry.
     
@@ -112,9 +132,9 @@ Aby umożliwić łatwe rozwijanie naszego projektu podzieliliśmy go na trzy gł
 
     - **ConfigureHeroesState** - widok konfiguracji i ustawiania postaci na planszy. Gracze muszą ustawić swoją drużynę na wybranych przez siebie polach. Ponadto mogą wybrać styl gry każdej postaci. Do wyboru są Range - dający większy zasięg ataku lub poruszania się, Damage - dający większe obrażenia, oraz domyślny Balanced. Gracze mogą wrócić do wyboru postaci lub po ustawieniu całej drużyny na planszy przejść do rozgrywki.
 
-    - **GameState** - 
+    - **GameState** - widok głównej rozgrywki. Wyświetlana jest plansza oraz informacje o obecnej turze. Po naciśnięciu przez gracza na postać ze swojej drużyny wyświetlane jest menu wyboru akcji. Gracz może w danej turze wykonać 5 akcji lub w każdej chwili pominąć swoją turę. W momencie, gdy wszyscy gracze przeciwnika zginą wyświetla się komunikat o zakończeniu rozgrywki.
 
-    - **ActionMenuButton** - 
+    - **ActionMenuButton** - przycisk wyboru akcji postaci. Gracz ma do wyboru, w zależności od typu postaci, różne akcje. Medyk posiada trzy akcje: leczenie, atak, ruch; trebusz i katapulta wyłącznie atak, a pozostałe postaci poruszanie i atak.
     
     - **Button** - klasa reprezentująca przycisk. Posiada kształt, teksturę, tekst oraz kolor, który zmienia się w zależności od stanu przycisku. Przycisk zmienia swój stan na aktywny, gdy nastąpi kliknięcie i puszczenie lewego przycisku myszy. Ułatwia to interakcję graczy z interfejsem. Oprócz oczywistego użycia obiektów tej klasy podczas tworzenia GUI, zastosowaliśmy je do obsługi pól planszy. 
 
@@ -125,6 +145,8 @@ Aby umożliwić łatwe rozwijanie naszego projektu podzieliliśmy go na trzy gł
     - **GraphicSettings** - ustawienia graficzne. Okno naszej gry wyświetla się na pełnym ekranie. Maksymalna częstotliwość odświeżania to 60FPS. Okno jest skalowane do rozdzielczości monitora. 
 
     - **HPBar** - pasek życia bohatera. Zawiera trzy obiekty sf::Rectangle: tło, maksymalny pasek i aktualny pasek. W zależności od aktualnego HP bohatera aktualny pasek jest skalowany w proporcji obecne HP / maksymalne HP. Wyświetlany jest też napis informujący o punktach życia postaci.
+
+    - **Loads** - ilość dostępnych akcji bohatera. Informuje ile razy postać może wykonać atak. Jest wyświetlana obok bohatera.
 
 ## Instalacja
 Kompilację programu przeprowadzaliśmy z użyciem programu cmake i kompilatora gcc.
@@ -161,9 +183,16 @@ Do kompilacji programu wymagane jest połączenie z internetem umożliwiające p
 ```
 
 ## Proces tworzenia
-Pierwsze spotkanie odbyło się kilka dni po ogłoszeniu rozpoczęcia prac nad projektami. Przeprowadziliśmy długą i merytoryczną rozmowę na temat naszych pomysłów na projekt i założeń, jakie chcielibyśmy wprowadzić do naszej gry. Po krótkim odstępie czasu stworzyliśmy repozytorium na GitLabie, wspólnie rozdysponowaliśmy zadania między siebie i przystąpiliśmy do pracy.
+Pierwsze spotkanie odbyło się kilka dni po ogłoszeniu rozpoczęcia prac nad projektami. Przeprowadziliśmy długą i merytoryczną rozmowę na temat naszych pomysłów na projekt i założeń, jakie chcielibyśmy wprowadzić do naszej gry. Po krótkim odstępie czasu stworzyliśmy repozytorium na GitLabie, wspólnie rozdysponowaliśmy zadania między siebie i przystąpiliśmy do pracy. 
 
-Doszliśmy do wniosku, że nasza praca będzie najbardziej efektywna, gdy rozpoczniemy od stworzenia niskopoziomowej logiki projektu.
+Spotkania odbywały się regularnie, co około dwa tygodnie. W zależności od warunków spotykaliśmy się zarówno stacjonarnie jak i zdalnie. Podczas spotkań podsumowywaliśmy wykonaną do tej pory część projektu, omawialiśmy kolejne kroki w tworzeniu naszego programu oraz zaznaczaliśmy, co sprawiało nam problemy przy pisaniu kodu. Dodatkowo, każde mergowanie branchy odbywało się na spotkaniach, by wspólnie rozwiązywać napotkane konflikty w kodzie. Na początku chcieliśmy stworzyć działający system rozgrywki, który następnie urozmaicaliśmy dodatkowymi funkcjami.
 
-Spotkania odbywały się regularnie, zarówno stacjonarnie jak i zdalnie. Podczas spotkań podsumowywaliśmy wykonaną do tej pory część projektu, omawialiśmy kolejne kroki w tworzeniu naszego programu oraz zaznaczaliśmy, co sprawiało nam problemy przy pisaniu kodu. 
+Wprowadzenie ostatecznych poprawek spowodowało odrzucenie niektórych z początkowych założeń, których realizacji musieliśmy zaniechać - wraz z postępem w pisaniu prototypu gry zdaliśmy sobie sprawę, że niektóre z początkowych pomysłów kłócą się z założeniami rozgrywki. Dlatego podczas jednego z ostatnich spotkań dyskutowaliśmy, co i czemu powinniśmy odrzucić.
 
+## Sposób testowania
+Nasz projekt testowaliśmy zarówno za pomocą testów jednostkowych (folder tests), jak i metodą prób i błędów. Podczas uruchamiania gry i przeprowadzania przykładowej rozgrywki łatwo było nam zauważyć, co w jej logice nie jest spójne i potrzebuje poprawek. Pozwoliło nam to na znaczące ulepszenie początkowej wersji gry.
+
+## Możliwości rozwoju
+Nasz projekt posiada znaczne pole do rozwoju. Pierwsze, które przychodzą nam na myśl to zaimplementowanie odrzuconych w procesie produkcji ulepszeń znajdujących się na polach. Pozwoliłyby one urozmaicić rozgrywkę, oraz zwiększyć myślenie strategiczne graczy. Kolejna rzecz, nad którą wartoby się zastanowić to rozgrywka z przeciwnikiem sterowanym przez komputer. Dodanie dźwięków i animacji znacząco zwiększyłoby frajdę z płynącą z rozgrywki. Ciekawe byłoby też dodanie wyboru różnych broni, większa personalizacja postaci np. wybór skina bohatera. Zaimplementowana przez nas rozgrywka mogłaby stać się częścią większej gry RPG ze zdobywaniem zasobów za rozegrane bitwy, które umożliwiłyby kupowanie ulepszeń, nowych bohaterów, broni itp.
+
+Ilość pomysłów które moglibyśmy zrealizować świadczy o tym, że nasz projekt nie jest zamkniętą strukturą i ciągle możemy go rozwijać.
