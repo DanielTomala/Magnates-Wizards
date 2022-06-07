@@ -8,7 +8,7 @@ class MageWand : public Weapon
 public:
     unsigned int getSecondaryDamage() const override;
     WeaponType getType() const override;
-    unsigned int getMedicalHealth() const { return 0; };
+    unsigned int getHealPoints() const { return 0; };
 };
 
 #endif

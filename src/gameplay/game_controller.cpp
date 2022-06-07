@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cmath>
 
+// Constructor
 GameController::GameController(std::shared_ptr<Board> board)
 {
     this->board = board;
@@ -18,12 +19,25 @@ void GameController::resetController()
     }
 }
 
+// Getters
 std::shared_ptr<Board> GameController::getBoard()
 {
     return this->board;
 }
 
-// Jeżeli hero ma 100% życia nie powinno się go dać uleczyć
+std::vector<std::shared_ptr<Hero>> GameController::getFrozenHeroes()
+{
+    return this->frozenHeroes;
+}
+
+std::map<std::shared_ptr<Field>, int> GameController::getTrebuchetAttackRepetition()
+{
+    return this->trebuchetAttackRepetition;
+}
+// Getters end
+
+// Actions
+// Return true if action was successful, else returns false
 bool GameController::healAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField)
 {
     if (actionField->getHero() == std::nullopt)
@@ -40,15 +54,14 @@ bool GameController::healAction(std::shared_ptr<Field> heroField, std::shared_pt
     }
     if (hero->getOwner() == actionHero->getOwner() && isFieldInRange(heroField, actionField, hero->getWeapon().value()->getRange()))
     {
-        unsigned int healPoints = hero->getWeapon().value()->getMedicalHealth();
+        unsigned int healPoints = hero->getWeapon().value()->getHealPoints();
         actionHero->heal(healPoints);
-        std::cout << "Healed hero" << std::endl;
-
         return true;
     }
     return false;
 }
 
+// Return true if action was successful, else returns false
 bool GameController::moveAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField)
 {
     auto hero = heroField->getHero().value();
@@ -56,25 +69,25 @@ bool GameController::moveAction(std::shared_ptr<Field> heroField, std::shared_pt
     {
         heroField->removeHero();
         actionField->addHero(hero);
-        std::cout << "Hero moved" << std::endl;
         return true;
     }
     else
     {
-        std::cout << "This field is already occupied or is not in range" << std::endl;
         return false;
     }
 }
 
+// Return true if action was successful, else returns falses
 bool GameController::attackAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField)
 {
-    if (actionField->getHero() == std::nullopt)
+    if (actionField->isFree())
     {
         return false;
     }
     auto hero = heroField->getHero().value();
     auto heroToAttack = actionField->getHero().value();
-    if (!actionField->isFree() && hero->getOwner() != heroToAttack->getOwner() && isFieldInRange(heroField, actionField, hero->getWeapon().value()->getRange())) // Pytanie czy Hero będzie miał weapon
+    unsigned int range = hero->getWeapon().value()->getRange();
+    if (hero->getOwner() != heroToAttack->getOwner() && isFieldInRange(heroField, actionField, range))
     {
         if (hero->getWeapon() == std::nullopt)
         {
@@ -88,7 +101,6 @@ bool GameController::attackAction(std::shared_ptr<Field> heroField, std::shared_
         {
             if (hero->getLoads() > 0)
             {
-
                 iceDruidSpecialAttack(hero, heroToAttack);
                 hero->setLoads(hero->getLoads() - 1);
             }
@@ -101,7 +113,8 @@ bool GameController::attackAction(std::shared_ptr<Field> heroField, std::shared_
         {
             if (hero->getLoads() > 0)
             {
-                heroToAttack->takeDamage(hero->getWeapon().value()->getDamage());
+                unsigned int damage = hero->getWeapon().value()->getDamage();
+                heroToAttack->takeDamage(damage);
                 hero->setLoads(hero->getLoads() - 1);
             }
             else
@@ -113,7 +126,8 @@ bool GameController::attackAction(std::shared_ptr<Field> heroField, std::shared_
         {
             if (hero->getLoads() >= SIEGE_LOADS_NUMBER)
             {
-                heroToAttack->takeDamage(hero->getWeapon().value()->getDamage());
+                unsigned int damage = hero->getWeapon().value()->getDamage();
+                heroToAttack->takeDamage(damage);
                 hero->setLoads(0);
             }
             else
@@ -125,9 +139,9 @@ bool GameController::attackAction(std::shared_ptr<Field> heroField, std::shared_
         {
             if (hero->getLoads() >= SIEGE_LOADS_NUMBER)
             {
-                int damage = heroField->getHero().value()->getWeapon().value()->getDamage();
+                unsigned int damage = hero->getWeapon().value()->getDamage();
                 trebuchetSpecialAttack(actionField, damage);
-                this->trebuchetAttack[actionField] =  damage;
+                this->trebuchetAttackRepetition[actionField] = damage;
                 hero->setLoads(0);
             }
             else
@@ -139,8 +153,6 @@ bool GameController::attackAction(std::shared_ptr<Field> heroField, std::shared_
         {
             heroToAttack->takeDamage(hero->getWeapon().value()->getDamage());
         }
-
-        std::cout << "Damage given" << std::endl;
         return true;
     }
     return false;
@@ -154,7 +166,8 @@ void GameController::mageSpecialAttack(std::shared_ptr<Hero> hero, std::shared_p
     {
         if (field->getHero().value()->getOwner() == heroToAttack->getOwner())
         {
-            field->getHero().value()->takeDamage(hero->getWeapon().value()->getSecondaryDamage());
+            unsigned int secDamage = hero->getWeapon().value()->getSecondaryDamage();
+            field->getHero().value()->takeDamage(secDamage);
         }
     }
 }
@@ -170,7 +183,7 @@ void GameController::trebuchetSpecialAttack(std::shared_ptr<Field> actionField, 
     auto opponentsHeroesFields = board->getFieldsAround(actionField);
     for (auto field : opponentsHeroesFields)
     {
-        if (field->getHero() != std::nullopt)
+        if (!field->isFree())
         {
             // Friendly Fire ON
             //  if (field->getHero().value()->getOwner() == actionField->getHero().value()->getOwner())
@@ -181,7 +194,9 @@ void GameController::trebuchetSpecialAttack(std::shared_ptr<Field> actionField, 
     }
     actionField->getHero().value()->takeDamage(damage);
 }
+// Actions end
 
+// Other
 bool GameController::isFieldInRange(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField, unsigned int range)
 {
     auto heroFieldCoor = this->getBoard()->findFieldCoordinates(heroField);

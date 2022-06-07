@@ -105,118 +105,58 @@ void ActionMenu::update(const sf::Vector2i &mousePosition)
         {
             auto rectWidth = rect.getSize().x;
             auto rectStartX = rect.getPosition().x;
+            // Attack
             if (this->actionNumber == ActionNumber::one)
             {
                 healClicked = false;
                 moveClicked = false;
                 attackClicked = true;
-                std::cout << "Attack" << std::endl;
             }
             else if (this->actionNumber == ActionNumber::two)
             {
+                // Move
                 if (mousePosition.x < (rectStartX + rectWidth * 0.5))
                 {
                     healClicked = false;
                     moveClicked = true;
                     attackClicked = false;
-                    std::cout << "Move" << std::endl;
                 }
+                // Attack
                 else
                 {
                     healClicked = false;
                     moveClicked = false;
                     attackClicked = true;
-                    std::cout << "Attack" << std::endl;
                 }
             }
             else if (this->actionNumber == ActionNumber::three)
             {
-
+                // Heal
                 if (mousePosition.x < (rectStartX + rectWidth * 0.33))
                 {
                     healClicked = true;
                     moveClicked = false;
                     attackClicked = false;
-                    std::cout << "Heal" << std::endl;
                 }
+                // Move
                 else if (mousePosition.x < (rectStartX + rectWidth * 0.66))
                 {
                     healClicked = false;
                     moveClicked = true;
                     attackClicked = false;
-                    std::cout << "Move" << std::endl;
                 }
+                // Attack
                 else
                 {
                     healClicked = false;
                     moveClicked = false;
                     attackClicked = true;
-                    std::cout << "Attack" << std::endl;
                 }
             }
         }
         this->pressed = false;
         this->mouseHold = false;
     }
-
-    // if (this->rect.getGlobalBounds().contains(sf::Vector2f(mousePosition)))
-    // {
-    //     if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-    //     {
-    //         auto rectWidth = rect.getSize().x;
-    //         auto rectStartX = rect.getPosition().x;
-    //         if (this->actionNumber == ActionNumber::one)
-    //         {
-    //             healClicked = false;
-    //             moveClicked = false;
-    //             attackClicked = true;
-    //             std::cout << "Attack" << std::endl;
-    //         }
-    //         else if (this->actionNumber == ActionNumber::two)
-    //         {
-    //             if (mousePosition.x < (rectStartX + rectWidth * 0.5))
-    //             {
-    //                 healClicked = false;
-    //                 moveClicked = true;
-    //                 attackClicked = false;
-    //                 std::cout << "Move" << std::endl;
-    //             }
-    //             else
-    //             {
-    //                 healClicked = false;
-    //                 moveClicked = false;
-    //                 attackClicked = true;
-    //                 std::cout << "Attack" << std::endl;
-    //             }
-    //         }
-    //         else if (this->actionNumber == ActionNumber::three)
-    //         {
-
-    //             if (mousePosition.x < (rectStartX + rectWidth * 0.33))
-    //             {
-    //                 healClicked = true;
-    //                 moveClicked = false;
-    //                 attackClicked = false;
-    //                 std::cout << "Heal" << std::endl;
-    //             }
-    //             else if (mousePosition.x < (rectStartX + rectWidth * 0.66))
-    //             {
-    //                 healClicked = false;
-    //                 moveClicked = true;
-    //                 attackClicked = false;
-    //                 std::cout << "Move" << std::endl;
-    //             }
-    //             else
-    //             {
-    //                 healClicked = false;
-    //                 moveClicked = false;
-    //                 attackClicked = true;
-    //                 std::cout << "Attack" << std::endl;
-    //             }
-    //         }
-    //         // this->doNotHide = true;
-    //     }
-    // }
     if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
     {
         this->close = true;

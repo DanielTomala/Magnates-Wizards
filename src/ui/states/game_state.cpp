@@ -73,22 +73,22 @@ void GameState::changeTurn()
 
 void GameState::unfreezeHeores(Player player)
 {
-	auto frozenHeroes = gameController->frozenHeroes;
-	gameController->frozenHeroes.erase(
+	auto frozenHeroes = gameController->getFrozenHeroes();
+	gameController->getFrozenHeroes().erase(
 		std::remove_if(
-			gameController->frozenHeroes.begin(),
-			gameController->frozenHeroes.end(),
+			gameController->getFrozenHeroes().begin(),
+			gameController->getFrozenHeroes().end(),
 			[player](std::shared_ptr<Hero> const &h)
 			{
 				h->sprite.setColor(sf::Color(255, 255, 255));
 				return h->getOwner() == player;
 			}),
-		gameController->frozenHeroes.end());
+		gameController->getFrozenHeroes().end());
 }
 
 void GameState::updateFrozenHeroes()
 {
-	for (auto frozenHero : gameController->frozenHeroes)
+	for (auto frozenHero : gameController->getFrozenHeroes())
 	{
 		frozenHero->sprite.setColor((sf::Color(17, 182, 244)));
 	}
@@ -96,11 +96,11 @@ void GameState::updateFrozenHeroes()
 
 void GameState::continueTrebuchetAttack()
 {
-	for (auto data : gameController->trebuchetAttack)
+	for (auto data : gameController->getTrebuchetAttackRepetition())
 	{
 		gameController->trebuchetSpecialAttack(data.first, data.second);
 	}
-	gameController->trebuchetAttack.clear();
+	gameController->getTrebuchetAttackRepetition().clear();
 }
 
 void GameState::resetLoads()
@@ -336,7 +336,7 @@ void GameState::showActionMenu(std::shared_ptr<Button> button)
 	int buttonId = button->getId();
 	auto field = gameController->getBoard()->getFieldByCoordinate(buttonId / BOARD_COLUMNS, buttonId % BOARD_COLUMNS);
 	bool isHeroFrozen = false;
-	for (auto frozenHero : gameController->frozenHeroes)
+	for (auto frozenHero : gameController->getFrozenHeroes())
 	{
 		if (field->getHero() != std::nullopt && field->getHero().value() == frozenHero)
 		{

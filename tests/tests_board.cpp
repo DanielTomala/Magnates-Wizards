@@ -25,7 +25,11 @@ TEST_CASE("Get fields", "[Board]"){
 }
 
 TEST_CASE("Get fields with heroes", "[Board]"){
-
+    Board board;
+    std::vector<std::shared_ptr<Hero>> heroes;
+    Archer hero1();
+    board.getFields()[0][0]->addHero(std::make_shared<Hero>(hero1));
+    heroes.push_back(std::make_shared<Hero>(hero1));
 }
 
 TEST_CASE("Get fields with bubble boosters", "[Board]"){
