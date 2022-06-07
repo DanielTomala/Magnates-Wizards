@@ -20,12 +20,12 @@ bool Field::isFree() const
 
 bool Field::isBubbleBoosted() const
 {
-    return this->bubbleBooster == std::nullopt ? true : false;
+    return this->bubbleBooster == std::nullopt ? false : true;
 }
 
 bool Field::isFieldBoosted() const
 {
-    return this->fieldBooster == std::nullopt ? true : false;
+    return this->fieldBooster == std::nullopt ? false : true;
 }
 
  std::optional<std::shared_ptr<Hero> > Field::getHero() const
