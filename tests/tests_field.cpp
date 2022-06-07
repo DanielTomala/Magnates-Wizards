@@ -1,8 +1,8 @@
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
-#include "hero.hpp"
-#include "field.hpp"
+#include "../headers/game_logic/heroes/hero.hpp"
+#include "../headers/game_logic/field.hpp"
 
 TEST_CASE("Default constructor", "[Field]")
 {
@@ -48,7 +48,7 @@ TEST_CASE("Is field boosted", "[Field]")
     REQUIRE(field.isFieldBoosted() == false);
     FieldBooster field_booster = FieldBooster();
     field.addFieldBooster(field_booster);
-    REQUIRE(field.isFieldBoosted() == true);    
+    REQUIRE(field.isFieldBoosted() == true);
 }
 
 TEST_CASE("Get hero", "[Field]")
@@ -57,7 +57,7 @@ TEST_CASE("Get hero", "[Field]")
     BubbleBooster bubble_booster = BubbleBooster();
     Hero hero = Hero();
     Field field = Field(hero, field_booster, bubble_booster);
-    REQUIRE(field.getHero() == hero);    
+    REQUIRE(field.getHero() == hero);
 }
 
 TEST_CASE("Get field booster", "[Field]")
@@ -91,7 +91,7 @@ TEST_CASE("Add field booster", "[Field]")
     Field field = Field();
     FieldBooster field_booster = FieldBooster();
     field.addFieldBooster(field_booster);
-    REQUIRE(field.isFieldBoosted() == true);   
+    REQUIRE(field.isFieldBoosted() == true);
 }
 
 TEST_CASE("Add bubble booster", "[Field]")
