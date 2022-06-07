@@ -22,8 +22,8 @@ Descriptions::Descriptions()
                                                                                                                                                                                                                      "HP: " +
                                         std::to_string(heroAttributes.at(std::make_tuple(EKnight, Damage)).maxHealth) + "\n";
 
-    this->heroesDescriptions[EMage] = "Wizard can attack many heroes.\n"
-                                        "Damage decrease on each hero.\n"
+    this->heroesDescriptions[EMage] = "Mage can attack many heroes.\n"
+                                        "Damage decrease on other heroes.\n"
                                         "Attack range: " +
                                         std::to_string(heroAttributes.at(std::make_tuple(EMage, Damage)).weaponRange) + " - " + std::to_string(heroAttributes.at(std::make_tuple(EMage, Range)).weaponRange) + "\n"
                                         "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(EMage, Damage)).moveRange) + "\n"
@@ -91,7 +91,7 @@ Descriptions::Descriptions()
                                                                         "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(EArcher, Damage)).moveRange) + "\n"
                                                                         "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(EArcher, Damage)).weaponDamage) + "\n"
                                                                         "HP: " + std::to_string(heroAttributes.at(std::make_tuple(EArcher, Damage)).maxHealth) + "\n";
-        
+
     this->personalisationDescriptions[std::make_tuple(EArcher, Balanced)] = "Attack range: " + std::to_string(heroAttributes.at(std::make_tuple(EArcher, Balanced)).weaponRange) + "\n"
                                                                         "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(EArcher, Balanced)).moveRange) + "\n"
                                                                         "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(EArcher, Balanced)).weaponDamage) + "\n"
@@ -107,7 +107,7 @@ Descriptions::Descriptions()
                                                                         "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(EKnight, Damage)).moveRange) + "\n"
                                                                         "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(EKnight, Damage)).weaponDamage) + "\n"
                                                                         "HP: " + std::to_string(heroAttributes.at(std::make_tuple(EKnight, Damage)).maxHealth) + "\n";
-        
+
     this->personalisationDescriptions[std::make_tuple(EKnight, Balanced)] = "Attack range: " + std::to_string(heroAttributes.at(std::make_tuple(EKnight, Balanced)).weaponRange) + "\n"
                                                                         "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(EKnight, Balanced)).moveRange) + "\n"
                                                                         "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(EKnight, Balanced)).weaponDamage) + "\n"
@@ -119,27 +119,27 @@ Descriptions::Descriptions()
                                                                         "HP: " + std::to_string(heroAttributes.at(std::make_tuple(EKnight, Range)).maxHealth) + "\n";
 
 
-    this->personalisationDescriptions[std::make_tuple(EWizard, Damage)] = "Attack range: " + std::to_string(heroAttributes.at(std::make_tuple(EWizard, Damage)).weaponRange) + "\n"
-                                                                        "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(EWizard, Damage)).moveRange) + "\n"
-                                                                        "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(EWizard, Damage)).weaponDamage) + "\n"
-                                                                        "HP: " + std::to_string(heroAttributes.at(std::make_tuple(EWizard, Damage)).maxHealth) + "\n";
-        
-    this->personalisationDescriptions[std::make_tuple(EWizard, Balanced)] = "Attack range: " + std::to_string(heroAttributes.at(std::make_tuple(EWizard, Balanced)).weaponRange) + "\n"
-                                                                        "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(EWizard, Balanced)).moveRange) + "\n"
-                                                                        "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(EWizard, Balanced)).weaponDamage) + "\n"
-                                                                        "HP: " + std::to_string(heroAttributes.at(std::make_tuple(EWizard, Balanced)).maxHealth) + "\n";
+    this->personalisationDescriptions[std::make_tuple(EMage, Damage)] = "Attack range: " + std::to_string(heroAttributes.at(std::make_tuple(EMage, Damage)).weaponRange) + "\n"
+                                                                        "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(EMage, Damage)).moveRange) + "\n"
+                                                                        "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(EMage, Damage)).weaponDamage) + "\n"
+                                                                        "HP: " + std::to_string(heroAttributes.at(std::make_tuple(EMage, Damage)).maxHealth) + "\n";
 
-    this->personalisationDescriptions[std::make_tuple(EWizard, Range)] = "Attack range: " + std::to_string(heroAttributes.at(std::make_tuple(EWizard, Range)).weaponRange) + "\n"
-                                                                        "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(EWizard, Range)).moveRange) + "\n"
-                                                                        "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(EWizard, Range)).weaponDamage) + "\n"
-                                                                        "HP: " + std::to_string(heroAttributes.at(std::make_tuple(EWizard, Range)).maxHealth) + "\n";
+    this->personalisationDescriptions[std::make_tuple(EMage, Balanced)] = "Attack range: " + std::to_string(heroAttributes.at(std::make_tuple(EMage, Balanced)).weaponRange) + "\n"
+                                                                        "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(EMage, Balanced)).moveRange) + "\n"
+                                                                        "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(EMage, Balanced)).weaponDamage) + "\n"
+                                                                        "HP: " + std::to_string(heroAttributes.at(std::make_tuple(EMage, Balanced)).maxHealth) + "\n";
 
-    
+    this->personalisationDescriptions[std::make_tuple(EMage, Range)] = "Attack range: " + std::to_string(heroAttributes.at(std::make_tuple(EMage, Range)).weaponRange) + "\n"
+                                                                        "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(EMage, Range)).moveRange) + "\n"
+                                                                        "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(EMage, Range)).weaponDamage) + "\n"
+                                                                        "HP: " + std::to_string(heroAttributes.at(std::make_tuple(EMage, Range)).maxHealth) + "\n";
+
+
     this->personalisationDescriptions[std::make_tuple(ECatapult, Damage)] = "Attack range: " + std::to_string(heroAttributes.at(std::make_tuple(ECatapult, Damage)).weaponRange) + "\n"
                                                                         "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(ECatapult, Damage)).moveRange) + "\n"
                                                                         "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(ECatapult, Damage)).weaponDamage) + "\n"
                                                                         "HP: " + std::to_string(heroAttributes.at(std::make_tuple(ECatapult, Damage)).maxHealth) + "\n";
-        
+
     this->personalisationDescriptions[std::make_tuple(ECatapult, Balanced)] = "Attack range: " + std::to_string(heroAttributes.at(std::make_tuple(ECatapult, Balanced)).weaponRange) + "\n"
                                                                         "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(ECatapult, Balanced)).moveRange) + "\n"
                                                                         "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(ECatapult, Balanced)).weaponDamage) + "\n"
@@ -149,13 +149,13 @@ Descriptions::Descriptions()
                                                                         "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(ECatapult, Range)).moveRange) + "\n"
                                                                         "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(ECatapult, Range)).weaponDamage) + "\n"
                                                                         "HP: " + std::to_string(heroAttributes.at(std::make_tuple(ECatapult, Range)).maxHealth) + "\n";
-    
-    
+
+
     this->personalisationDescriptions[std::make_tuple(ETrebuchet, Damage)] = "Attack range: " + std::to_string(heroAttributes.at(std::make_tuple(ETrebuchet, Damage)).weaponRange) + "\n"
                                                                         "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(ETrebuchet, Damage)).moveRange) + "\n"
                                                                         "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(ETrebuchet, Damage)).weaponDamage) + "\n"
                                                                         "HP: " + std::to_string(heroAttributes.at(std::make_tuple(ETrebuchet, Damage)).maxHealth) + "\n";
-        
+
     this->personalisationDescriptions[std::make_tuple(ETrebuchet, Balanced)] = "Attack range: " + std::to_string(heroAttributes.at(std::make_tuple(ETrebuchet, Balanced)).weaponRange) + "\n"
                                                                         "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(ETrebuchet, Balanced)).moveRange) + "\n"
                                                                         "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(ETrebuchet, Balanced)).weaponDamage) + "\n"
@@ -165,13 +165,13 @@ Descriptions::Descriptions()
                                                                         "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(ETrebuchet, Range)).moveRange) + "\n"
                                                                         "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(ETrebuchet, Range)).weaponDamage) + "\n"
                                                                         "HP: " + std::to_string(heroAttributes.at(std::make_tuple(ETrebuchet, Range)).maxHealth) + "\n";
-    
-    
+
+
     this->personalisationDescriptions[std::make_tuple(ENinja, Damage)] = "Attack range: " + std::to_string(heroAttributes.at(std::make_tuple(ENinja, Damage)).weaponRange) + "\n"
                                                                         "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(ENinja, Damage)).moveRange) + "\n"
                                                                         "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(ENinja, Damage)).weaponDamage) + "\n"
                                                                         "HP: " + std::to_string(heroAttributes.at(std::make_tuple(ENinja, Damage)).maxHealth) + "\n";
-        
+
     this->personalisationDescriptions[std::make_tuple(ENinja, Balanced)] = "Attack range: " + std::to_string(heroAttributes.at(std::make_tuple(ENinja, Balanced)).weaponRange) + "\n"
                                                                         "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(ENinja, Balanced)).moveRange) + "\n"
                                                                         "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(ENinja, Balanced)).weaponDamage) + "\n"
@@ -187,7 +187,7 @@ Descriptions::Descriptions()
                                                                         "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(EIceDruid, Damage)).moveRange) + "\n"
                                                                         "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(EIceDruid, Damage)).weaponDamage) + "\n"
                                                                         "HP: " + std::to_string(heroAttributes.at(std::make_tuple(EIceDruid, Damage)).maxHealth) + "\n";
-        
+
     this->personalisationDescriptions[std::make_tuple(EIceDruid, Balanced)] = "Attack range: " + std::to_string(heroAttributes.at(std::make_tuple(EIceDruid, Balanced)).weaponRange) + "\n"
                                                                         "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(EIceDruid, Balanced)).moveRange) + "\n"
                                                                         "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(EIceDruid, Balanced)).weaponDamage) + "\n"
@@ -197,7 +197,7 @@ Descriptions::Descriptions()
                                                                         "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(EIceDruid, Range)).moveRange) + "\n"
                                                                         "Damage: " + std::to_string(heroAttributes.at(std::make_tuple(EIceDruid, Range)).weaponDamage) + "\n"
                                                                         "HP: " + std::to_string(heroAttributes.at(std::make_tuple(EIceDruid, Range)).maxHealth) + "\n";
-        
+
 
      this->personalisationDescriptions[std::make_tuple(EMedic, Damage)] = "Attack range: " + std::to_string(heroAttributes.at(std::make_tuple(EMedic, Damage)).weaponRange) + "\n"
                                                                         "Move range: " + std::to_string(heroAttributes.at(std::make_tuple(EMedic, Damage)).moveRange) + "\n"
@@ -217,7 +217,7 @@ Descriptions::Descriptions()
                                                                         "HP: " + std::to_string(heroAttributes.at(std::make_tuple(EMedic, Range)).maxHealth) + "\n"
                                                                         "Healing: " + std::to_string(heroAttributes.at(std::make_tuple(EMedic, Range)).healing) + "\n";
 
-    
+
 
     this->manual = "MAGNATES & HEROES\n\n"
                    "Game for 2 players.\n"
