@@ -5,6 +5,15 @@
 #include "../button.hpp"
 #include "../select_button.hpp"
 #include "../descriptions.hpp"
+#include "../../game_logic/heroes/archer.hpp"
+#include "../../game_logic/heroes/catapult.hpp"
+#include "../../game_logic/heroes/iceDruid.hpp"
+#include "../../game_logic/heroes/knight.hpp"
+#include "../../game_logic/heroes/mage.hpp"
+#include "../../game_logic/heroes/medic.hpp"
+#include "../../game_logic/heroes/ninja.hpp"
+#include "../../game_logic/heroes/trebuchet.hpp"
+
 
 class ConfigureHeroesState : public State
 {
@@ -27,7 +36,6 @@ private:
 
     std::optional<std::shared_ptr<Hero>> choosenHero;
 
-
     void initBoard();
     void initTextures();
     void initFonts();
@@ -39,7 +47,7 @@ private:
     void putHero(std::shared_ptr<Hero> hero, int xCoo, int yCoo);
     void showMenu();
     void hideMenu();
-    
+
     std::shared_ptr<Hero> createHero(HeroType heroType);
     std::string heroTypeToString(HeroType herotype);
 

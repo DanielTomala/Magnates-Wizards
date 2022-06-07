@@ -1,5 +1,6 @@
 #include "../../headers/game_logic/board.hpp"
 
+// Constructors
 Board::Board()
 {
     for (unsigned int row = 0; row < BOARD_ROWS; row++)
@@ -15,15 +16,7 @@ Board::Board(FieldsArray fields)
 {
     this->fields = fields;
 }
-
-std::shared_ptr<Field> Board::getFieldByCoordinate(unsigned int row, unsigned int column) const
-{
-    if (row >= this->getRowsNumber() || column >= this->getColumnsNumber())
-    {
-        throw std::invalid_argument("X value has to be less than width and Y value has to be less than length");
-    }
-    return this->fields.at(row).at(column);
-}
+// Constructors end
 
 FieldsArray Board::getFields() const
 {
@@ -39,6 +32,16 @@ unsigned int Board::getColumnsNumber() const
 {
     return BOARD_COLUMNS;
 }
+
+std::shared_ptr<Field> Board::getFieldByCoordinate(unsigned int row, unsigned int column) const
+{
+    if (row >= this->getRowsNumber() || column >= this->getColumnsNumber())
+    {
+        throw std::invalid_argument("X value has to be less than width and Y value has to be less than length");
+    }
+    return this->fields.at(row).at(column);
+}
+
 std::vector<std::shared_ptr<Field>> Board::getFieldsWithHeroes() const
 {
     std::vector<std::shared_ptr<Field>> fieldsWithHeroes;
@@ -46,7 +49,7 @@ std::vector<std::shared_ptr<Field>> Board::getFieldsWithHeroes() const
     {
         for (auto field : row)
         {
-            if (field->isFree() == false)
+            if (!field->isFree())
             {
                 fieldsWithHeroes.push_back(field);
             }

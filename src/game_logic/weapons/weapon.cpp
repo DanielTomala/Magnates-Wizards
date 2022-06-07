@@ -61,7 +61,7 @@ unsigned int Weapon::getSecondaryDamage() const
     return 0;
 }
 
-unsigned int Weapon::getMedicalHealth() const
+unsigned int Weapon::getHealPoints() const
 {
     return 0;
 }

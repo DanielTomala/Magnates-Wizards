@@ -1,6 +1,6 @@
 #include "../../../headers/game_logic/weapons/medical_box.hpp"
 
-unsigned int MedicalBox::getMedicalHealth() const
+unsigned int MedicalBox::getHealPoints() const
 {
     return this->medical_health;
 }
