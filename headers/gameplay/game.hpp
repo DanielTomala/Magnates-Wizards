@@ -17,20 +17,18 @@ private:
     sf::Event event;
     sf::Clock clock;
 
-    void initVariables();
     void initSettings();
     void initController();
     void initWindow();
     void initStates();
 
+    void updateEvents();
+    void update();
+    
+    void render();
 public:
     Game();
     virtual ~Game();
-
-    void updateEvents();
-    void update();
-
-    void render();
 
     void run();
 };

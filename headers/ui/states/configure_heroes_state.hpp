@@ -25,7 +25,6 @@ private:
     std::vector<std::shared_ptr<Hero>> firstPlayerHeroes;
     std::vector<std::shared_ptr<Hero>> secondPlayerHeroes;
 
-    std::shared_ptr<Hero> createHero(HeroType heroType);
     std::optional<std::shared_ptr<Hero>> choosenHero;
 
 
@@ -40,7 +39,8 @@ private:
     void putHero(std::shared_ptr<Hero> hero, int xCoo, int yCoo);
     void showMenu();
     void hideMenu();
-
+    
+    std::shared_ptr<Hero> createHero(HeroType heroType);
     std::string heroTypeToString(HeroType herotype);
 
     void renderBackground();

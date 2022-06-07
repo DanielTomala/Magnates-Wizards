@@ -17,9 +17,6 @@ Game::~Game()
     }
 }
 
-void Game::initVariables()
-{
-}
 
 void Game::initWindow()
 {
