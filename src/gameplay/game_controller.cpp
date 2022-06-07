@@ -127,7 +127,7 @@ bool GameController::attackAction(std::shared_ptr<Field> heroField, std::shared_
             {
                 int damage = heroField->getHero().value()->getWeapon().value()->getDamage();
                 trebuchetSpecialAttack(actionField, damage);
-                this->trebuchetAttack[actionField] = std::array<int, 2>{{TREBUCHET_ATTACK_TURNS, damage}};
+                this->trebuchetAttack[actionField] =  damage;
                 hero->setLoads(0);
             }
             else

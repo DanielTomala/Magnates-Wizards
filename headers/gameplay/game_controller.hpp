@@ -15,7 +15,7 @@ public:
 
     std::shared_ptr<Board> getBoard();
     std::vector<std::shared_ptr<Hero>> frozenHeroes;
-    std::map<std::shared_ptr<Field>, std::array<int, 2>> trebuchetAttack;
+    std::map<std::shared_ptr<Field>, int> trebuchetAttack;
 
     bool healAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);
     bool moveAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);

@@ -54,7 +54,6 @@ void GameState::setActionsLeft(unsigned int actionsLeft)
 	this->actionsLeft = actionsLeft;
 }
 
-// Dodać skip turn
 void GameState::changeTurn()
 {
 	setActionsLeft(ACTIONS_PER_TURN);
@@ -99,46 +98,9 @@ void GameState::continueTrebuchetAttack()
 {
 	for (auto data : gameController->trebuchetAttack)
 	{
-		if (data.second[0] > 0)
-		{
-			gameController->trebuchetSpecialAttack(data.first, data.second[1]);
-			data.second[0] = data.second[0] - 1;
-		}
-		else
-		{
-			gameController->trebuchetAttack.erase(data.first);
-		}
+		gameController->trebuchetSpecialAttack(data.first, data.second);
 	}
-
-	// for (auto data : gameController->trebuchetAttack)
-	// {
-	// 	if (std::get<1>(data.second) > 0)
-	// 	{
-	// 		gameController->trebuchetSpecialAttack(std::get<0>(data.second), data.first);
-	// 		gameController->trebuchetAttack.erase(data.first);
-	// 		gameController->trebuchetAttack[data.first] = std::make_tuple(std::get<0>(data.second), std::get<1>(data.second) - 1);
-	// 	}
-	// 	else
-	// 	{
-	// 		gameController->trebuchetAttack.erase(data.first);
-	// 	}
-	// }
-	// for (std::map<std::shared_ptr<Field>, std::array<int, 2UL>>::const_iterator * it = gameController->trebuchetAttack.cbegin(); it != gameController->trebuchetAttack.cend();)
-	// {
-	// 	if ((*it)->second[0] > 0)
-	// 	{
-	// 		gameController->trebuchetSpecialAttack(it->first, it->second[1]);
-	// 		(*it)->second.swap(0) = 1;
-	// 	}
-	// 	else if ((*it)->second[0] <= 0)
-	// 	{
-	// 		it = gameController->trebuchetAttack.erase(it);
-	// 	}
-	// 	else
-	// 	{
-	// 		++it;
-	// 	}
-	// }
+	gameController->trebuchetAttack.clear();
 }
 
 void GameState::resetLoads()
@@ -447,21 +409,24 @@ void GameState::updateButtons()
 	{
 		it.second->update(this->mousePos);
 	}
-	for (auto &it : this->boardButtons)
+	if (!checkIfGameEnded())
 	{
-		it.second->update(this->mousePos);
-		if (it.second->isClicked())
+		for (auto &it : this->boardButtons)
 		{
-			if (!this->actionChosen)
+			it.second->update(this->mousePos);
+			if (it.second->isClicked())
 			{
-				showActionMenu(it.second);
-			}
-			else
-			{
-				int buttonId = it.second->getId();
-				auto field = gameController->getBoard()->getFieldByCoordinate(buttonId / BOARD_COLUMNS, buttonId % BOARD_COLUMNS);
-				this->chosenField = std::make_optional<std::shared_ptr<Field>>(field);
-				this->chosenButton = it.second;
+				if (!this->actionChosen)
+				{
+					showActionMenu(it.second);
+				}
+				else
+				{
+					int buttonId = it.second->getId();
+					auto field = gameController->getBoard()->getFieldByCoordinate(buttonId / BOARD_COLUMNS, buttonId % BOARD_COLUMNS);
+					this->chosenField = std::make_optional<std::shared_ptr<Field>>(field);
+					this->chosenButton = it.second;
+				}
 			}
 		}
 	}
@@ -523,7 +488,6 @@ void GameState::checkIfActionHasToBeDone()
 				this->chosenField = std::nullopt;
 				this->chosenButton = std::nullopt;
 				this->actionChosen = false;
-				// gameOutput();
 			}
 			else
 			{
@@ -546,7 +510,6 @@ void GameState::checkIfActionHasToBeDone()
 				this->chosenField = std::nullopt;
 				this->chosenButton = std::nullopt;
 				this->actionChosen = false;
-				// gameOutput();
 			}
 			else
 			{
@@ -567,7 +530,6 @@ void GameState::checkIfActionHasToBeDone()
 				this->chosenField = std::nullopt;
 				this->chosenButton = std::nullopt;
 				this->actionChosen = false;
-				// gameOutput();
 			}
 			else
 			{
@@ -742,16 +704,4 @@ void GameState::render()
 	this->renderHPBars();
 	this->renderLoads();
 	this->renderActionMenu();
-}
-
-void GameState::gameOutput()
-{
-	std::cout << "Game Output" << std::endl;
-	for (auto field : this->gameController->getBoard()->getFieldsWithHeroes())
-	{
-		auto hero = field->getHero().value();
-		std::cout << hero->getType() << " " << hero->getCurrentHealth() << "/" << hero->getMaxHealth() << std::endl;
-	}
-	std::cout << "Actions left: " << this->getActionsLeft() << std::endl;
-	std::cout << "---------------------------------" << std::endl;
 }
