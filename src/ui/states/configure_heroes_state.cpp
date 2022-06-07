@@ -42,7 +42,7 @@ std::shared_ptr<Hero> ConfigureHeroesState::createHero(HeroType heroType)
 	case EKnight:
 		return std::make_shared<Knight>();
 		break;
-	case EWizard:
+	case EMage:
 		return std::make_shared<Mage>();
 		break;
 	case EMedic:
@@ -222,8 +222,6 @@ void ConfigureHeroesState::initBoard()
 
 void ConfigureHeroesState::showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY)
 {
-	hero->sprite.setPosition(buttonX, buttonY);
-	hero->sprite.setScale((xGrid * 5) / 100, (yGrid * 80 / 9) / 100);
 	switch (hero->getType())
 	{
 	case HeroType::EKnight:
@@ -232,7 +230,7 @@ void ConfigureHeroesState::showHero(std::shared_ptr<Hero> hero, int buttonX, int
 	case HeroType::EArcher:
 		hero->sprite.setTexture(textures["ARCHER"]);
 		break;
-	case HeroType::EWizard:
+	case HeroType::EMage:
 		hero->sprite.setTexture(textures["WIZARD"]);
 		break;
 	case HeroType::EIceDruid:
@@ -254,9 +252,12 @@ void ConfigureHeroesState::showHero(std::shared_ptr<Hero> hero, int buttonX, int
 		hero->sprite.setTexture(textures["KNIGHT"]);
 		break;
 	}
+	hero->sprite.setPosition(buttonX, buttonY);
+	auto textureSize = hero->sprite.getTexture()->getSize().x;
+	hero->sprite.setScale((xGrid * 5) / textureSize, (yGrid * 80 / 9) / textureSize);
 	if (hero->getOwner() == Player::Second)
 	{
-		hero->sprite.setScale(-(xGrid * 5) / 100, (yGrid * 80 / 9) / 100);
+		hero->sprite.setScale(-(xGrid * 5) / textureSize, (yGrid * 80 / 9) / textureSize);
 		hero->sprite.move(xGrid * 5, 0);
 	}
 }
@@ -427,7 +428,7 @@ std::string ConfigureHeroesState::heroTypeToString(HeroType herotype)
 {
 	switch (herotype)
 	{
-	case EWizard:
+	case EMage:
 		return "WIZARD";
 	case EKnight:
 		return "KNIGHT";

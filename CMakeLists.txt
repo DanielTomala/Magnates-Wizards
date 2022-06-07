@@ -6,7 +6,6 @@ set(SRC
     src/game_logic/heroes/hero.cpp
     src/game_logic/heroes/hero_attributes.cpp
     src/game_logic/weapons/bow.cpp
-    src/game_logic/weapons/ground_druid_staff.cpp
     src/game_logic/weapons/ice_druid_staff.cpp
     src/game_logic/weapons/mage_wand.cpp
     src/game_logic/weapons/medical_box.cpp
@@ -28,6 +27,7 @@ set(SRC
     src/ui/states/state.cpp
     src/ui/button.cpp
     src/ui/HPbar.cpp
+    src/ui/loads.cpp
     src/ui/select_button.cpp
     src/ui/descriptions.cpp
     src/ui/graphic_settings.cpp

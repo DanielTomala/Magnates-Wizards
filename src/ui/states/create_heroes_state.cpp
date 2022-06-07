@@ -115,6 +115,7 @@ void CreateHeroesState::initGui()
 	this->shapes["RIGHT_BG"]->setSize(sf::Vector2f{xGrid * 20, yGrid * 84});
 	this->shapes["RIGHT_BG"]->setPosition(xGrid * 76, yGrid * 8);
 
+
 	this->buttons["EXIT"] = std::make_shared<Button>(
 		xGrid * 93, yGrid * 0, xGrid * 7, yGrid * 6, std::make_shared<sf::Font>(this->font), "BACK", 30,
 		textures["BUTTON"], sf::Color(214, 154, 58), sf::Color(233, 150, 123), sf::Color(200, 30, 19), 1);
@@ -122,6 +123,7 @@ void CreateHeroesState::initGui()
 	this->buttons["START"] = std::make_shared<Button>(
 		xGrid * 93, yGrid * 94, xGrid * 7, yGrid * 6, std::make_shared<sf::Font>(this->font), "START", 30,
 		textures["BUTTON"], sf::Color(214, 154, 58), sf::Color(233, 150, 123), sf::Color(200, 30, 19), 1);
+
 
 	this->heroButtons["ARCHER_1"] = std::make_shared<SelectButton>(
 		xGrid * 6, yGrid * 18, xGrid * 7, yGrid * 12, textures["ARCHER"], sf::Color::Green, heroesDescriptions.getDescription(EArcher), First, EArcher);
@@ -142,7 +144,7 @@ void CreateHeroesState::initGui()
 		xGrid * 15, yGrid * 35, xGrid * 7, yGrid * 12, textures["MEDIC"], sf::Color::Green, heroesDescriptions.getDescription(EMedic), First, EMedic);
 
 	this->heroButtons["WIZARD_1"] = std::make_shared<SelectButton>(
-		xGrid * 15, yGrid * 52, xGrid * 7, yGrid * 12, textures["WIZARD"], sf::Color::Green, heroesDescriptions.getDescription(EWizard), First, EWizard);
+		xGrid * 15, yGrid * 52, xGrid * 7, yGrid * 12, textures["WIZARD"], sf::Color::Green, heroesDescriptions.getDescription(EMage), First, EMage);
 
 	this->heroButtons["TREBUCHET_1"] = std::make_shared<SelectButton>(
 		xGrid * 15, yGrid * 69, xGrid * 7, yGrid * 12, textures["TREBUCHET"], sf::Color::Green, heroesDescriptions.getDescription(ETrebuchet), First, ETrebuchet);
@@ -166,7 +168,7 @@ void CreateHeroesState::initGui()
 		xGrid * 87, yGrid * 35, xGrid * 7, yGrid * 12, textures["MEDIC"], sf::Color::Green, heroesDescriptions.getDescription(EMedic), Second, EMedic);
 
 	this->heroButtons["WIZARD_2"] = std::make_shared<SelectButton>(
-		xGrid * 87, yGrid * 52, xGrid * 7, yGrid * 12, textures["WIZARD"], sf::Color::Green, heroesDescriptions.getDescription(EWizard), Second, EWizard);
+		xGrid * 87, yGrid * 52, xGrid * 7, yGrid * 12, textures["WIZARD"], sf::Color::Green, heroesDescriptions.getDescription(EMage), Second, EMage);
 
 	this->heroButtons["TREBUCHET_2"] = std::make_shared<SelectButton>(
 		xGrid * 87, yGrid * 69, xGrid * 7, yGrid * 12, textures["TREBUCHET"], sf::Color::Green, heroesDescriptions.getDescription(ETrebuchet), Second, ETrebuchet);

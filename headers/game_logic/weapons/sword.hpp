@@ -5,8 +5,11 @@
 
 class Sword : public Weapon
 {
-protected:
-    unsigned int range = 1;
+public:
+    ~Sword(){};
+    WeaponType getType() const override;
+    unsigned int getSecondaryDamage() const { return 0; };
+    unsigned int getMedicalHealth() const { return 0; };
 };
 
 #endif

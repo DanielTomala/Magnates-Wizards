@@ -5,17 +5,11 @@
 
 class Stone : public Weapon
 {
-protected:
-    unsigned int total_points;
-    unsigned int range;
-    unsigned int damage;
 public:
-    unsigned int getTotalPoints() const;
-    void setTotalPoints(unsigned int total_points);
-    unsigned int getRange() const;
-    void setRange(unsigned int range);
-    unsigned int getDamage() const;
-    void setDamage(unsigned int damage);
+    ~Stone(){};
+    WeaponType getType() const override;
+    unsigned int getSecondaryDamage() const { return 0; };
+    unsigned int getMedicalHealth() const { return 0; };
 };
 
 #endif

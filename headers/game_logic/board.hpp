@@ -23,6 +23,7 @@ public:
     std::vector<std::shared_ptr<Field>> getFieldsWithHeroes() const;
     std::vector<std::shared_ptr<Field>> getFieldsWithBubbleBooster() const;
     std::vector<std::shared_ptr<Field>> getFieldsWithFieldBooster() const;
+    std::vector<std::shared_ptr<Field>> getFieldsAround(std::shared_ptr<Field> field) const;
     std::tuple<int, int> findFieldCoordinates(std::shared_ptr<Field> field) const;
 };
 

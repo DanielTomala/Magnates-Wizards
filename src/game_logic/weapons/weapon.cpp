@@ -55,3 +55,18 @@ bool Weapon::isNotCrashed() const
 {
     return durability > 0 ? true : false;
 }
+
+unsigned int Weapon::getSecondaryDamage() const
+{
+    return 0;
+}
+
+unsigned int Weapon::getMedicalHealth() const
+{
+    return 0;
+}
+
+WeaponType Weapon::getType() const
+{
+    return WeaponType::EWeapon;
+}
