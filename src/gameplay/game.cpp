@@ -20,6 +20,7 @@ Game::~Game()
 
 void Game::initWindow()
 {
+    // SFML has a problem with std::shared_ptr here
     this->window = new sf::RenderWindow(
         this->settings.resolution,
         this->settings.title,

@@ -6,142 +6,142 @@
 #include "../headers/game_logic/wearable.hpp"
 #include <optional>
 
-TEST_CASE("Default Constructor", "[Hero]")
+TEST_CASE("Default Constructor", "[Archer]")
 {
-    Hero heroDefault;
+    Archer heroDefault;
     REQUIRE(heroDefault.getMaxHealth() == 0);
     REQUIRE(heroDefault.getCurrentHealth() == 0);
     REQUIRE(heroDefault.getWeapon() == std::nullopt);
     REQUIRE(heroDefault.getWearable() == std::nullopt);
 }
 
-TEST_CASE("Constructor with health", "[Hero]")
+TEST_CASE("Constructor with health", "[Archer]")
 {
-    Hero hero(20);
+    Archer hero(20, 10);
     REQUIRE(hero.getMaxHealth() == 20);
     REQUIRE(hero.getCurrentHealth() == 20);
     REQUIRE(hero.getWeapon() == std::nullopt);
     REQUIRE(hero.getWearable() == std::nullopt);
 }
 
-TEST_CASE("Constructor with health, weapon and wearable", "[Hero]")
+TEST_CASE("Constructor with health, weapon and wearable", "[Archer]")
 {
-    Weapon weapon(7, 60, 2);
-    Wearable wearable(10, 30);
-    Hero hero(20, weapon, wearable);
+    auto weapon = std::make_shared<Weapon>(7, 60, 2);
+    auto wearable = std::make_shared<Wearable>(10, 30);
+    Archer hero(20, 10, weapon, wearable);
     REQUIRE(hero.getMaxHealth() == 20);
     REQUIRE(hero.getCurrentHealth() == 20);
-    REQUIRE(hero.getWeapon().value().getDamage() == weapon.getDamage());
-    REQUIRE(hero.getWeapon().value().getDurability() == weapon.getDurability());
-    REQUIRE(hero.getWeapon().value().getRange() == weapon.getRange());
-    REQUIRE(hero.getWearable().value().getDurability() == wearable.getDurability());
-    REQUIRE(hero.getWearable().value().getProtection() == wearable.getProtection());
+    REQUIRE(hero.getWeapon().value()->getDamage() == weapon->getDamage());
+    REQUIRE(hero.getWeapon().value()->getDurability() == weapon->getDurability());
+    REQUIRE(hero.getWeapon().value()->getRange() == weapon->getRange());
+    REQUIRE(hero.getWearable().value()->getDurability() == wearable->getDurability());
+    REQUIRE(hero.getWearable().value()->getProtection() == wearable->getProtection());
 }
 
-TEST_CASE("Get and set max health", "[Hero]")
+TEST_CASE("Get and set max health", "[Archer]")
 {
-    Hero hero;
+    Archer hero;
     REQUIRE(hero.getMaxHealth() == 0);
     hero.setMaxHealth(20);
     REQUIRE(hero.getMaxHealth() == 20);
 }
 
-TEST_CASE("Get and set current health", "[Hero]")
+TEST_CASE("Get and set current health", "[Archer]")
 {
-    Hero hero;
+    Archer hero;
     REQUIRE(hero.getCurrentHealth() == 0);
     hero.setCurrentHealth(15);
     REQUIRE(hero.getCurrentHealth() == 15);
 }
 
-TEST_CASE("Get, add and remove weapon", "[Hero]")
+TEST_CASE("Get, add and remove weapon", "[Archer]")
 {
-    Hero hero;
+    Archer hero;
     REQUIRE(hero.getWeapon() == std::nullopt);
-    Weapon weapon(4, 60, 2);
+    auto weapon = std::make_shared<Weapon>(7, 60, 2);
     hero.addWeapon(weapon);
-    REQUIRE(hero.getWeapon()->getDamage() == weapon.getDamage());
-    REQUIRE(hero.getWeapon()->getDurability() == weapon.getDurability());
-    REQUIRE(hero.getWeapon()->getRange() == weapon.getRange());
+    REQUIRE(hero.getWeapon().value()->getDamage() == weapon->getDamage());
+    REQUIRE(hero.getWeapon().value()->getDurability() == weapon->getDurability());
+    REQUIRE(hero.getWeapon().value()->getRange() == weapon->getRange());
     hero.removeWeapon();
     REQUIRE(hero.getWeapon() == std::nullopt);
 }
 
-TEST_CASE("Get, add and remove wearable", "[Hero]")
+TEST_CASE("Get, add and remove wearable", "[Archer]")
 {
-    Hero hero;
+    Archer hero;
     REQUIRE(hero.getWearable() == std::nullopt);
-    Wearable wearable(5, 70);
+    auto wearable = std::make_shared<Wearable>(10, 30);
     hero.addWearable(wearable);
-    REQUIRE(hero.getWearable()->getDurability() == wearable.getDurability());
-    REQUIRE(hero.getWearable()->getProtection() == wearable.getProtection());
+    REQUIRE(hero.getWearable().value()->getDurability() == wearable->getDurability());
+    REQUIRE(hero.getWearable().value()->getProtection() == wearable->getProtection());
     hero.removeWearable();
     REQUIRE(hero.getWearable() == std::nullopt);
 }
 
-TEST_CASE("Heal; health after heal less than max", "[Hero]")
+TEST_CASE("Heal; health after heal less than max", "[Archer]")
 {
-    Hero hero(45);
+    Archer hero(45, 12);
     hero.setCurrentHealth(30);
     REQUIRE(hero.getCurrentHealth() == 30);
     hero.heal(10);
     REQUIRE(hero.getCurrentHealth() == 40);
 }
 
-TEST_CASE("Heal; try to heal more points than max", "[Hero]")
+TEST_CASE("Heal; try to heal more points than max", "[Archer]")
 {
-    Hero hero(65);
+    Archer hero(65, 12);
     hero.setCurrentHealth(50);
     REQUIRE(hero.getCurrentHealth() == 50);
     hero.heal(20);
     REQUIRE(hero.getCurrentHealth() == 65);
 }
 
-TEST_CASE("Heal; already max health points", "[Hero]")
+TEST_CASE("Heal; already max health points", "[Archer]")
 {
-    Hero hero(20);
+    Archer hero(20, 12);
     REQUIRE(hero.getCurrentHealth() == 20);
     hero.heal(5);
     REQUIRE(hero.getCurrentHealth() == 20);
 }
 
-TEST_CASE("Heal; already health points == 0", "[Hero]")
+TEST_CASE("Heal; already health points == 0", "[Archer]")
 {
-    Hero hero(20);
+    Archer hero(20, 12);
     hero.setCurrentHealth(0);
     REQUIRE(hero.getCurrentHealth() == 0);
     hero.heal(10);
     REQUIRE(hero.getCurrentHealth() == 0);
 }
 
-TEST_CASE("Take damage; after damage health > 0", "[Hero]")
+TEST_CASE("Take damage; after damage health > 0", "[Archer]")
 {
-    Hero hero(35);
+    Archer hero(35, 12);
     REQUIRE(hero.getCurrentHealth() == 35);
     hero.takeDamage(5);
     REQUIRE(hero.getCurrentHealth() == 30);
 }
 
-TEST_CASE("Take damage; after damage health =< 0", "[Hero]")
+TEST_CASE("Take damage; after damage health =< 0", "[Archer]")
 {
-    Hero hero(80);
+    Archer hero(80, 12);
     REQUIRE(hero.getCurrentHealth() == 80);
     hero.takeDamage(100);
     REQUIRE(hero.getCurrentHealth() == 0);
 }
 
-TEST_CASE("Take damage; before damage health ==  0", "[Hero]")
+TEST_CASE("Take damage; before damage health ==  0", "[Archer]")
 {
-    Hero hero(80);
+    Archer hero(80, 12);
     hero.setCurrentHealth(0);
     REQUIRE(hero.getCurrentHealth() == 0);
     hero.takeDamage(17);
     REQUIRE(hero.getCurrentHealth() == 0);
 }
 
-TEST_CASE("Is alive", "[Hero]")
+TEST_CASE("Is alive", "[Archer]")
 {
-    Hero hero(80);
+    Archer hero(80, 12);
     REQUIRE(hero.isAlive() == true);
     hero.setCurrentHealth(0);
     REQUIRE(hero.isAlive() == false);
@@ -196,7 +196,7 @@ TEST_CASE("IceDruid", "[IceDruid]")
 TEST_CASE("Ninja", "[Ninja]")
 {
     Ninja ninja(200, 5);
-    REQUIRE(ninja.getType() == Eninja);
+    REQUIRE(ninja.getType() == ENinja);
     REQUIRE(ninja.getCurrentHealth() == 200);
     REQUIRE(ninja.getMoveRange() == 5);
     ninja.takeDamage(10);
