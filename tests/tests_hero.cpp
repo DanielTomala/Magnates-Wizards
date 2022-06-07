@@ -146,3 +146,92 @@ TEST_CASE("Is alive", "[Hero]")
     hero.setCurrentHealth(0);
     REQUIRE(hero.isAlive() == false);
 }
+
+TEST_CASE("Archer", "[Archer]")
+{
+    Archer archer(100, 2);
+    REQUIRE(archer.getType() == EArcher);
+    REQUIRE(archer.getCurrentHealth() == 100);
+    REQUIRE(archer.getMoveRange() == 2);
+    archer.takeDamage(1);
+    REQUIRE(archer.getCurrentHealth() == 99);
+    archer.setCurrentHealth(0);
+    REQUIRE(archer.isAlive() == false);
+}
+
+TEST_CASE("Knight", "[Knight]")
+{
+    Knight knight(10, 1);
+    REQUIRE(knight.getType() == EKnight);
+    REQUIRE(knight.getCurrentHealth() == 10);
+    REQUIRE(knight.getMoveRange() == 1);
+    knight.takeDamage(1);
+    REQUIRE(knight.getCurrentHealth() == 9);
+    knight.setCurrentHealth(0);
+    REQUIRE(knight.isAlive() == false);
+}
+
+TEST_CASE("Mage", "[Mage]")
+{
+    Mage mage(10, 5);
+    REQUIRE(mage.getType() == EMage);
+    REQUIRE(mage.getCurrentHealth() == 10);
+    REQUIRE(mage.getMoveRange() == 5);
+    mage.setCurrentHealth(0);
+    REQUIRE(mage.isAlive() == false);
+}
+
+TEST_CASE("IceDruid", "[IceDruid]")
+{
+    IceDruid icedruid(150, 3);
+    REQUIRE(icedruid.getType() == EIceDruid);
+    REQUIRE(icedruid.getCurrentHealth() == 150);
+    REQUIRE(icedruid.getMoveRange() == 3);
+    icedruid.takeDamage(10);
+    REQUIRE(icedruid.getCurrentHealth() == 140);
+    icedruid.setCurrentHealth(0);
+    REQUIRE(icedruid.isAlive() == false);
+}
+
+TEST_CASE("Ninja", "[Ninja]")
+{
+    Ninja ninja(200, 5);
+    REQUIRE(ninja.getType() == Eninja);
+    REQUIRE(ninja.getCurrentHealth() == 200);
+    REQUIRE(ninja.getMoveRange() == 5);
+    ninja.takeDamage(10);
+    REQUIRE(ninja.getCurrentHealth() == 190);
+    ninja.setCurrentHealth(0);
+    REQUIRE(ninja.isAlive() == false);
+}
+
+TEST_CASE("Medic", "[Medic]")
+{
+    Medic medic(100, 3);
+    REQUIRE(medic.getType() == EMedic);
+    REQUIRE(medic.getCurrentHealth() == 100);
+    REQUIRE(medic.getMoveRange() == 3);
+    medic.takeDamage(10);
+    REQUIRE(medic.getCurrentHealth() == 90);
+    medic.setCurrentHealth(0);
+    REQUIRE(medic.isAlive() == false);
+}
+
+TEST_CASE("Trebuchet", "[Trebuchet]")
+{
+    Trebuchet trebuchet(100);
+    REQUIRE(trebuchet.getType() == ETrebuchet);
+    REQUIRE(trebuchet.getCurrentHealth() == 100);
+    REQUIRE(trebuchet.getMaxHealth() == 100);
+    trebuchet.takeDamage(10);
+    REQUIRE(trebuchet.getCurrentHealth() == 90);
+}
+
+TEST_CASE("Catapult", "[Catapult]")
+{
+    Catapult catapult(150);
+    REQUIRE(catapult.getType() == ECatapult);
+    REQUIRE(catapult.getCurrentHealth() == 150);
+    catapult.takeDamage(10);
+    REQUIRE(catapult.getCurrentHealth() == 140);
+}

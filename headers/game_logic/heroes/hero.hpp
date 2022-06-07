@@ -37,7 +37,6 @@ public:
     Personalisation getPersonalisation() const;
     unsigned int getLoads() const;
 
-
     std::optional<std::shared_ptr<Weapon>> getWeapon() const;
     std::optional<std::shared_ptr<Wearable>> getWearable() const;
 
@@ -86,7 +85,6 @@ public:
     virtual ~Archer(){};
     HeroType getType() const override;
     void setAttributes() override;
-    // jak dodać restrykcję co do Weapon?
 };
 
 class Knight : public Hero
@@ -162,8 +160,6 @@ public:
     virtual ~Trebuchet(){};
     HeroType getType() const override;
     void setAttributes() override;
-    // zadaje dmg na kwadracie dookoła atakowanego zawodnika
-    // Zadaje niewielkie obrażenia na pewnym obszarze, stoi w jednym miejscu,
 };
 
 #endif
