@@ -99,7 +99,7 @@ void GameState::continueTrebuchetAttack()
 	{
 		gameController->trebuchetSpecialAttack(data.first, data.second);
 	}
-	gameController->getTrebuchetAttackRepetition().clear();
+	gameController->trebuchetAttackRepetition.clear();
 }
 
 void GameState::resetLoads()

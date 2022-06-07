@@ -17,7 +17,6 @@ public:
     std::vector<std::shared_ptr<Hero>> getFrozenHeroes();
     std::map<std::shared_ptr<Field>, int> getTrebuchetAttackRepetition();
 
-
     bool healAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);
     bool moveAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);
     bool attackAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);
@@ -28,10 +27,11 @@ public:
 
     bool isFieldInRange(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField, unsigned int range);
 
+    std::map<std::shared_ptr<Field>, int> trebuchetAttackRepetition;
+
 private:
     std::shared_ptr<Board> board;
     std::vector<std::shared_ptr<Hero>> frozenHeroes;
-    std::map<std::shared_ptr<Field>, int> trebuchetAttackRepetition;
 };
 
 #endif
