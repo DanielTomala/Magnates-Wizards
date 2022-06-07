@@ -6,36 +6,21 @@
 #include <algorithm> //std::min
 #include <optional>  //std::optional
 #include <SFML/Graphics.hpp>
+#include "hero_attributes.hpp"
+#include <memory>
 
-enum HeroType
-{
-    EArcher,
-    EKnight,
-    EWizard,
-    EIceDruid,
-    ECatapult,
-    EMedic,
-    ENinja,
-    ETrebuchet
-};
-
-
-enum Parameters{ // AttackRange/Damage
-    LowHigh,
-    MediumMedium,
-    HighLow
-};
+#include "../weapons/bow.hpp"
+#include "../weapons/ice_druid_staff.hpp"
+#include "../weapons/mage_wand.hpp"
+#include "../weapons/medical_box.hpp"
+#include "../weapons/shuriken.hpp"
+#include "../weapons/sword.hpp"
+#include "../weapons/stone.hpp"
 
 enum Player
 {
     First,
     Second
-};
-
-enum Personalisation{
-    Damage,
-    Balanced,
-    Range
 };
 
 class Hero
@@ -44,20 +29,24 @@ public:
     Hero();
     virtual ~Hero();
     Hero(unsigned int maxHealth, unsigned int moveRange);
-    Hero(unsigned int maxHealth, unsigned int moveRange, const Weapon weapon, const Wearable wearable);
+    Hero(unsigned int maxHealth, unsigned int moveRange, std::shared_ptr<Weapon> weapon, std::shared_ptr<Wearable> wearable);
 
     unsigned int getMaxHealth() const;
     unsigned int getCurrentHealth() const;
     unsigned int getMoveRange() const;
+    Personalisation getPersonalisation() const;
+    unsigned int getLoads() const;
 
-    std::optional<Weapon> getWeapon() const;
-    std::optional<Wearable> getWearable() const;
+
+    std::optional<std::shared_ptr<Weapon>> getWeapon() const;
+    std::optional<std::shared_ptr<Wearable>> getWearable() const;
 
     void setMaxHealth(unsigned int health);
     void setCurrentHealth(unsigned int health);
+    void setLoads(unsigned int loads);
 
-    void addWeapon(const Weapon weapon);
-    void addWearable(const Wearable wearable);
+    void addWeapon(std::shared_ptr<Weapon> weapon);
+    void addWearable(std::shared_ptr<Wearable> wearable);
 
     void removeWeapon();
     void removeWearable();
@@ -68,19 +57,24 @@ public:
     bool isAlive() const;
     sf::Sprite sprite;
 
-    virtual HeroType getType() = 0;
-    virtual void setAttributes(Personalisation personalisation) = 0;
+    virtual HeroType getType() const = 0;
+    virtual void setAttributes() = 0;
+
+    void setPersonalisation(const Personalisation &personalisation);
+    void setMoveRange(unsigned int range);
 
     void setOwner(Player owner);
     Player getOwner() const;
 
-private:
+protected:
     unsigned int moveRange;
     unsigned int maxHealth;
     unsigned int currentHealth;
-    std::optional<Weapon> weapon;
-    std::optional<Wearable> wearable;
+    unsigned int loads;
+    std::optional<std::shared_ptr<Weapon>> weapon;
+    std::optional<std::shared_ptr<Wearable>> wearable;
     Player owner;
+    Personalisation personalisation;
 };
 
 class Archer : public Hero
@@ -88,10 +82,10 @@ class Archer : public Hero
 public:
     Archer(){};
     Archer(unsigned int maxHealth, unsigned int moveRange) : Hero(maxHealth, moveRange){};
-    Archer(unsigned int maxHealth, unsigned int moveRange, Weapon weapon, Wearable wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
+    Archer(unsigned int maxHealth, unsigned int moveRange, std::shared_ptr<Weapon> weapon, std::shared_ptr<Wearable> wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
     virtual ~Archer(){};
-    HeroType getType();
-    void setAttributes(Personalisation personalisation);
+    HeroType getType() const override;
+    void setAttributes() override;
     // jak dodać restrykcję co do Weapon?
 };
 
@@ -100,10 +94,10 @@ class Knight : public Hero
 public:
     Knight() : Hero(){};
     Knight(unsigned int maxHealth, unsigned int moveRange) : Hero(maxHealth, moveRange){};
-    Knight(unsigned int maxHealth, unsigned int moveRange, Weapon weapon, Wearable wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
+    Knight(unsigned int maxHealth, unsigned int moveRange, std::shared_ptr<Weapon> weapon, std::shared_ptr<Wearable> wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
     virtual ~Knight(){};
-    HeroType getType();
-    void setAttributes(Personalisation personalisation);
+    HeroType getType() const override;
+    void setAttributes() override;
 };
 
 class Mage : public Hero
@@ -111,15 +105,10 @@ class Mage : public Hero
 public:
     Mage() : Hero(){};
     Mage(unsigned int maxHealth, unsigned int moveRange) : Hero(maxHealth, moveRange){};
-    Mage(unsigned int maxHealth, unsigned int moveRange, Weapon weapon, Wearable wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
+    Mage(unsigned int maxHealth, unsigned int moveRange, std::shared_ptr<Weapon> weapon, std::shared_ptr<Wearable> wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
     virtual ~Mage(){};
-    HeroType getType();
-    void setAttributes(Personalisation personalisation);
-    // jak dodać restrykcję co do Weapon?
-
-    // funckja zadawania dmg przechodzącego przez kilka wrogów z pomniejszeniem wartości dmg
-
-    // glowny w range i wszyscy pozostali przeciwnika dostaja dmg 
+    HeroType getType() const override;
+    void setAttributes() override;
 };
 
 class IceDruid : public Hero
@@ -127,15 +116,10 @@ class IceDruid : public Hero
 public:
     IceDruid() : Hero(){};
     IceDruid(unsigned int maxHealth, unsigned int moveRange) : Hero(maxHealth, moveRange){};
-    IceDruid(unsigned int maxHealth, unsigned int moveRange, Weapon weapon, Wearable wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
+    IceDruid(unsigned int maxHealth, unsigned int moveRange, std::shared_ptr<Weapon> weapon, std::shared_ptr<Wearable> wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
     virtual ~IceDruid(){};
-    HeroType getType();
-    void setAttributes(Personalisation personalisation);
-    // jak dodać restrykcję co do Weapon?
-
-    // zamraza Hero na cala nastepna runde, dodatkowo zadaje dmg
-
-    // wektor zamrozonych, sprzwdzamy podczas akcji czy postać w wektorze
+    HeroType getType() const override;
+    void setAttributes() override;
 };
 
 class Medic : public Hero
@@ -143,13 +127,10 @@ class Medic : public Hero
 public:
     Medic() : Hero(){};
     Medic(unsigned int maxHealth, unsigned int moveRange) : Hero(maxHealth, moveRange){};
-    Medic(unsigned int maxHealth, unsigned int moveRange, Weapon weapon, Wearable wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
+    Medic(unsigned int maxHealth, unsigned int moveRange, std::shared_ptr<Weapon> weapon, std::shared_ptr<Wearable> wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
     virtual ~Medic(){};
-    HeroType getType();
-    void setAttributes(Personalisation personalisation);
-    // jak dodać restrykcję co do Weapon?
-
-    // leczenie innych heroes, nie zadaje dmg, wybór pomiędzy zasięgiem a stopniem leczenia (może uleczyć dużo blisko albo mało daleko)
+    HeroType getType() const override;
+    void setAttributes() override;
 };
 
 class Ninja : public Hero
@@ -157,15 +138,10 @@ class Ninja : public Hero
 public:
     Ninja() : Hero(){};
     Ninja(unsigned int maxHealth, unsigned int moveRange) : Hero(maxHealth, moveRange){};
-    Ninja(unsigned int maxHealth, unsigned int moveRange, Weapon weapon, Wearable wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
+    Ninja(unsigned int maxHealth, unsigned int moveRange, std::shared_ptr<Weapon> weapon, std::shared_ptr<Wearable> wearable) : Hero(maxHealth, moveRange, weapon, wearable){};
     virtual ~Ninja(){};
-    HeroType getType();
-    void setAttributes(Personalisation personalisation);
-private:
-    unsigned int attacksLeft; //zmniejsza sie po ataku, jak == 0 nie moze atakowac
-    // jak dodać restrykcję co do Weapon?
-
-    // moze co 2 pola sie ruszac, może zaatakować dwa cele
+    HeroType getType() const override;
+    void setAttributes() override;
 };
 
 class Catapult : public Hero
@@ -174,13 +150,8 @@ public:
     Catapult() : Hero(){};
     Catapult(unsigned int maxHealth) : Hero(maxHealth, 0){};
     virtual ~Catapult(){};
-    HeroType getType();
-    void setAttributes(Personalisation personalisation); 
-
-private:
-    unsigned int reloadTurnsLeft; // 
-    // duzy range 
-    // nie zmienia połozenia, musi sie ladowac, moze strzelac co x tur, zadaje duże obrażenia jednorazowo na danym polu
+    HeroType getType() const override;
+    void setAttributes() override;
 };
 
 class Trebuchet : public Hero
@@ -189,12 +160,8 @@ public:
     Trebuchet() : Hero(){};
     Trebuchet(unsigned int maxHealth) : Hero(maxHealth, 0){};
     virtual ~Trebuchet(){};
-    HeroType getType();
-    void setAttributes(Personalisation personalisation);
-
-private:
-    unsigned int reloadTurnsLeft; // 
-
+    HeroType getType() const override;
+    void setAttributes() override;
     // zadaje dmg na kwadracie dookoła atakowanego zawodnika
     // Zadaje niewielkie obrażenia na pewnym obszarze, stoi w jednym miejscu,
 };

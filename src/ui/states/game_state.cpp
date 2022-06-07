@@ -2,10 +2,12 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <array>
 #include <sstream>
 #include <stdlib.h> // srand, rand
 #include <time.h>	//time
+#include <vector>
 #include "../../../headers/consts.hpp"
 #include "../../../headers/ui/action_menu_buttons.hpp"
 #include "../../../headers/ui/HPbar.hpp"
@@ -16,66 +18,20 @@ GameState::GameState(StatesStack *stackPointer,
 					 GameController *gameController)
 	: State(stackPointer, window, settings, gameController)
 {
-	//this->addTestValuesToBoard();
+	// this->addTestValuesToBoard();
 	this->initTextures();
 	this->initFonts();
 	this->initGui();
 	this->initBoardButtons();
+	this->initShapesAndTexts();
 	this->actionChosen = false;
 	this->setActionsLeft(ACTIONS_PER_TURN);
 	this->setCurrentPlayer(Player::First);
+	this->resetLoads();
 }
 
 GameState::~GameState()
 {
-}
-
-void GameState::addTestValuesToBoard()
-{
-	auto weapon = Weapon(5, 50, 3);
-
-	auto board = this->gameController->getBoard();
-	auto field1 = board->getFieldByCoordinate(0, 2);
-	auto hero1 = std::make_shared<Knight>(30, 2);
-	hero1->setOwner(Player::First);
-	hero1->addWeapon(weapon);
-	field1->addHero(hero1);
-	auto field2 = board->getFieldByCoordinate(4, 0);
-	auto hero2 = std::make_shared<Catapult>(100);
-	hero2->setOwner(Player::First);
-	hero2->addWeapon(weapon);
-	field2->addHero(hero2);
-	auto field3 = board->getFieldByCoordinate(5, 1);
-	auto hero3 = std::make_shared<Medic>(50, 3);
-	hero3->setOwner(Player::First);
-	hero3->addWeapon(weapon);
-	field3->addHero(hero3);
-	auto field4 = board->getFieldByCoordinate(3, 4);
-	auto hero4 = std::make_shared<Mage>(70, 1);
-	hero4->setOwner(Player::First);
-	hero4->addWeapon(weapon);
-	field4->addHero(hero4);
-
-	auto field5 = board->getFieldByCoordinate(3, 7);
-	auto hero5 = std::make_shared<Archer>(25, 2);
-	hero5->setOwner(Player::Second);
-	hero5->addWeapon(weapon);
-	field5->addHero(hero5);
-	auto field6 = board->getFieldByCoordinate(0, 9);
-	auto hero6 = std::make_shared<Trebuchet>(90);
-	hero6->setOwner(Player::Second);
-	hero6->addWeapon(weapon);
-	field6->addHero(hero6);
-	auto field7 = board->getFieldByCoordinate(2, 6);
-	auto hero7 = std::make_shared<Ninja>(20, 3);
-	hero7->setOwner(Player::Second);
-	hero7->addWeapon(weapon);
-	field7->addHero(hero7);
-	auto field8 = board->getFieldByCoordinate(5, 8);
-	auto hero8 = std::make_shared<IceDruid>(75, 1);
-	hero8->setOwner(Player::Second);
-	hero8->addWeapon(weapon);
-	field8->addHero(hero8);
 }
 
 Player GameState::getCurrentPlayer()
@@ -104,10 +60,67 @@ void GameState::changeTurn()
 	if (getCurrentPlayer() == Player::First)
 	{
 		setCurrentPlayer(Player::Second);
+		unfreezeHeores(Player::First);
 	}
 	else
 	{
 		setCurrentPlayer(Player::First);
+		unfreezeHeores(Player::Second);
+	}
+	continueTrebuchetAttack();
+	resetLoads();
+}
+
+void GameState::unfreezeHeores(Player player)
+{
+	auto frozenHeroes = gameController->frozenHeroes;
+	gameController->frozenHeroes.erase(
+		std::remove_if(
+			gameController->frozenHeroes.begin(),
+			gameController->frozenHeroes.end(),
+			[player](std::shared_ptr<Hero> const &h)
+			{
+				h->sprite.setColor(sf::Color(255, 255, 255));
+				return h->getOwner() == player;
+			}),
+		gameController->frozenHeroes.end());
+}
+
+void GameState::updateFrozenHeroes()
+{
+	for (auto frozenHero : gameController->frozenHeroes)
+	{
+		frozenHero->sprite.setColor((sf::Color(17, 182, 244)));
+	}
+}
+
+void GameState::continueTrebuchetAttack()
+{
+	for (auto data : gameController->trebuchetAttack)
+	{
+		gameController->trebuchetSpecialAttack(data.first, data.second);
+	}
+	gameController->trebuchetAttack.clear();
+}
+
+void GameState::resetLoads()
+{
+	for (auto field : gameController->getBoard()->getFieldsWithHeroes())
+	{
+		auto hero = field->getHero();
+		HeroType type = hero.value()->getType();
+		if (type == ENinja)
+		{
+			hero.value()->setLoads(NINJA_LOADS_NUMBER);
+		}
+		else if (type == ECatapult || type == ETrebuchet)
+		{
+			hero.value()->setLoads(hero.value()->getLoads() + 1);
+		}
+		else if (type == EIceDruid)
+		{
+			hero.value()->setLoads(ICE_DRUID_LOADS_NUMBER);
+		}
 	}
 }
 
@@ -189,7 +202,7 @@ void GameState::initTextures()
 
 void GameState::initFonts()
 {
-	if (!this->font.loadFromFile("../src/ui/states/Dosis-Light.ttf"))
+	if (!this->font.loadFromFile("../Dosis-Light.ttf"))
 	{
 		throw("ERROR::GameSTATE::COULD NOT LOAD FONT");
 	}
@@ -206,15 +219,13 @@ void GameState::initGui()
 
 	this->backgroundRect.setTexture(&this->backgroundTX);
 
-	// float buttonWidth = 200, buttonHeight = 100;
-	// float topLeft_x = (vm.width - buttonWidth) / 2;
-	// float topLeft_y = 200;
-
-	// topLeft_y += 2*buttonHeight;
-
 	this->buttons["EXIT"] = std::make_shared<Button>(
 		vm.width - 100.f, 0.f, 100.f, 50.f, std::make_shared<sf::Font>(this->font), "EXIT", 30,
-		textures["EXIT_BUTTON"], sf::Color::Yellow, sf::Color::Magenta, sf::Color::Blue, 1);
+		textures["EXIT_BUTTON"], sf::Color(214, 154, 58), sf::Color(233, 150, 123), sf::Color(200, 30, 19), 1);
+
+	this->buttons["SKIP"] = std::make_shared<Button>(
+		xGrid * 30, yGrid * 12.5, xGrid * 7.5, yGrid * 7.5, std::make_shared<sf::Font>(this->font), "SKIP TURN", 30,
+		textures["EXIT_BUTTON"], sf::Color(214, 154, 58), sf::Color(233, 150, 123), sf::Color(200, 30, 19), 2);
 }
 
 void GameState::resetGui()
@@ -275,7 +286,7 @@ void GameState::showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY)
 	case HeroType::EArcher:
 		hero->sprite.setTexture(textures["ARCHER"]);
 		break;
-	case HeroType::EWizard:
+	case HeroType::EMage:
 		hero->sprite.setTexture(textures["WIZARD"]);
 		break;
 	case HeroType::EIceDruid:
@@ -297,21 +308,43 @@ void GameState::showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY)
 		hero->sprite.setTexture(textures["KNIGHT"]);
 		break;
 	}
-	hero->sprite.setScale(1.f, 1.f);
-	// if (hero->getOwner() == Player::Second)
-	// {
-	// 	hero->sprite.move(100, 0);
-	// }
+	auto textureSize = hero->sprite.getTexture()->getSize().x;
+	if (hero->getOwner() == Player::First)
+	{
+		hero->sprite.setScale((xGrid * 5) / textureSize, (yGrid * 80 / 9) / textureSize);
+	}
+	else
+	{
+		hero->sprite.setScale(-(xGrid * 5) / textureSize, (yGrid * 80 / 9) / textureSize);
+		hero->sprite.move(xGrid * 5, 0);
+	}
+
 	window->draw(hero->sprite);
 	std::shared_ptr<HPBar> hPBar = std::make_shared<HPBar>(buttonX, buttonY + 90, 100, 10, std::make_shared<sf::Font>(this->font), hero->getMaxHealth());
 	this->HPBars[hero] = hPBar;
+
+	HeroType type = hero->getType();
+	if (type == ENinja || type == ECatapult || type == ETrebuchet || type == EIceDruid)
+	{
+		Loads heroLoads(buttonX, buttonY + 50, xGrid * 0.25, sf::Color(210, 3, 6));
+		loads[hero] = std::make_shared<Loads>(heroLoads);
+	}
 }
 
 void GameState::showActionMenu(std::shared_ptr<Button> button)
 {
 	int buttonId = button->getId();
 	auto field = gameController->getBoard()->getFieldByCoordinate(buttonId / BOARD_COLUMNS, buttonId % BOARD_COLUMNS);
-	if (field->getHero() != std::nullopt && field->getHero().value()->getOwner() == this->getCurrentPlayer())
+	bool isHeroFrozen = false;
+	for (auto frozenHero : gameController->frozenHeroes)
+	{
+		if (field->getHero() != std::nullopt && field->getHero().value() == frozenHero)
+		{
+			isHeroFrozen = true;
+			break;
+		}
+	}
+	if (field->getHero() != std::nullopt && field->getHero().value()->getOwner() == this->getCurrentPlayer() && !isHeroFrozen)
 	{
 		sf::Texture *actionMenuTX;
 		sf::Vector2f actionMenuSize;
@@ -346,6 +379,7 @@ void GameState::showActionMenu(std::shared_ptr<Button> button)
 
 void GameState::update()
 {
+	checkIfGameEnded();
 	this->updateMousePosition();
 	if (this->actionMenu != std::nullopt)
 	{
@@ -363,7 +397,10 @@ void GameState::update()
 	{
 		this->changeTurn();
 	}
+	updateFrozenHeroes();
 	updateHPBars();
+	updateLoads();
+	updateTexts();
 }
 
 void GameState::updateButtons()
@@ -372,27 +409,35 @@ void GameState::updateButtons()
 	{
 		it.second->update(this->mousePos);
 	}
-	for (auto &it : this->boardButtons)
+	if (!checkIfGameEnded())
 	{
-		it.second->update(this->mousePos);
-		if (it.second->isClicked())
+		for (auto &it : this->boardButtons)
 		{
-			if (!this->actionChosen)
+			it.second->update(this->mousePos);
+			if (it.second->isClicked())
 			{
-				showActionMenu(it.second);
-			}
-			else
-			{
-				int buttonId = it.second->getId();
-				auto field = gameController->getBoard()->getFieldByCoordinate(buttonId / BOARD_COLUMNS, buttonId % BOARD_COLUMNS);
-				this->chosenField = std::make_optional<std::shared_ptr<Field>>(field);
-				this->chosenButton = it.second;
+				if (!this->actionChosen)
+				{
+					showActionMenu(it.second);
+				}
+				else
+				{
+					int buttonId = it.second->getId();
+					auto field = gameController->getBoard()->getFieldByCoordinate(buttonId / BOARD_COLUMNS, buttonId % BOARD_COLUMNS);
+					this->chosenField = std::make_optional<std::shared_ptr<Field>>(field);
+					this->chosenButton = it.second;
+				}
 			}
 		}
 	}
 	if (this->buttons["EXIT"]->isClicked())
 	{
+		this->gameController->resetController();
 		this->endState();
+	}
+	if (this->buttons["SKIP"]->isClicked())
+	{
+		this->changeTurn();
 	}
 }
 
@@ -411,10 +456,17 @@ void GameState::updateHeroPosition(std::shared_ptr<Hero> hero, std::shared_ptr<B
 	else
 	{
 		newButton->setTexture(textures["FIELD_RED"]);
+		hero->sprite.move(xGrid * 5, 0);
 	}
 	actionMenu.value()->getParentButton()->setTexture(textures["FIELD"]);
 	sf::Vector2f newHPBarPos = sf::Vector2f(newButton->getRect().getPosition().x, newButton->getRect().getPosition().y + 90);
 	HPBars[hero]->changePosition(newHPBarPos);
+
+	HeroType type = hero->getType();
+	if (type == ENinja || type == ECatapult || type == ETrebuchet || type == EIceDruid)
+	{
+		loads[hero]->changePosition(newButton->getRect().getPosition().x, newButton->getRect().getPosition().y + 50);
+	}
 }
 
 void GameState::checkIfActionHasToBeDone()
@@ -427,12 +479,15 @@ void GameState::checkIfActionHasToBeDone()
 			bool actionResult = this->gameController->attackAction(this->actionMenu.value()->getField(), this->chosenField.value());
 			if (actionResult)
 			{
-				this->setActionsLeft(this->getActionsLeft() - 1);
+				auto hero = this->actionMenu.value()->getField()->getHero().value();
+				if (hero->getType() != ENinja || hero->getLoads() == 0)
+				{
+					this->setActionsLeft(this->getActionsLeft() - 1);
+				}
 				this->actionMenu = std::nullopt;
 				this->chosenField = std::nullopt;
 				this->chosenButton = std::nullopt;
 				this->actionChosen = false;
-				gameOutput();
 			}
 			else
 			{
@@ -445,18 +500,16 @@ void GameState::checkIfActionHasToBeDone()
 		this->actionChosen = true;
 		if (this->chosenField != std::nullopt)
 		{
-			auto hero = this->actionMenu.value()->getField()->getHero().value();
-			// TODO Może funkcje moveAction, attackAction powinny zwracać boola czy zostały wykonane poprawnie
 			bool actionResult = this->gameController->moveAction(this->actionMenu.value()->getField(), this->chosenField.value());
 			if (actionResult)
 			{
+				auto hero = this->chosenField.value()->getHero().value();
 				this->setActionsLeft(this->getActionsLeft() - 1);
 				updateHeroPosition(hero, this->chosenButton.value());
 				this->actionMenu = std::nullopt;
 				this->chosenField = std::nullopt;
 				this->chosenButton = std::nullopt;
 				this->actionChosen = false;
-				gameOutput();
 			}
 			else
 			{
@@ -477,7 +530,6 @@ void GameState::checkIfActionHasToBeDone()
 				this->chosenField = std::nullopt;
 				this->chosenButton = std::nullopt;
 				this->actionChosen = false;
-				gameOutput();
 			}
 			else
 			{
@@ -487,11 +539,50 @@ void GameState::checkIfActionHasToBeDone()
 	}
 }
 
+bool GameState::checkIfGameEnded()
+{
+	auto fieldsWithHeroes = this->gameController->getBoard()->getFieldsWithHeroes();
+	bool firstPlayerHasHeroes = false;
+	bool secondPlayerHasHeroes = false;
+
+	for (auto field : fieldsWithHeroes)
+	{
+		if (field->getHero().value()->getOwner() == Player::First)
+		{
+			firstPlayerHasHeroes = true;
+		}
+		else
+		{
+			secondPlayerHasHeroes = true;
+		}
+	}
+
+	if (!firstPlayerHasHeroes)
+	{
+		this->texts["WINNER"]->setString("Winner is Player: 2");
+		return true;
+	}
+	else if (!secondPlayerHasHeroes)
+	{
+		this->texts["WINNER"]->setString("Winner is Player: 1");
+		return true;
+	}
+	return false;
+}
+
 void GameState::updateHPBars()
 {
 	for (auto &it : this->HPBars)
 	{
 		it.second->update(it.first->getCurrentHealth());
+	}
+}
+
+void GameState::updateLoads()
+{
+	for (auto &it : this->loads)
+	{
+		it.second->update(it.first->getLoads());
 	}
 }
 
@@ -504,7 +595,17 @@ void GameState::renderHeroes()
 		{
 			if (field->getHero() != std::nullopt)
 			{
-				window->draw(field->getHero().value()->sprite);
+				if (field->getHero().value()->isAlive())
+				{
+					window->draw(field->getHero().value()->sprite);
+				}
+				else
+				{
+					HPBars.erase(field->getHero().value());
+					loads.erase(field->getHero().value());
+					boardButtons.at(board->findFieldCoordinates(field))->setTexture(textures["FIELD"]);
+					field->removeHero();
+				}
 			}
 		}
 	}
@@ -512,13 +613,19 @@ void GameState::renderHeroes()
 
 void GameState::renderActionMenu()
 {
-	if (this->actionMenu.value()->shouldBeClosed())
+	if (this->actionMenu != std::nullopt)
 	{
-		this->actionMenu = std::nullopt;
-	}
-	else
-	{
-		this->actionMenu.value()->render(*this->window);
+		if (this->actionMenu.value()->shouldBeClosed())
+		{
+			this->actionMenu = std::nullopt;
+			this->chosenField = std::nullopt;
+			this->chosenButton = std::nullopt;
+			this->actionChosen = false;
+		}
+		else
+		{
+			this->actionMenu.value()->render(*this->window);
+		}
 	}
 }
 
@@ -542,26 +649,59 @@ void GameState::renderHPBars()
 	}
 }
 
-void GameState::render()
+void GameState::renderLoads()
 {
-	// std::cout << this->settings->resolution.width << "  " << this->settings->resolution.height << std::endl;
-	this->window->draw(this->backgroundRect);
-	this->renderButtons();
-	this->renderHeroes();
-	if (this->actionMenu != std::nullopt)
+	for (auto &it : this->loads)
 	{
-		this->renderActionMenu();
+		it.second->render(*this->window);
 	}
-	this->renderHPBars();
 }
 
-void GameState::gameOutput()
+void GameState::updateTexts()
 {
-	for (auto field : this->gameController->getBoard()->getFieldsWithHeroes())
+	std::stringstream ss;
+	ss << "Current Player: " << getCurrentPlayer() + 1 << "\nActions left: " << getActionsLeft();
+	this->texts["ACTION_INFO"]->setString(ss.str());
+}
+
+void GameState::initShapesAndTexts()
+{
+	this->texts["ACTION_INFO"] = std::make_shared<sf::Text>("", this->font, (int)(yGrid * 2.3));
+	this->texts["ACTION_INFO"]->setPosition(xGrid * 45, yGrid * 10);
+	this->texts["ACTION_INFO"]->setFillColor(sf::Color::Black);
+	this->texts["ACTION_INFO"]->setStyle(sf::Text::Bold);
+
+	this->texts["WINNER"] = std::make_shared<sf::Text>("", this->font, (int)(yGrid * 2.3));
+	this->texts["WINNER"]->setPosition(xGrid * 45, yGrid * 15);
+	this->texts["WINNER"]->setFillColor(sf::Color::Black);
+	this->texts["WINNER"]->setStyle(sf::Text::Bold);
+
+	this->shapes["TOP"] = std::make_shared<sf::RectangleShape>();
+	this->shapes["TOP"]->setFillColor(sf::Color(214, 154, 58));
+	this->shapes["TOP"]->setSize(sf::Vector2f{xGrid * 10, yGrid * 10});
+	this->shapes["TOP"]->setPosition(xGrid * 45, yGrid * 10);
+}
+
+void GameState::renderShapesAndTexts()
+{
+	for (auto &it : this->shapes)
 	{
-		auto hero = field->getHero().value();
-		std::cout << hero->getType() << " " << hero->getCurrentHealth() << "/" << hero->getMaxHealth() << std::endl;
+		this->window->draw(*it.second);
 	}
-	std::cout << "Actions left: " << this->getActionsLeft() << std::endl;
-	std::cout << "---------------------------------" << std::endl;
+
+	for (auto &it : this->texts)
+	{
+		this->window->draw(*it.second);
+	}
+}
+
+void GameState::render()
+{
+	this->window->draw(this->backgroundRect);
+	this->renderShapesAndTexts();
+	this->renderButtons();
+	this->renderHeroes();
+	this->renderHPBars();
+	this->renderLoads();
+	this->renderActionMenu();
 }

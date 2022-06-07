@@ -8,9 +8,53 @@
 #include "../../ui/action_menu_buttons.hpp"
 #include "../../ui/button.hpp"
 #include "../../ui/HPbar.hpp"
+#include "../../ui/loads.hpp"
 
 class GameState : public State
 {
+public:
+    GameState(StatesStack *stackPointer,
+              sf::RenderWindow *window,
+              GraphicSettings *settings,
+              GameController *gameController);
+    virtual ~GameState();
+
+    Player getCurrentPlayer();
+    unsigned int getActionsLeft();
+    void setCurrentPlayer(Player player);
+    void setActionsLeft(unsigned int actionsLeft);
+
+    void changeTurn();
+    void unfreezeHeores(Player player);
+    void updateFrozenHeroes();
+    void resetLoads();
+    void continueTrebuchetAttack();
+
+    void update();
+    void updateSprites();
+    void updateButtons();
+    void updateActionMenu();
+    void updateHeroPosition(std::shared_ptr<Hero> hero, std::shared_ptr<Button> newField);
+    void updateHPBars();
+    void updateLoads();
+    void checkIfActionHasToBeDone();
+    bool checkIfGameEnded();
+
+    void renderHeroes();
+    void renderActionMenu();
+    void renderButtons();
+    void renderHPBars();
+    void renderLoads();
+    void updateTexts();
+    void initShapesAndTexts();
+    void renderShapesAndTexts();
+
+    void render();
+
+    // TEST
+    void gameOutput();
+    // End TEST
+
 private:
     sf::Texture backgroundTX;
     sf::RectangleShape backgroundRect;
@@ -19,6 +63,10 @@ private:
     std::map<std::string, std::shared_ptr<Button>> buttons;
     std::map<std::tuple<int, int>, std::shared_ptr<Button>> boardButtons;
     std::map<std::shared_ptr<Hero>, std::shared_ptr<HPBar>> HPBars;
+    std::map<std::shared_ptr<Hero>, std::shared_ptr<Loads>> loads;
+
+    std::map<std::string, std::shared_ptr<sf::Text>> texts;
+    std::map<std::string, std::shared_ptr<sf::RectangleShape>> shapes;
 
     std::optional<std::shared_ptr<ActionMenu>> actionMenu;
     std::optional<std::shared_ptr<Field>> chosenField;
@@ -37,43 +85,6 @@ private:
     void showHero(std::shared_ptr<Hero> hero, int buttonX, int buttonY);
     void showActionMenu(std::shared_ptr<Button> button);
     void drawBoard();
-
-public:
-    GameState(StatesStack *stackPointer,
-              sf::RenderWindow *window,
-              GraphicSettings *settings,
-              GameController *gameController);
-    virtual ~GameState();
-
-    // Test
-    void addTestValuesToBoard();
-    // End test
-
-    Player getCurrentPlayer();
-    unsigned int getActionsLeft();
-    void setCurrentPlayer(Player player);
-    void setActionsLeft(unsigned int actionsLeft);
-    void changeTurn();
-
-    void updateSprites();
-    void update();
-    void updateButtons();
-    void updateActionMenu();
-    void updateHeroPosition(std::shared_ptr<Hero> hero, std::shared_ptr<Button> newField);
-
-    void checkIfActionHasToBeDone();
-    void updateHPBars();
-
-    void renderHeroes();
-    void renderActionMenu();
-    void renderButtons();
-    void renderHPBars();
-
-    void render();
-
-    // TEST
-    void gameOutput();
-    // End TEST
 };
 
 #endif

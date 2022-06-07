@@ -16,8 +16,10 @@ ActionMenu::ActionMenu(float topLeftX, float topLeftY, float width, float height
     this->moveClicked = false;
     this->attackClicked = false;
     this->healClicked = false;
+    this->mouseHold = false;
+    this->pressed = false;
     this->close = false;
-    this->doNotHide = false;
+    // this->doNotHide = false;
     this->defaultColor = this->rect.getFillColor();
     sf::Color color;
     color.r = 179;
@@ -38,8 +40,10 @@ ActionMenu::ActionMenu(sf::Vector2f position, sf::Vector2f size, const sf::Textu
     this->moveClicked = false;
     this->attackClicked = false;
     this->healClicked = false;
+    this->mouseHold = false;
+    this->pressed = false;
     this->close = false;
-    this->doNotHide = false;
+    // this->doNotHide = false;
     this->defaultColor = this->rect.getFillColor();
     sf::Color color;
     color.r = 179;
@@ -81,9 +85,23 @@ std::shared_ptr<Button> ActionMenu::getParentButton()
 
 void ActionMenu::update(const sf::Vector2i &mousePosition)
 {
-    if (this->rect.getGlobalBounds().contains(sf::Vector2f(mousePosition)))
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left) &&
+        this->rect.getGlobalBounds().contains(sf::Vector2f(mousePosition)) &&
+        this->mouseHold == false)
     {
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        this->pressed = true;
+        this->mouseHold = true;
+    }
+    else if (sf::Mouse::isButtonPressed(sf::Mouse::Left) &&
+             this->rect.getGlobalBounds().contains(sf::Vector2f(mousePosition)))
+    {
+        this->mouseHold = true;
+    }
+
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left) == false)
+    {
+        if (this->rect.getGlobalBounds().contains(sf::Vector2f(mousePosition)) &&
+            this->pressed)
         {
             auto rectWidth = rect.getSize().x;
             auto rectStartX = rect.getPosition().x;
@@ -136,15 +154,72 @@ void ActionMenu::update(const sf::Vector2i &mousePosition)
                     std::cout << "Attack" << std::endl;
                 }
             }
-            this->doNotHide = true;
         }
+        this->pressed = false;
+        this->mouseHold = false;
     }
-    else if (!this->parentButton->getRect().getGlobalBounds().contains(sf::Vector2f(mousePosition)) && !this->doNotHide)
+
+    // if (this->rect.getGlobalBounds().contains(sf::Vector2f(mousePosition)))
+    // {
+    //     if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+    //     {
+    //         auto rectWidth = rect.getSize().x;
+    //         auto rectStartX = rect.getPosition().x;
+    //         if (this->actionNumber == ActionNumber::one)
+    //         {
+    //             healClicked = false;
+    //             moveClicked = false;
+    //             attackClicked = true;
+    //             std::cout << "Attack" << std::endl;
+    //         }
+    //         else if (this->actionNumber == ActionNumber::two)
+    //         {
+    //             if (mousePosition.x < (rectStartX + rectWidth * 0.5))
+    //             {
+    //                 healClicked = false;
+    //                 moveClicked = true;
+    //                 attackClicked = false;
+    //                 std::cout << "Move" << std::endl;
+    //             }
+    //             else
+    //             {
+    //                 healClicked = false;
+    //                 moveClicked = false;
+    //                 attackClicked = true;
+    //                 std::cout << "Attack" << std::endl;
+    //             }
+    //         }
+    //         else if (this->actionNumber == ActionNumber::three)
+    //         {
+
+    //             if (mousePosition.x < (rectStartX + rectWidth * 0.33))
+    //             {
+    //                 healClicked = true;
+    //                 moveClicked = false;
+    //                 attackClicked = false;
+    //                 std::cout << "Heal" << std::endl;
+    //             }
+    //             else if (mousePosition.x < (rectStartX + rectWidth * 0.66))
+    //             {
+    //                 healClicked = false;
+    //                 moveClicked = true;
+    //                 attackClicked = false;
+    //                 std::cout << "Move" << std::endl;
+    //             }
+    //             else
+    //             {
+    //                 healClicked = false;
+    //                 moveClicked = false;
+    //                 attackClicked = true;
+    //                 std::cout << "Attack" << std::endl;
+    //             }
+    //         }
+    //         // this->doNotHide = true;
+    //     }
+    // }
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
     {
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-        {
-            this->close = true;
-        }
+        this->close = true;
     }
 }
 void ActionMenu::render(sf::RenderTarget &window)

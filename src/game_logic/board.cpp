@@ -102,3 +102,38 @@ std::tuple<int, int> Board::findFieldCoordinates(std::shared_ptr<Field> field) c
     }
     return std::make_tuple<int, int>(-1, -1);
 }
+
+std::vector<std::shared_ptr<Field>> Board::getFieldsAround(std::shared_ptr<Field> field) const
+{
+    std::vector<std::shared_ptr<Field>> fieldsAround;
+    auto fieldCoordinates = findFieldCoordinates(field);
+    unsigned int row = std::get<0>(fieldCoordinates);
+    unsigned int column = std::get<1>(fieldCoordinates);
+    if (row > 0)
+    {
+        fieldsAround.push_back(getFieldByCoordinate(row - 1, column));
+        if (column > 0)
+        {
+            fieldsAround.push_back(getFieldByCoordinate(row, column - 1));
+            fieldsAround.push_back(getFieldByCoordinate(row - 1, column - 1));
+        }
+        if (column < (BOARD_COLUMNS - 1))
+        {
+            fieldsAround.push_back(getFieldByCoordinate(row - 1, column + 1));
+        }
+    }
+    if (row < (BOARD_ROWS - 1))
+    {
+        fieldsAround.push_back(getFieldByCoordinate(row + 1, column));
+        if (column > 0)
+        {
+            fieldsAround.push_back(getFieldByCoordinate(row + 1, column - 1));
+        }
+        if (column < (BOARD_COLUMNS - 1))
+        {
+            fieldsAround.push_back(getFieldByCoordinate(row, column + 1));
+            fieldsAround.push_back(getFieldByCoordinate(row + 1, column + 1));
+        }
+    }
+    return fieldsAround;
+}

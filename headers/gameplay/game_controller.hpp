@@ -11,26 +11,23 @@ class GameController
 public:
     GameController(){};
     GameController(std::shared_ptr<Board> board);
-    void startGame();
-    void changeTurn();
     void resetController();
-    
+
     std::shared_ptr<Board> getBoard();
+    std::vector<std::shared_ptr<Hero>> frozenHeroes;
+    std::map<std::shared_ptr<Field>, int> trebuchetAttack;
 
     bool healAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);
     bool moveAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);
     bool attackAction(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField);
-    void useAbilityAction(std::tuple<int, int> heroFieldCoord, std::tuple<int, int> actionFieldCoord);
+    void mageSpecialAttack(std::shared_ptr<Hero> hero, std::shared_ptr<Hero> heroToAttack);
+    void iceDruidSpecialAttack(std::shared_ptr<Hero> hero, std::shared_ptr<Hero> heroToAttack);
+    void trebuchetSpecialAttack(std::shared_ptr<Field> actionField, unsigned int damage);
 
     bool isFieldInRange(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField, unsigned int range);
 
 private:
     std::shared_ptr<Board> board;
-
-
-    void buyingPhase();
-    void turnPhase();
-    bool gameIsContinued();
 };
 
 #endif

@@ -5,17 +5,19 @@
 
 class IceDruidStaff : public Weapon
 {
-protected:
-    unsigned int total_points;
+private:
     unsigned int locked_fields;
     unsigned int freeze_time;
+
 public:
-    unsigned int getTotalPoints() const;
-    void setTotalPoints(unsigned int total_points);
+    ~IceDruidStaff(){};
     unsigned int getLockedFields() const;
     void setLockedFields(unsigned int locked_fields);
     unsigned int getFreezeTime() const;
     void setFreezeTime(unsigned int freeze_time);
+    WeaponType getType() const override;
+    unsigned int getSecondaryDamage() const { return 0; };
+    unsigned int getMedicalHealth() const { return 0; };
 };
 
 #endif

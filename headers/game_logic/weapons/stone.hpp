@@ -1,12 +1,12 @@
-#ifndef SHURIKEN_HPP
-#define SHURIKEN_HPP
+#ifndef STONE_HPP
+#define STONE_HPP
 
 #include "weapon.hpp"
 
-class Shuriken : public Weapon
+class Stone : public Weapon
 {
 public:
-    ~Shuriken(){};
+    ~Stone(){};
     WeaponType getType() const override;
     unsigned int getSecondaryDamage() const { return 0; };
     unsigned int getMedicalHealth() const { return 0; };

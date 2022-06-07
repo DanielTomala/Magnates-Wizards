@@ -5,38 +5,47 @@
 #include <memory>
 #include "../gameplay/game_controller.hpp"
 
-enum SelectButtonState{
+enum SelectButtonState
+{
     NotChoosen,
     Choosen
 };
 
-class SelectButton{
-    private:
-        SelectButtonState state;
-        sf::Texture texture;
-        sf::RectangleShape rect;
+class SelectButton
+/*
+    button to select heroes
+    collor depends on choosen od not choosen
 
-        sf::Color notChoosenColor;
-        sf::Color choosenColor;
-        bool clicked;
-        bool hovered;
-        std::string description;
-        Player player;
-        HeroType heroType;
-    public:
-        SelectButton(float topLeftX, float topLeftY, float width, float height,
-                     const sf::Texture& texture, sf::Color choosenCollor, std::string description, Player player, HeroType heroType);
-        ~SelectButton();
+*/
+{
+private:
+    SelectButtonState state; // choosen/notchoosen
+    sf::Texture texture;
+    sf::RectangleShape rect;
 
-        bool isChoosen() const;
-        bool isHovered() const;
-        
-        HeroType getHeroType() const;
-        Player getPlayer()const;
-        std::string getDescription() const;
+    sf::Color notChoosenColor;
+    sf::Color choosenColor;
+    bool clicked;
+    bool hovered;
+    std::string description;
+    Player player;
+    HeroType heroType;
 
-        void update(const sf::Vector2i& mousePosition);
-        void render(sf::RenderTarget &window);
+public:
+    SelectButton(float topLeftX, float topLeftY, float width, float height,
+                 const sf::Texture &texture, sf::Color choosenCollor,
+                 std::string description, Player player, HeroType heroType);
+    ~SelectButton();
+
+    bool isChoosen() const;
+    bool isHovered() const;
+
+    HeroType getHeroType() const;
+    Player getPlayer() const;
+    std::string getDescription() const;
+
+    void update(const sf::Vector2i &mousePosition);
+    void render(sf::RenderTarget &window);
 };
 
 #endif

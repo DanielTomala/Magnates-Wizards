@@ -4,13 +4,14 @@ project(PROI_project)
 set(SRC
     #Game_Logic
     src/game_logic/heroes/hero.cpp
+    src/game_logic/heroes/hero_attributes.cpp
     src/game_logic/weapons/bow.cpp
-    src/game_logic/weapons/ground_druid_staff.cpp
     src/game_logic/weapons/ice_druid_staff.cpp
     src/game_logic/weapons/mage_wand.cpp
     src/game_logic/weapons/medical_box.cpp
     src/game_logic/weapons/shuriken.cpp
     src/game_logic/weapons/sword.cpp
+    src/game_logic/weapons/stone.cpp
     src/game_logic/weapons/weapon.cpp
     src/game_logic/board.cpp
     src/game_logic/field.cpp
@@ -23,15 +24,14 @@ set(SRC
     src/ui/states/configure_heroes_state.cpp
     src/ui/states/game_state.cpp
     src/ui/states/main_menu_state.cpp
-    src/ui/states/player_menu_state.cpp
     src/ui/states/state.cpp
     src/ui/button.cpp
     src/ui/HPbar.cpp
+    src/ui/loads.cpp
     src/ui/select_button.cpp
     src/ui/descriptions.cpp
     src/ui/graphic_settings.cpp
     src/ui/action_menu_buttons.cpp
-    src/ui/HPbar.cpp
 )
 # file(GLOB SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")          #Get all cpp files
 # file(GLOB HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/headers/*.hpp")  #Get all header files

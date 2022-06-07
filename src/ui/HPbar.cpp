@@ -1,5 +1,5 @@
 #include "../../headers/ui/HPbar.hpp"
-#include <iostream>
+
 HPBar::HPBar(float topLeftX, float topLeftY, float width, float height,
              std::shared_ptr<sf::Font> font, unsigned int maxHP)
 {
@@ -20,13 +20,13 @@ HPBar::HPBar(float topLeftX, float topLeftY, float width, float height,
     this->currentBar.setSize(sf::Vector2f{width, height});
     this->currentBar.setFillColor(sf::Color::Green);
 
-    float textX = (topLeftX + width) / 2 - 30;
-    float textY = 0;
+    float textX = topLeftX + (width / 2) - 15;
+    float textY = topLeftY;
     this->description.setPosition(sf::Vector2f{textX, textY});
     this->description.setFillColor(sf::Color::Black);
     this->description.setStyle(sf::Text::Bold);
     this->description.setFont(*this->font);
-    this->description.setCharacterSize(height - 6.f);
+    this->description.setCharacterSize(height);
     this->description.setString(std::to_string(maxHP) + "/" + std::to_string(maxHP));
 }
 
@@ -34,19 +34,19 @@ HPBar::~HPBar()
 {
 }
 
-void HPBar::changePosition(sf::Vector2f newPostion)
+void HPBar::changePosition(const sf::Vector2f &newPostion)
 {
     this->background.setPosition(newPostion);
     this->maxBar.setPosition(newPostion);
     this->currentBar.setPosition(newPostion);
-    float textX = (newPostion.x + this->background.getSize().x) / 2 - 30;
-    float textY = 0;
+    
+    float textX = newPostion.x + (this->background.getGlobalBounds().width / 2) - 15;
+    float textY = newPostion.y;
     this->description.setPosition(sf::Vector2f{textX, textY});
 }
 
-void HPBar::update(unsigned int HP)
+void HPBar::update(const unsigned int &HP)
 {
-    // sf::Vector2f size = this->maxBar.getSize();
     float scale = (float)HP / this->maxHP;
     this->currentBar.setScale(sf::Vector2f{scale, 1.f});
     this->description.setString(std::to_string(HP) + "/" + std::to_string(maxHP));

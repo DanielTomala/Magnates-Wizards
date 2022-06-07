@@ -4,29 +4,30 @@
 #include "../button.hpp"
 #include <iostream>
 
-class MainMenuState: public State{
-    private:
-        sf::Texture backgroundTX;
-        sf::RectangleShape backgroundRect;
-        sf::Font font;
+class MainMenuState : public State
+{
+private:
+    sf::Texture backgroundTX;
+    sf::RectangleShape backgroundRect;
+    sf::Font font;
 
-        std::map<std::string, std::shared_ptr<Button>> buttons;
+    std::map<std::string, std::shared_ptr<Button>> buttons;
 
-        void initTextures();
-        void initFonts();
-        void initGui();
-        void resetGui();
-    public:
-        MainMenuState(StatesStack *stackPointer,
-                      sf::RenderWindow *window,
-                      GraphicSettings *settings,
-                      GameController *gameController);
-        virtual ~MainMenuState();
+    void initTextures();
+    void initFonts();
+    void initGui();
 
-        void updateButtons();
-        void update();
+    void updateButtons();
+    void renderButtons();
 
-        void renderButtons();
-        void render();
+public:
+    MainMenuState(StatesStack *stackPointer,
+                  sf::RenderWindow *window,
+                  GraphicSettings *settings,
+                  GameController *gameController);
+    virtual ~MainMenuState();
+
+    void update();
+    void render();
 };
 #endif
