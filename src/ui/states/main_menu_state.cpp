@@ -1,5 +1,4 @@
 #include "../../../headers/ui/states/main_menu_state.hpp"
-#include <iostream>
 
 MainMenuState::MainMenuState(StatesStack *stackPointer,
 							 sf::RenderWindow *window,
@@ -13,8 +12,6 @@ MainMenuState::MainMenuState(StatesStack *stackPointer,
 	this->initFonts();
 
 	this->initGui();
-
-	this->resetGui();
 }
 
 void MainMenuState::initTextures()
@@ -31,9 +28,9 @@ void MainMenuState::initTextures()
 
 void MainMenuState::initFonts()
 {
-	if (!this->font.loadFromFile("../src/ui/states/Dosis-Light.ttf"))
+	if (!this->font.loadFromFile("../Dosis-Light.ttf"))
 	{
-		throw("ERROR::MAINMENUSTATE::COULD NOT LOAD FONT");
+		throw("ERROR::MainMenuSTATE::COULD NOT LOAD FONT");
 	}
 }
 
@@ -52,17 +49,9 @@ void MainMenuState::initGui()
 		xGrid * 38, yGrid * 32, xGrid * 24, yGrid * 16, std::make_shared<sf::Font>(this->font), "NEW GAME", 50,
 		textures["BUTTON"], sf::Color(214, 154, 58), sf::Color(233, 150, 123), sf::Color(200, 30, 19), 1);
 
-
 	this->buttons["EXIT"] = std::make_shared<Button>(
 		xGrid * 38, yGrid * 52, xGrid * 24, yGrid * 16, std::make_shared<sf::Font>(this->font), "EXIT", 50,
 		textures["BUTTON"], sf::Color(214, 154, 58), sf::Color(233, 150, 123), sf::Color(200, 30, 19), 1);
-}
-
-void MainMenuState::resetGui()
-{
-	this->buttons.clear();
-
-	this->initGui();
 }
 
 MainMenuState::~MainMenuState()
@@ -78,7 +67,7 @@ void MainMenuState::updateButtons()
 
 	if (this->buttons["NEW_GAME"]->isClicked())
 	{
-		this->states->push(new CreateHeroesState(this->states,
+		this->states->push(std::make_shared<CreateHeroesState>(this->states,
 												 this->window,
 												 this->settings,
 												 this->gameController));

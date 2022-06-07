@@ -34,7 +34,9 @@ public:
     unsigned int getMaxHealth() const;
     unsigned int getCurrentHealth() const;
     unsigned int getMoveRange() const;
+    Personalisation getPersonalisation() const;
     unsigned int getLoads() const;
+
 
     std::optional<std::shared_ptr<Weapon>> getWeapon() const;
     std::optional<std::shared_ptr<Wearable>> getWearable() const;

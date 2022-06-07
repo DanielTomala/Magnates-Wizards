@@ -9,6 +9,7 @@ Hero::Hero()
 {
     this->maxHealth = 0;
     this->currentHealth = 0;
+    this->personalisation = Balanced;
     this->loads = 0;
 }
 
@@ -44,6 +45,11 @@ unsigned int Hero::getMoveRange() const
 {
     return moveRange;
 }
+
+Personalisation Hero::getPersonalisation() const{
+    return this->personalisation;
+}
+
 
 unsigned int Hero::getLoads() const
 {

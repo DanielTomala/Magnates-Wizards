@@ -1,6 +1,5 @@
 #include "../../../headers/ui/states/configure_heroes_state.hpp"
 
-#include <iostream>
 ConfigureHeroesState::ConfigureHeroesState(StatesStack *stackPointer,
 										   sf::RenderWindow *window,
 										   GraphicSettings *settings,
@@ -9,12 +8,12 @@ ConfigureHeroesState::ConfigureHeroesState(StatesStack *stackPointer,
 										   std::vector<HeroType> secondPlayerHeroes)
 	: State(stackPointer, window, settings, gameController)
 {
+	this->descriptions = Descriptions();
 	this->initHeroes(firstPlayerHeroes, secondPlayerHeroes);
 	this->initTextures();
 	this->initFonts();
 	this->initGui();
 	this->initBoard();
-	this->resetGui();
 }
 
 ConfigureHeroesState::~ConfigureHeroesState() {}
@@ -127,17 +126,10 @@ void ConfigureHeroesState::initTextures()
 
 void ConfigureHeroesState::initFonts()
 {
-	if (!this->font.loadFromFile("../src/ui/states/Dosis-Light.ttf"))
+	if (!this->font.loadFromFile("../Dosis-Light.ttf"))
 	{
 		throw("ERROR::CreateHeroesSTATE::COULD NOT LOAD FONT");
 	}
-}
-
-void ConfigureHeroesState::resetGui()
-{
-	this->buttons.clear();
-
-	this->initGui();
 }
 
 void ConfigureHeroesState::initGui()
@@ -159,6 +151,11 @@ void ConfigureHeroesState::initGui()
 	this->texts["PLAYER_2"]->setPosition(xGrid * 82, yGrid * 11);
 	this->texts["PLAYER_2"]->setFillColor(sf::Color::Black);
 	this->texts["PLAYER_2"]->setStyle(sf::Text::Bold);
+
+	this->texts["HERO_DESCRIPTION"] = std::make_shared<sf::Text>("", this->font, (int)(yGrid * 2.3));
+	this->texts["HERO_DESCRIPTION"]->setPosition(xGrid * 40, yGrid * 21);
+	this->texts["HERO_DESCRIPTION"]->setFillColor(sf::Color::Black);
+	this->texts["HERO_DESCRIPTION"]->setStyle(sf::Text::Bold);
 
 	float position_y = yGrid * 18;
 
@@ -265,6 +262,45 @@ void ConfigureHeroesState::showHero(std::shared_ptr<Hero> hero, int buttonX, int
 	}
 }
 
+void ConfigureHeroesState::updateMenuButtons()
+{
+	if (this->choosenHero == std::nullopt)
+		return;
+	for (auto &it : this->menuButtons)
+	{
+		it.second->update(this->mousePos);
+	}
+
+	this->menuButtons[choosenHero.value()->getPersonalisation()]->setColor(sf::Color::Yellow);
+	
+	if (this->menuButtons.find(Range) != this->menuButtons.end())
+	{
+		if (this->menuButtons[Range]->isClicked())
+		{
+			this->choosenHero.value()->setPersonalisation(Personalisation::Range);
+		}
+	}
+
+	if (this->menuButtons.find(Balanced) != this->menuButtons.end())
+	{
+		if (this->menuButtons[Balanced]->isClicked())
+		{
+			this->choosenHero.value()->setPersonalisation(Personalisation::Balanced);
+		}
+	}
+
+	if (this->menuButtons.find(Damage) != this->menuButtons.end())
+	{
+		if (this->menuButtons[Damage]->isClicked())
+		{
+			this->choosenHero.value()->setPersonalisation(Personalisation::Damage);
+		}
+	}
+	this->menuButtons[choosenHero.value()->getPersonalisation()]->setColor(sf::Color::Red);
+	auto description = descriptions.getPersonalisationDescription(std::make_tuple(choosenHero.value()->getType(), choosenHero.value()->getPersonalisation()));
+	this->texts["HERO_DESCRIPTION"]->setString(description);
+}
+
 void ConfigureHeroesState::updateButtons()
 {
 
@@ -287,30 +323,6 @@ void ConfigureHeroesState::updateButtons()
 		{
 			this->hideMenu();
 			this->choosenHero = std::nullopt;
-		}
-	}
-
-	if (this->buttons.find("RANGE") != this->buttons.end())
-	{
-		if (this->buttons["RANGE"]->isClicked())
-		{
-			this->choosenHero.value()->setPersonalisation(Personalisation::Range);
-		}
-	}
-
-	if (this->buttons.find("BALANCED") != this->buttons.end())
-	{
-		if (this->buttons["BALANCED"]->isClicked())
-		{
-			this->choosenHero.value()->setPersonalisation(Personalisation::Balanced);
-		}
-	}
-
-	if (this->buttons.find("DAMAGE") != this->buttons.end())
-	{
-		if (this->buttons["DAMAGE"]->isClicked())
-		{
-			this->choosenHero.value()->setPersonalisation(Personalisation::Damage);
 		}
 	}
 
@@ -337,12 +349,11 @@ void ConfigureHeroesState::updateButtons()
 		}
 		if (heroesCounter == 8)
 		{
-			this->states->pop();
-			this->states->push(new GameState(this->states,
+			this->endState();
+			this->states->push(std::make_shared<GameState>(this->states,
 											 this->window,
 											 this->settings,
 											 this->gameController));
-			this->endState();
 		}
 		else
 		{
@@ -450,6 +461,9 @@ void ConfigureHeroesState::showMenu()
 	this->shapes["ZCHOOSEN_IMAGE"]->setSize(sf::Vector2f{xGrid * 7, yGrid * 12});
 	this->shapes["ZCHOOSEN_IMAGE"]->setTexture(&textures[heroTypeToString(choosenHero.value()->getType())]);
 
+	auto description = descriptions.getPersonalisationDescription(std::make_tuple(choosenHero.value()->getType(), choosenHero.value()->getPersonalisation()));
+	this->texts["HERO_DESCRIPTION"]->setString(description);
+
 	if (choosenHero.value()->getOwner() == Player::First)
 	{
 		this->texts["PLAYER"] = std::make_shared<sf::Text>("PLAYER 1", this->font, (int)(yGrid * 2.3));
@@ -462,17 +476,43 @@ void ConfigureHeroesState::showMenu()
 	this->texts["PLAYER"]->setFillColor(sf::Color::Black);
 	this->texts["PLAYER"]->setStyle(sf::Text::Bold);
 
-	this->buttons["DAMAGE"] = std::make_shared<Button>(
-		xGrid * 40, yGrid * 13, xGrid * 7, yGrid * 6, std::make_shared<sf::Font>(this->font), "DAMAGE", (int)(yGrid * 2.3),
-		textures["BUTTON"], sf::Color::Yellow, sf::Color(233, 150, 123), sf::Color(200, 30, 19), 1);
+	if (choosenHero.value()->getPersonalisation() == Personalisation::Damage)
+	{
+		this->menuButtons[Damage] = std::make_shared<Button>(
+			xGrid * 40, yGrid * 13, xGrid * 7, yGrid * 6, std::make_shared<sf::Font>(this->font), "DAMAGE", (int)(yGrid * 2.3),
+			textures["BUTTON"], sf::Color::Red, sf::Color(233, 150, 123), sf::Color(200, 30, 19), 1);
+	}
+	else
+	{
+		this->menuButtons[Damage] = std::make_shared<Button>(
+			xGrid * 40, yGrid * 13, xGrid * 7, yGrid * 6, std::make_shared<sf::Font>(this->font), "DAMAGE", (int)(yGrid * 2.3),
+			textures["BUTTON"], sf::Color::Yellow, sf::Color(233, 150, 123), sf::Color(200, 30, 19), 1);
+	}
 
-	this->buttons["BALANCED"] = std::make_shared<Button>(
-		xGrid * 47, yGrid * 13, xGrid * 7, yGrid * 6, std::make_shared<sf::Font>(this->font), "BALANCED", (int)(yGrid * 2.3),
-		textures["BUTTON"], sf::Color::Yellow, sf::Color(233, 150, 123), sf::Color(200, 30, 19), 1);
-
-	this->buttons["RANGE"] = std::make_shared<Button>(
-		xGrid * 54, yGrid * 13, xGrid * 7, yGrid * 6, std::make_shared<sf::Font>(this->font), "RANGE", (int)(yGrid * 2.3),
-		textures["BUTTON"], sf::Color::Yellow, sf::Color(233, 150, 123), sf::Color(200, 30, 19), 1);
+	if (choosenHero.value()->getPersonalisation() == Personalisation::Balanced)
+	{
+		this->menuButtons[Balanced] = std::make_shared<Button>(
+			xGrid * 47, yGrid * 13, xGrid * 7, yGrid * 6, std::make_shared<sf::Font>(this->font), "BALANCED", (int)(yGrid * 2.3),
+			textures["BUTTON"], sf::Color::Red, sf::Color(233, 150, 123), sf::Color(200, 30, 19), 1);
+	}
+	else
+	{
+		this->menuButtons[Balanced] = std::make_shared<Button>(
+			xGrid * 47, yGrid * 13, xGrid * 7, yGrid * 6, std::make_shared<sf::Font>(this->font), "BALANCED", (int)(yGrid * 2.3),
+			textures["BUTTON"], sf::Color::Yellow, sf::Color(233, 150, 123), sf::Color(200, 30, 19), 1);
+	}
+	if (choosenHero.value()->getPersonalisation() == Personalisation::Range)
+	{
+		this->menuButtons[Range] = std::make_shared<Button>(
+			xGrid * 54, yGrid * 13, xGrid * 7, yGrid * 6, std::make_shared<sf::Font>(this->font), "RANGE", (int)(yGrid * 2.3),
+			textures["BUTTON"], sf::Color::Red, sf::Color(233, 150, 123), sf::Color(200, 30, 19), 1);
+	}
+	else
+	{
+		this->menuButtons[Range] = std::make_shared<Button>(
+			xGrid * 54, yGrid * 13, xGrid * 7, yGrid * 6, std::make_shared<sf::Font>(this->font), "RANGE", (int)(yGrid * 2.3),
+			textures["BUTTON"], sf::Color::Yellow, sf::Color(233, 150, 123), sf::Color(200, 30, 19), 1);
+	}
 
 	this->buttons["CLOSE"] = std::make_shared<Button>(
 		xGrid * 69, yGrid * 8, xGrid * 3, yGrid * 4.5, std::make_shared<sf::Font>(this->font), "X", (int)(yGrid * 2.3),
@@ -483,13 +523,15 @@ void ConfigureHeroesState::hideMenu()
 {
 	if (this->choosenHero == std::nullopt)
 		return;
+
 	this->shapes.erase("MIDDLE_BG");
 	this->shapes.erase("ZCHOOSEN_IMAGE");
-	this->buttons.erase("DAMAGE");
-	this->buttons.erase("BALANCED");
-	this->buttons.erase("RANGE");
+	this->menuButtons.erase(Range);
+	this->menuButtons.erase(Balanced);
+	this->menuButtons.erase(Damage);
 	this->buttons.erase("CLOSE");
 	this->texts.erase("PLAYER");
+	this->texts["HERO_DESCRIPTION"]->setString("");
 }
 
 void ConfigureHeroesState::putHero(std::shared_ptr<Hero> hero, int xCoo, int yCoo)
@@ -541,6 +583,7 @@ void ConfigureHeroesState::update()
 	this->updateButtons();
 	this->updateHeroButtons();
 	this->updateBoardButtons();
+	this->updateMenuButtons();
 }
 
 void ConfigureHeroesState::renderHeroes()
@@ -566,6 +609,16 @@ void ConfigureHeroesState::renderBackground()
 void ConfigureHeroesState::renderBoardButtons()
 {
 	for (auto &it : this->boardButtons)
+	{
+		it.second->render(*this->window);
+	}
+}
+
+void ConfigureHeroesState::renderMenuButtons()
+{
+	if (this->choosenHero == std::nullopt)
+		return;
+	for (auto &it : this->menuButtons)
 	{
 		it.second->render(*this->window);
 	}
@@ -609,7 +662,8 @@ void ConfigureHeroesState::render()
 	this->renderShapes();
 	this->renderHeroButtons();
 	this->renderButtons();
-	this->renderTexts();
 	this->renderBoardButtons();
 	this->renderHeroes();
+	this->renderMenuButtons();
+	this->renderTexts();
 }

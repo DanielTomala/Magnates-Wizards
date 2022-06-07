@@ -16,19 +16,13 @@ SelectButton::SelectButton(float topLeftX, float topLeftY, float width, float he
 
     this->rect.setTexture(&this->texture, true);
 
-    // if (player == Player::Second)
-    // {
-    //     this->rect.setScale(-1, 1);
-    // }
-
-    // this->rect.setOutlineColor(sf::Color::Black);
-    // this->rect.setOutlineThickness(1.f);
-
     this->notChoosenColor = this->rect.getFillColor();
     this->choosenColor = choosenCollor;
 }
 
-SelectButton::~SelectButton() {}
+SelectButton::~SelectButton()
+{
+}
 
 std::string SelectButton::getDescription() const
 {
@@ -94,6 +88,7 @@ void SelectButton::update(const sf::Vector2i &mousePosition)
     {
         this->hovered = false;
     }
+    
     switch (this->state)
     {
     case NotChoosen:

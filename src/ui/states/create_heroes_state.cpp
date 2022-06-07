@@ -1,6 +1,5 @@
 #include "../../../headers/ui/states/create_heroes_state.hpp"
 
-#include <iostream>
 CreateHeroesState::CreateHeroesState(StatesStack *stackPointer,
 									 sf::RenderWindow *window,
 									 GraphicSettings *settings,
@@ -11,7 +10,6 @@ CreateHeroesState::CreateHeroesState(StatesStack *stackPointer,
 	this->initTextures();
 	this->initFonts();
 	this->initGui();
-	this->resetGui();
 }
 
 void CreateHeroesState::initTextures()
@@ -60,16 +58,16 @@ void CreateHeroesState::initTextures()
 
 void CreateHeroesState::initFonts()
 {
-	if (!this->font.loadFromFile("../src/ui/states/Dosis-Light.ttf"))
+	if (!this->font.loadFromFile("../Dosis-Light.ttf"))
 	{
-		throw("ERROR::CreateHeroesSTATE::COULD NOT LOAD FONT");
+		throw("ERROR::ConfigureHeroesSTATE::COULD NOT LOAD FONT");
 	}
 }
 
 void CreateHeroesState::initGui()
 {
 	const sf::Vector2u vm = this->window->getSize();
-	std::cout << vm.x << " " << vm.y << "\n";
+
 	this->backgroundRect.setSize(
 		sf::Vector2f(
 			(float)vm.x,
@@ -151,8 +149,6 @@ void CreateHeroesState::initGui()
 	this->heroButtons["TREBUCHET_1"] = std::make_shared<SelectButton>(
 		xGrid * 15, yGrid * 69, xGrid * 7, yGrid * 12, textures["TREBUCHET"], sf::Color::Green, heroesDescriptions.getDescription(ETrebuchet), First, ETrebuchet);
 
-
-
 	this->heroButtons["ARCHER_2"] = std::make_shared<SelectButton>(
 		xGrid * 78, yGrid * 18, xGrid * 7, yGrid * 12, textures["ARCHER"], sf::Color::Green, heroesDescriptions.getDescription(EArcher), Second, EArcher);
 
@@ -176,12 +172,6 @@ void CreateHeroesState::initGui()
 
 	this->heroButtons["TREBUCHET_2"] = std::make_shared<SelectButton>(
 		xGrid * 87, yGrid * 69, xGrid * 7, yGrid * 12, textures["TREBUCHET"], sf::Color::Green, heroesDescriptions.getDescription(ETrebuchet), Second, ETrebuchet);
-}
-void CreateHeroesState::resetGui()
-{
-	this->buttons.clear();
-
-	this->initGui();
 }
 
 CreateHeroesState::~CreateHeroesState()
@@ -221,91 +211,6 @@ void CreateHeroesState::updateButtons()
 		this->endState();
 	}
 
-	if (this->heroButtons["ARCHER_1"]->isHovered())
-	{
-
-		this->texts["HERO_DESCRIPTION"]->setString(this->heroButtons["ARCHER_1"]->getDescription());
-	}
-	else if (this->heroButtons["ARCHER_2"]->isHovered())
-	{
-
-		this->texts["HERO_DESCRIPTION"]->setString(this->heroButtons["ARCHER_2"]->getDescription());
-	}
-	else if (this->heroButtons["KNIGHT_1"]->isHovered())
-	{
-
-		this->texts["HERO_DESCRIPTION"]->setString(this->heroButtons["KNIGHT_1"]->getDescription());
-	}
-	else if (this->heroButtons["KNIGHT_2"]->isHovered())
-	{
-
-		this->texts["HERO_DESCRIPTION"]->setString(this->heroButtons["KNIGHT_2"]->getDescription());
-	}
-	else if (this->heroButtons["NINJA_1"]->isHovered())
-	{
-
-		this->texts["HERO_DESCRIPTION"]->setString(this->heroButtons["NINJA_1"]->getDescription());
-	}
-	else if (this->heroButtons["NINJA_2"]->isHovered())
-	{
-
-		this->texts["HERO_DESCRIPTION"]->setString(this->heroButtons["NINJA_2"]->getDescription());
-	}
-	else if (this->heroButtons["ICE_DRUID_1"]->isHovered())
-	{
-
-		this->texts["HERO_DESCRIPTION"]->setString(this->heroButtons["ICE_DRUID_1"]->getDescription());
-	}
-	else if (this->heroButtons["ICE_DRUID_2"]->isHovered())
-	{
-
-		this->texts["HERO_DESCRIPTION"]->setString(this->heroButtons["ICE_DRUID_2"]->getDescription());
-	}
-	else if (this->heroButtons["CATAPULT_1"]->isHovered())
-	{
-
-		this->texts["HERO_DESCRIPTION"]->setString(this->heroButtons["CATAPULT_1"]->getDescription());
-	}
-	else if (this->heroButtons["CATAPULT_2"]->isHovered())
-	{
-
-		this->texts["HERO_DESCRIPTION"]->setString(this->heroButtons["CATAPULT_2"]->getDescription());
-	}
-	else if (this->heroButtons["TREBUCHET_1"]->isHovered())
-	{
-
-		this->texts["HERO_DESCRIPTION"]->setString(this->heroButtons["TREBUCHET_1"]->getDescription());
-	}
-	else if (this->heroButtons["TREBUCHET_2"]->isHovered())
-	{
-
-		this->texts["HERO_DESCRIPTION"]->setString(this->heroButtons["TREBUCHET_2"]->getDescription());
-	}
-	else if (this->heroButtons["WIZARD_1"]->isHovered())
-	{
-
-		this->texts["HERO_DESCRIPTION"]->setString(this->heroButtons["WIZARD_1"]->getDescription());
-	}
-	else if (this->heroButtons["WIZARD_2"]->isHovered())
-	{
-
-		this->texts["HERO_DESCRIPTION"]->setString(this->heroButtons["WIZARD_2"]->getDescription());
-	}
-	else if (this->heroButtons["MEDIC_1"]->isHovered())
-	{
-
-		this->texts["HERO_DESCRIPTION"]->setString(this->heroButtons["MEDIC_1"]->getDescription());
-	}
-	else if (this->heroButtons["MEDIC_2"]->isHovered())
-	{
-
-		this->texts["HERO_DESCRIPTION"]->setString(this->heroButtons["MEDIC_2"]->getDescription());
-	}
-	else
-	{
-		this->texts["HERO_DESCRIPTION"]->setString("");
-	}
-
 	if (this->buttons["START"]->isClicked())
 	{
 		this->loadHeroes();
@@ -319,14 +224,14 @@ void CreateHeroesState::updateButtons()
 		}
 		else
 		{
-			this->states->pop();
-			this->states->push(new ConfigureHeroesState(this->states,
-														this->window,
-														this->settings,
-														this->gameController,
-														this->firstPlayerHeroes,
-														this->secondPlayerHeroes));
-			this->endState();
+			this->states->push(std::make_shared<ConfigureHeroesState>(this->states,
+																	  this->window,
+																	  this->settings,
+																	  this->gameController,
+																	  this->firstPlayerHeroes,
+																	  this->secondPlayerHeroes));
+			this->firstPlayerHeroes.clear();
+			this->secondPlayerHeroes.clear();
 		}
 	}
 
@@ -334,10 +239,19 @@ void CreateHeroesState::updateButtons()
 	{
 		it.second->update(this->mousePos);
 	}
+}
+
+void CreateHeroesState::updateHeroButtons()
+{
+	this->texts["HERO_DESCRIPTION"]->setString("");
 
 	for (auto &it : this->heroButtons)
 	{
 		it.second->update(this->mousePos);
+		if (it.second->isHovered())
+		{
+			this->texts["HERO_DESCRIPTION"]->setString(this->heroButtons[it.first]->getDescription());
+		}
 	}
 }
 
@@ -345,33 +259,44 @@ void CreateHeroesState::update()
 {
 	this->updateMousePosition();
 	this->updateButtons();
+	this->updateHeroButtons();
 }
 
 void CreateHeroesState::renderButtons()
 {
-	for (auto &it : this->shapes)
-	{
-		this->window->draw(*it.second);
-	}
-
 	for (auto &it : this->buttons)
 	{
 		it.second->render(*this->window);
 	}
+}
 
+void CreateHeroesState::renderHeroButtons()
+{
 	for (auto &it : this->heroButtons)
 	{
 		it.second->render(*this->window);
 	}
+}
 
+void CreateHeroesState::renderTexts()
+{
 	for (auto &it : this->texts)
 	{
 		this->window->draw(*it.second);
 	}
 }
-
+void CreateHeroesState::renderShapes()
+{
+	for (auto &it : this->shapes)
+	{
+		this->window->draw(*it.second);
+	}
+}
 void CreateHeroesState::render()
 {
 	this->window->draw(this->backgroundRect);
+	this->renderShapes();
+	this->renderHeroButtons();
 	this->renderButtons();
+	this->renderTexts();
 }
