@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(PROI_project)
+project(Magantes&Wizards)
 
 set(SRC
     #Game_Logic
@@ -60,11 +60,21 @@ FetchContent_Declare(
 add_executable(main main.cpp ${SRC})
 target_link_libraries(main sfml-graphics sfml-window sfml-audio sfml-system)
 
-# add_executable(hero_tests tests/tests_hero.cpp ${SRC})
-# add_executable(weapon_tests tests/tests_weapon.cpp ${SRC})
-# add_executable(wearable_tests tests/tests_wearable.cpp ${SRC})
-# add_executable(board_tests tests/tests_board.cpp ${SRC})
-# add_executable(field_tests tests/tests_field.cpp ${SRC})
+add_executable(hero_tests tests/tests_hero.cpp ${SRC})
+target_link_libraries(hero_tests sfml-graphics sfml-window sfml-audio sfml-system)
+
+add_executable(weapon_tests tests/tests_weapon.cpp ${SRC})
+target_link_libraries(weapon_tests sfml-graphics sfml-window sfml-audio sfml-system)
+
+
+add_executable(wearable_tests tests/tests_wearable.cpp ${SRC})
+target_link_libraries(wearable_tests sfml-graphics sfml-window sfml-audio sfml-system)
+
+add_executable(board_tests tests/tests_board.cpp ${SRC})
+target_link_libraries(board_tests sfml-graphics sfml-window sfml-audio sfml-system)
+
+add_executable(field_tests tests/tests_field.cpp ${SRC})
+target_link_libraries(field_tests sfml-graphics sfml-window sfml-audio sfml-system)
 
 enable_testing()
 add_test(NAME Hero_tests COMMAND hero_tests)

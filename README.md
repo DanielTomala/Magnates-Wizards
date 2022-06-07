@@ -142,7 +142,7 @@ Aby umożliwić łatwe rozwijanie naszego projektu podzieliliśmy go na trzy gł
 
     - **Descriptions** - klasa zawierająca teksty wyświetlane w GUI. Są to: ogólne opisy postaci, opisy danego stylu postaci oraz instrukcja dla użytkowników.
 
-    - **GraphicSettings** - ustawienia graficzne. Okno naszej gry wyświetla się na pełnym ekranie. Maksymalna częstotliwość odświeżania to 60FPS. Okno jest skalowane do rozdzielczości monitora. 
+    - **GraphicSettings** - ustawienia graficzne. Okno naszej gry wyświetla się na pełnym ekranie. Maksymalna częstotliwość odświeżania to 60FPS. Okno jest skalowane do rozdzielczości monitora. Zalecaną rozdzielczością jest Full HD (1920x1080). 
 
     - **HPBar** - pasek życia bohatera. Zawiera trzy obiekty sf::Rectangle: tło, maksymalny pasek i aktualny pasek. W zależności od aktualnego HP bohatera aktualny pasek jest skalowany w proporcji obecne HP / maksymalne HP. Wyświetlany jest też napis informujący o punktach życia postaci.
 

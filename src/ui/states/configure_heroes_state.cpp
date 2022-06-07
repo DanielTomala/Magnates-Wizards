@@ -72,55 +72,55 @@ void ConfigureHeroesState::initTextures()
 {
 	if (!this->backgroundTX.loadFromFile("../textures/backgrounds/battleback1.png"))
 	{
-		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BACKGROUND_TEXTURE";
+		throw "ERROR::CONFIGURE_HEROES_STATE::FAILED_TO_LOAD_BACKGROUND_TEXTURE";
 	}
 	if (!this->textures["BUTTON"].loadFromFile("../textures/button.png"))
 	{
-		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_TEXTURE";
+		throw "ERROR::CONFIGURE_HEROES_STATE::FAILED_TO_LOAD_TEXTURE";
 	}
 	if (!this->textures["FIELD"].loadFromFile("../textures/field.png"))
 	{
-		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_TEXTURE";
+		throw "ERROR::CONFIGURE_HEROES_STATE::FAILED_TO_LOAD_TEXTURE";
 	}
 	if (!this->textures["FIELD_RED"].loadFromFile("../textures/field_red.png"))
 	{
-		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_TEXTURE";
+		throw "ERROR::CONFIGURE_HEROES_STATE::FAILED_TO_LOAD_TEXTURE";
 	}
 	if (!this->textures["FIELD_GREEN"].loadFromFile("../textures/field_green.png"))
 	{
-		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_TEXTURE";
+		throw "ERROR::CONFIGURE_HEROES_STATE::FAILED_TO_LOAD_TEXTURE";
 	}
 	if (!this->textures["ARCHER"].loadFromFile("../textures/archer.png"))
 	{
-		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_TEXTURE";
+		throw "ERROR::CONFIGURE_HEROES_STATE::FAILED_TO_LOAD_TEXTURE";
 	}
 	if (!this->textures["KNIGHT"].loadFromFile("../textures/knight.png"))
 	{
-		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_TEXTURE";
+		throw "ERROR::CONFIGURE_HEROES_STATE::FAILED_TO_LOAD_TEXTURE";
 	}
-	if (!this->textures["WIZARD"].loadFromFile("../textures/wizard.png"))
+	if (!this->textures["MAGE"].loadFromFile("../textures/wizard.png"))
 	{
-		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_TEXTURE";
+		throw "ERROR::CONFIGURE_HEROES_STATE::FAILED_TO_LOAD_TEXTURE";
 	}
 	if (!this->textures["ICE_DRUID"].loadFromFile("../textures/ice_druid.png"))
 	{
-		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_TEXTURE";
+		throw "ERROR::CONFIGURE_HEROES_STATE::FAILED_TO_LOAD_TEXTURE";
 	}
 	if (!this->textures["CATAPULT"].loadFromFile("../textures/catapult.png"))
 	{
-		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_TEXTURE";
+		throw "ERROR::CONFIGURE_HEROES_STATE::FAILED_TO_LOAD_TEXTURE";
 	}
 	if (!this->textures["MEDIC"].loadFromFile("../textures/medic.png"))
 	{
-		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_TEXTURE";
+		throw "ERROR::CONFIGURE_HEROES_STATE::FAILED_TO_LOAD_TEXTURE";
 	}
 	if (!this->textures["NINJA"].loadFromFile("../textures/ninja.png"))
 	{
-		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_TEXTURE";
+		throw "ERROR::CONFIGURE_HEROES_STATE::FAILED_TO_LOAD_TEXTURE";
 	}
 	if (!this->textures["TREBUCHET"].loadFromFile("../textures/trebuchet.png"))
 	{
-		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_TEXTURE";
+		throw "ERROR::CONFIGURE_HEROES_STATE::FAILED_TO_LOAD_TEXTURE";
 	}
 }
 
@@ -231,7 +231,7 @@ void ConfigureHeroesState::showHero(std::shared_ptr<Hero> hero, int buttonX, int
 		hero->sprite.setTexture(textures["ARCHER"]);
 		break;
 	case HeroType::EMage:
-		hero->sprite.setTexture(textures["WIZARD"]);
+		hero->sprite.setTexture(textures["MAGE"]);
 		break;
 	case HeroType::EIceDruid:
 		hero->sprite.setTexture(textures["ICE_DRUID"]);
@@ -303,7 +303,6 @@ void ConfigureHeroesState::updateMenuButtons()
 
 void ConfigureHeroesState::updateButtons()
 {
-
 	for (auto &it : this->buttons)
 	{
 		it.second->update(this->mousePos);
@@ -429,7 +428,7 @@ std::string ConfigureHeroesState::heroTypeToString(HeroType herotype)
 	switch (herotype)
 	{
 	case EMage:
-		return "WIZARD";
+		return "MAGE";
 	case EKnight:
 		return "KNIGHT";
 	case EArcher:
