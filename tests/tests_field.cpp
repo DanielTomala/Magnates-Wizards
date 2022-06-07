@@ -2,6 +2,7 @@
 
 #include "catch.hpp"
 #include "../headers/game_logic/heroes/hero.hpp"
+#include "../headers/game_logic/heroes/archer.hpp"
 #include "../headers/game_logic/field.hpp"
 
 TEST_CASE("Default constructor", "[Field]")

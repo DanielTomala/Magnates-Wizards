@@ -2,6 +2,14 @@
 
 #include "catch.hpp"
 #include "../headers/game_logic/heroes/hero.hpp"
+#include "../headers/game_logic/heroes/archer.hpp"
+#include "../headers/game_logic/heroes/knight.hpp"
+#include "../headers/game_logic/heroes/catapult.hpp"
+#include "../headers/game_logic/heroes/ninja.hpp"
+#include "../headers/game_logic/heroes/medic.hpp"
+#include "../headers/game_logic/heroes/trebuchet.hpp"
+#include "../headers/game_logic/heroes/mage.hpp"
+#include "../headers/game_logic/heroes/iceDruid.hpp"
 #include "../headers/game_logic/weapons/weapon.hpp"
 #include "../headers/game_logic/wearable.hpp"
 #include <optional>

@@ -2,6 +2,9 @@
 
 #include "catch.hpp"
 #include "../headers/game_logic/board.hpp"
+#include "../headers/game_logic/heroes/archer.hpp"
+#include "../headers/game_logic/heroes/knight.hpp"
+
 
 TEST_CASE("Default Constructor", "[Board]")
 {
@@ -15,7 +18,7 @@ TEST_CASE("Get rows and columns number", "[Board]")
 }
 
 TEST_CASE("Get field by coordinate. Proper coordinates", "[Board]")
-{	
+{
 }
 
 TEST_CASE("Get field by coordinate. Wrong coordintate", "[Board]")
