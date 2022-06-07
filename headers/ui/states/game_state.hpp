@@ -51,10 +51,6 @@ public:
 
     void render();
 
-    // TEST
-    void gameOutput();
-    // End TEST
-
 private:
     sf::Texture backgroundTX;
     sf::RectangleShape backgroundRect;
