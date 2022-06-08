@@ -73,7 +73,7 @@ void GameState::changeTurn()
 void GameState::unfreezeHeores(Player player)
 {
 	auto frozenHeroes = gameController->getFrozenHeroes();
-	gameController->getFrozenHeroes().erase(
+	gameController->frozenHeroes.erase(
 		std::remove_if(
 			gameController->getFrozenHeroes().begin(),
 			gameController->getFrozenHeroes().end(),

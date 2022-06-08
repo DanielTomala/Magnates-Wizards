@@ -224,7 +224,9 @@ Descriptions::Descriptions()
                    "Each player has to choose 4 heroes.\n"
                    "You can personalise your heroes\n"
                    "and set them on the chosen field.\n"
-                   "Kill all opponent heroes to win.";
+                   "Kill all opponent heroes to win.\n"
+                   "Left click on your hero opens\n"
+                   "action menu, right click closes it.\n";
 }
 
 Descriptions::~Descriptions()

@@ -1,4 +1,4 @@
-# Magnates & Heroes
+# Magnates & Wizards
 
 ## Autorzy
 Team 25/25:
@@ -10,10 +10,11 @@ Team 25/25:
 ## Opis projektu / rozwiązywanego problemu
 W ramach projektu tworzymy grę strategiczną Magnates & Wizards dla dwóch graczy. Rozgrywka polega na wyborze czterech postaci (z ośmiu dostępnych), które w następnej fazie będą ze sobą rywalizować. Wszystkie postaci różnią się między sobą, reprezentują wiele ciekawych umiejętności i sposobów ataku przeciwnika. Wraz z wyborem konkretnej postaci gracz dostaje możliwość wyboru pomiędzy szerokim zasięgiem ataku, zadawaniem większych obrażeń lub opcją zbalansowaną, co urozmaica rozgrywkę i daje graczom pole do przeprowadzenia ciekawszej bitwy. Gra kończy się wraz z pokonaniem wszystkich postaci przeciwnika.
 
+## Wykorzystane narzędzia
 W realizacji naszego projektu korzystamy z języka C++ oraz biblioteki SFML.
 
 ## Struktura repozytorium
-W repozytorium **22L_PROI_PROJ_ZD_IO_PR_DT** znajdują się foldery *headers*, *src*, *tests*, *textures* oraz plik *main.cpp*. 
+W repozytorium **22L_PROI_PROJ_ZD_IO_PR_DT** znajdują się foldery *headers*, *src*, *tests*, *textures* oraz plik *main.cpp*.
 
 ### Opis funkcji folderów:
 
@@ -52,7 +53,7 @@ Zawiera pliki nagłówkowe z rozszerzeniem *.hpp* używane w logice gry, jej roz
 
     - *HPbar.hpp* - pasek życia bohatera
 
-    - *select_button.hpp* - przycisk wyboru postaci 
+    - *select_button.hpp* - przycisk wyboru postaci
 
     - *loads.hpp* - dostępne ataki bohatera
 
@@ -75,7 +76,7 @@ Zawiera tekstury użwane w interfejsie graficznym
 
 ##### Podfoldery i pliki:
 
-- ***backgrounds*** - tekstury tła 
+- ***backgrounds*** - tekstury tła
 
 - tekstury bohaterów
 
@@ -87,7 +88,7 @@ Aby umożliwić łatwe rozwijanie naszego projektu podzieliliśmy go na trzy gł
 - **Logika gry** - klasy reprezentujące najbardziej podstawowe części naszego programu. Od tej części rozpoczęliśmy jego tworzenie.
 
     - **Hero** - klasa Hero reprezentuje bohatera, czyli postać biorącą udział w rozgrywce. Jest ona niezbędna w kontekście logiki gry (atak, leczenie itp.)
-        
+
         - **Knight** - rycerz jest najbardziej "zwykłym" rodzajem postaci. Może atakować jedynie sąsiadujące pola. Nie posiada umiejętności specjalnych.
 
         - **Archer** - łucznik posiada duży zasięg ataku, ale małe obrażenia i ilość życia. Nie posiada specjalnych umiejętności.
@@ -111,19 +112,19 @@ Aby umożliwić łatwe rozwijanie naszego projektu podzieliliśmy go na trzy gł
     - **Weapon** - reprezentuje broń, którą może posiadać tylko konkretny typ Hero. Urozmaica ona rozgrywkę poprzez różnorodność atrybutów, które wnosi ze sobą dana broń.
 
     - **Wearable** - klasa nieużywana, miała reprezentować specjalne przedmioty, które mogą posiadać postaci.
-    
+
     - **BubbleBooster** - klasa nieużywana, miała reprezentować bonus możliwy do podniesienia przez gracza.
 
     - **FieldBooster** - klasa nieużywana, miała reprezentować bonus ulepszający postać stojącą na danym polu.
 
 - **Rozgrywka** - klasy odpowiadające za rozgrywkę. Mają za zadanie obsługę różnych interakcji pomiedzy obiektami klas znajgujących się w logice gry.
-    
-    - **Game** - główna klasa zarządzająca aplikacją. Odpowiada za stworzenie okna rozgrywki, stosu obiektów klasy State, będących kolejnymi widokami programu (więcej w opisie klasy state) oraz zainicjowanie logiki gry. Odpowiada również za renderowanie obiektu State będącego na szczycie stosu oraz obsługę zdarzeń. 
+
+    - **Game** - główna klasa zarządzająca aplikacją. Odpowiada za stworzenie okna rozgrywki, stosu obiektów klasy State, będących kolejnymi widokami programu (więcej w opisie klasy state) oraz zainicjowanie logiki gry. Odpowiada również za renderowanie obiektu State będącego na szczycie stosu oraz obsługę zdarzeń.
 
     - **GameController** - klasa odpowiedzialna za przeprowadzanie wszystkich akcji dostępnych w grze; zawiera funkcje leczenia postaci, przenoszenia postaci na inne pole, ataku bohaterów przeciwnika oraz sprawdzenia, czy wybrane przez gracza pole jest w zasięgu jego akcji (leczenia, poruszania się, ataku).
 
 - **GUI** - graficzny interfejs użytkownika wykorzystuje klasy z logiki oraz rozgrywki i zapewnia komunikację pomiędzy użytkownikiem i aplikacją.
-    
+
     - **State** - jest klasą bazową dla wszystkich widoków dostępnych w grze. Posiada pola będące wskaźnikami na atrybuty stworzone w klasie **Game**, obiekty tekstur, oraz długość i szerokość siatki (0.01 wysokości i 0.01 szerokości ekranu), które umożliwiają skalowanie. Klasa posiada metodę odczytującą współrzędne kursora myszy, oraz wirtualne metody odświeżania oraz renderowania implementowane w każdej klasie dziedziczącej po **State**. Pozwoliło nam to pracować równocześnie nad różnymi widokami. Przechodzenie pomiędzy nimi zrealizowaliśmy przy pomocy stosu. Gdy widok ma przejść na kolejny, w zależności od tego czy chcemy w przyszłości wrócić do obecnego, ustawiamy (lub nie) koniec danego widoku. Po tym dokładamy na stos nowy obiekt danego **State**. Gdy chcemy powrócić do poprzedniego, ustawiamy koniec danego widoku. Klasa **Game** wykrywa czy widok powinien być zdjęty ze stosu. Renderowany i odświeżany jest tylko szczyt stosu. W momencie gdy stos jest pusty aplikacja kończy działanie.
 
     - **MainMenuState** - widok startowego ekranu gry. Posiada przycisk START, po którego naciśnięciu przechodzimy do widoku wyboru postaci, oraz przycisk EXIT, którego naciśnięcie zamyka aplikację.
@@ -135,14 +136,14 @@ Aby umożliwić łatwe rozwijanie naszego projektu podzieliliśmy go na trzy gł
     - **GameState** - widok głównej rozgrywki. Wyświetlana jest plansza oraz informacje o obecnej turze. Po naciśnięciu przez gracza na postać ze swojej drużyny wyświetlane jest menu wyboru akcji. Gracz może w danej turze wykonać 5 akcji lub w każdej chwili pominąć swoją turę. W momencie, gdy wszyscy gracze przeciwnika zginą wyświetla się komunikat o zakończeniu rozgrywki.
 
     - **ActionMenuButton** - przycisk wyboru akcji postaci. Gracz ma do wyboru, w zależności od typu postaci, różne akcje. Medyk posiada trzy akcje: leczenie, atak, ruch; trebusz i katapulta wyłącznie atak, a pozostałe postaci poruszanie i atak.
-    
-    - **Button** - klasa reprezentująca przycisk. Posiada kształt, teksturę, tekst oraz kolor, który zmienia się w zależności od stanu przycisku. Przycisk zmienia swój stan na aktywny, gdy nastąpi kliknięcie i puszczenie lewego przycisku myszy. Ułatwia to interakcję graczy z interfejsem. Oprócz oczywistego użycia obiektów tej klasy podczas tworzenia GUI, zastosowaliśmy je do obsługi pól planszy. 
+
+    - **Button** - klasa reprezentująca przycisk. Posiada kształt, teksturę, tekst oraz kolor, który zmienia się w zależności od stanu przycisku. Przycisk zmienia swój stan na aktywny, gdy nastąpi kliknięcie i puszczenie lewego przycisku myszy. Ułatwia to interakcję graczy z interfejsem. Oprócz oczywistego użycia obiektów tej klasy podczas tworzenia GUI, zastosowaliśmy je do obsługi pól planszy.
 
     - **SelectButton** - w przeciwieństwie do **Button**, ten przycisk może być tylko zaznaczony lub odznaczony. Wykorzystujemy go do wyboru bohaterów przez graczy. Ponadto obiekty tej klasy posiadają metodę zwracającą, czy jest na nim kursor. Wykorzystywana jest ona do wyświetlania opisu danej postaci podczas wyboru.
 
     - **Descriptions** - klasa zawierająca teksty wyświetlane w GUI. Są to: ogólne opisy postaci, opisy danego stylu postaci oraz instrukcja dla użytkowników.
 
-    - **GraphicSettings** - ustawienia graficzne. Okno naszej gry wyświetla się na pełnym ekranie. Maksymalna częstotliwość odświeżania to 60FPS. Okno jest skalowane do rozdzielczości monitora. Zalecaną rozdzielczością jest Full HD (1920x1080). 
+    - **GraphicSettings** - ustawienia graficzne. Okno naszej gry wyświetla się na pełnym ekranie. Maksymalna częstotliwość odświeżania to 60FPS. Okno jest skalowane do rozdzielczości monitora. Zalecaną rozdzielczością jest Full HD (1920x1080).
 
     - **HPBar** - pasek życia bohatera. Zawiera trzy obiekty sf::Rectangle: tło, maksymalny pasek i aktualny pasek. W zależności od aktualnego HP bohatera aktualny pasek jest skalowany w proporcji obecne HP / maksymalne HP. Wyświetlany jest też napis informujący o punktach życia postaci.
 
@@ -183,7 +184,7 @@ Do kompilacji programu wymagane jest połączenie z internetem umożliwiające p
 ```
 
 ## Proces tworzenia
-Pierwsze spotkanie odbyło się kilka dni po ogłoszeniu rozpoczęcia prac nad projektami. Przeprowadziliśmy długą i merytoryczną rozmowę na temat naszych pomysłów na projekt i założeń, jakie chcielibyśmy wprowadzić do naszej gry. Po krótkim odstępie czasu stworzyliśmy repozytorium na GitLabie, wspólnie rozdysponowaliśmy zadania między siebie i przystąpiliśmy do pracy. 
+Pierwsze spotkanie odbyło się kilka dni po ogłoszeniu rozpoczęcia prac nad projektami. Przeprowadziliśmy długą i merytoryczną rozmowę na temat naszych pomysłów na projekt i założeń, jakie chcielibyśmy wprowadzić do naszej gry. Po krótkim odstępie czasu stworzyliśmy repozytorium na GitLabie, wspólnie rozdysponowaliśmy zadania między siebie i przystąpiliśmy do pracy.
 
 Spotkania odbywały się regularnie, co około dwa tygodnie. W zależności od warunków spotykaliśmy się zarówno stacjonarnie jak i zdalnie. Podczas spotkań podsumowywaliśmy wykonaną do tej pory część projektu, omawialiśmy kolejne kroki w tworzeniu naszego programu oraz zaznaczaliśmy, co sprawiało nam problemy przy pisaniu kodu. Dodatkowo, każde mergowanie branchy odbywało się na spotkaniach, by wspólnie rozwiązywać napotkane konflikty w kodzie. Na początku chcieliśmy stworzyć działający system rozgrywki, który następnie urozmaicaliśmy dodatkowymi funkcjami.
 
@@ -191,6 +192,15 @@ Wprowadzenie ostatecznych poprawek spowodowało odrzucenie niektórych z począt
 
 ## Sposób testowania
 Nasz projekt testowaliśmy zarówno za pomocą testów jednostkowych (folder tests), jak i metodą prób i błędów. Podczas uruchamiania gry i przeprowadzania przykładowej rozgrywki łatwo było nam zauważyć, co w jej logice nie jest spójne i potrzebuje poprawek. Pozwoliło nam to na znaczące ulepszenie początkowej wersji gry.
+
+## Zastosowane rozwiązania
+ - W całym programie wykorzystujemy sprytne wskaźniki (shared_ptr), zamiast podstawowych wskaźników, w celu zapobiegnięcia wyciekom pamięci w trakcie działania programu. Jedynym miejscem, w którym pojawia się zwykły wskaźnik, jest zmienna *window* z biblioteki SFML. Zastosowanie zwykłego wskaźnika w tym miejscu, było wymuszone implementacją biblioteki SFML.
+ - Między innymi w klasach field czy hero pojawiają się pola typu *optional*, pozwalają one w prosty sposób na obsługę sytuacji, w której dana zmienna nie została jeszcze przypisana (np. *Hero* nie posiada jeszcze żadnej *Weapon*), wtedy taka zmienna będzie miała wartość *null_opt*.
+ - Wyrażenie lambda, które pojawia się w conajmniej jednym miejscu (*game_state.cpp* -> *unfreezeHeroes()* ), dzięki utworzeniu wewnątrz wyrażenia, krótkiej anonimowej funkcji, wykonanie zamierzonej akcji (usunięcie *Hero* z wektora oraz zmiana jego koloru na domyślny) dużo prostsze i bardziej zwięzłe.
+
+## Znane błędy i problemy
+- Gra nie jest najlepiej zoptymalizowana, czasem zdażają się spadki klatek na sekundę, a gra po prostu działa wolniej.
+- W niektórych przypadkach, przyciski nie rejestrują szybkiego kliknięcia przycisku myszy, wówczas wystarczy jednak przytrzymać przycisk myszy wciśnięty przez pół sekundy dłużej kliknięcie powinno zostać zarejestrowane bez problemu.
 
 ## Możliwości rozwoju
 Nasz projekt posiada znaczne pole do rozwoju. Pierwsze, które przychodzą nam na myśl to zaimplementowanie odrzuconych w procesie produkcji ulepszeń znajdujących się na polach. Pozwoliłyby one urozmaicić rozgrywkę, oraz zwiększyć myślenie strategiczne graczy. Kolejna rzecz, nad którą wartoby się zastanowić to rozgrywka z przeciwnikiem sterowanym przez komputer. Dodanie dźwięków i animacji znacząco zwiększyłoby frajdę z płynącą z rozgrywki. Ciekawe byłoby też dodanie wyboru różnych broni, większa personalizacja postaci np. wybór skina bohatera. Zaimplementowana przez nas rozgrywka mogłaby stać się częścią większej gry RPG ze zdobywaniem zasobów za rozegrane bitwy, które umożliwiłyby kupowanie ulepszeń, nowych bohaterów, broni itp.

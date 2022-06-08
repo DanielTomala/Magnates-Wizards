@@ -28,10 +28,10 @@ public:
     bool isFieldInRange(std::shared_ptr<Field> heroField, std::shared_ptr<Field> actionField, unsigned int range);
 
     std::map<std::shared_ptr<Field>, int> trebuchetAttackRepetition;
+    std::vector<std::shared_ptr<Hero>> frozenHeroes;
 
 private:
     std::shared_ptr<Board> board;
-    std::vector<std::shared_ptr<Hero>> frozenHeroes;
 };
 
 #endif
