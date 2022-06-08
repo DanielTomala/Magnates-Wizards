@@ -72,22 +72,22 @@ void GameState::changeTurn()
 
 void GameState::unfreezeHeores(Player player)
 {
-	auto frozenHeroes = gameController->getFrozenHeroes();
+	auto frozenHeroes = gameController->frozenHeroes;
 	gameController->frozenHeroes.erase(
 		std::remove_if(
-			gameController->getFrozenHeroes().begin(),
-			gameController->getFrozenHeroes().end(),
+			gameController->frozenHeroes.begin(),
+			gameController->frozenHeroes.end(),
 			[player](std::shared_ptr<Hero> const &h)
 			{
 				h->sprite.setColor(sf::Color(255, 255, 255));
 				return h->getOwner() == player;
 			}),
-		gameController->getFrozenHeroes().end());
+		gameController->frozenHeroes.end());
 }
 
 void GameState::updateFrozenHeroes()
 {
-	for (auto frozenHero : gameController->getFrozenHeroes())
+	for (auto frozenHero : gameController->frozenHeroes)
 	{
 		frozenHero->sprite.setColor((sf::Color(17, 182, 244)));
 	}
