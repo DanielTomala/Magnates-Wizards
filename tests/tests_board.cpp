@@ -21,6 +21,17 @@ TEST_CASE("Get rows and columns number", "[Board]")
 TEST_CASE("Get field by coordinate. Proper coordinates", "[Board]")
 {
 	Board board;
+	REQUIRE(board.getFieldByCoordinate(0, 0)->isFree() == true);
+	REQUIRE(board.getFieldByCoordinate(1, 1)->isFree() == true);
+	Archer archer = std::make_shared<Archer>();
+	board.getFieldByCoordinate(1, 1)->addHero(archer);
+	REQUIRE(board.getFieldByCoordinate(1, 1)->isFree() == false);
+}
+
+TEST_CASE("Get field by coordinate. Wrong coordintate", "[Board]")
+{
+	Board board;
+	REQUIRE_THROWS_AS(board.getFieldByCoordinate(20, 20), std::invalid_argument);
 	Archer archer(50, 2);
 	Knight knight(120, 1);
 	auto archer_ptr = std::make_shared<Hero>(archer);
@@ -46,10 +57,26 @@ TEST_CASE("Get fields with heroes", "[Board]")
 
 TEST_CASE("Get fields with bubble boosters", "[Board]")
 {
-	// TODO after bubble booster implementation
+	Board board;
+	auto heal = std::make_shared<BubbleBooster>();
+	auto takedmg = std::make_shared<BubbleBooster>();
+	std::vector<std::shared_ptr<Field>> fields;
+	fields.push_back(std::move(board.getFieldByCoordinate(0, 0)));
+	fields.push_back(std::move(board.getFieldByCoordinate(1, 1)));
+	board.getFieldByCoordinate(0, 0)->addBubbleBooster(heal);
+	board.getFieldByCoordinate(1, 1)->addBubbleBooster(takedmg);
+	REQUIRE(fields == board.getFieldsWithBubbleBooster());
 }
 
 TEST_CASE("Get fields with field boosters", "[Board]")
 {
-	// TODO after field booster implementation
+	Board board;
+	auto heal = std::make_shared<FieldBooster>();
+	auto takedmg = std::make_shared<FieldBooster>();
+	std::vector<std::shared_ptr<Field>> fields;
+	fields.push_back(std::move(board.getFieldByCoordinate(0, 0)));
+	fields.push_back(std::move(board.getFieldByCoordinate(1, 1)));
+	board.getFieldByCoordinate(0, 0)->addFieldBooster(heal);
+	board.getFieldByCoordinate(1, 1)->addFieldBooster(takedmg);
+	REQUIRE(fields == board.getFieldsWithFieldBooster());
 }
