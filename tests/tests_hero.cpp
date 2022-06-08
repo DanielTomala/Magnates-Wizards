@@ -207,6 +207,8 @@ TEST_CASE("Ninja", "[Ninja]")
     REQUIRE(ninja.getType() == ENinja);
     REQUIRE(ninja.getCurrentHealth() == 200);
     REQUIRE(ninja.getMoveRange() == 5);
+    ninja.setLoads(3);
+    REQUIRE(ninja.getLoads() == 3);
     ninja.takeDamage(10);
     REQUIRE(ninja.getCurrentHealth() == 190);
     ninja.setCurrentHealth(0);
@@ -221,6 +223,8 @@ TEST_CASE("Medic", "[Medic]")
     REQUIRE(medic.getMoveRange() == 3);
     medic.takeDamage(10);
     REQUIRE(medic.getCurrentHealth() == 90);
+    medic.setLoads(1);
+    REQUIRE(medic.getLoads() == 1);
     medic.setCurrentHealth(0);
     REQUIRE(medic.isAlive() == false);
 }
@@ -233,6 +237,7 @@ TEST_CASE("Trebuchet", "[Trebuchet]")
     REQUIRE(trebuchet.getMaxHealth() == 100);
     trebuchet.takeDamage(10);
     REQUIRE(trebuchet.getCurrentHealth() == 90);
+    REQUIRE(trebuchet.getMoveRange() == 0);
 }
 
 TEST_CASE("Catapult", "[Catapult]")
@@ -242,4 +247,21 @@ TEST_CASE("Catapult", "[Catapult]")
     REQUIRE(catapult.getCurrentHealth() == 150);
     catapult.takeDamage(10);
     REQUIRE(catapult.getCurrentHealth() == 140);
+    REQUIRE(catapult.getMoveRange() == 0);
+}
+
+TEST_CASE("Catapult - is alive", "[Catapult]")
+{
+    Catapult catapult(10);
+    catapult.takeDamage(10);
+    REQUIRE(catapult.getCurrentHealth() == 0);
+    REQUIRE(catapult.isAlive() == false);
+}
+
+TEST_CASE("Trebuchet - is alive", "[Trebuchet]")
+{
+    Trebuchet trebuchet(10);
+    trebuchet.takeDamage(10);
+    REQUIRE(trebuchet.getCurrentHealth() == 0);
+    REQUIRE(trebuchet.isAlive() == false);
 }
