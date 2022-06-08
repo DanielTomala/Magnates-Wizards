@@ -83,47 +83,63 @@ TEST_CASE("Is not crashed", "[Weapon]")
     REQUIRE(weapon.isNotCrashed() == false);
 }
 
-TEST_CASE("Sword", "[Sword]")
+TEST_CASE("Sword - type", "[Sword]")
 {
     Sword sword;
-    // Sword sword(10, 10, 1);
-    // REQUIRE(sword.getDamage() == 10);
-    // REQUIRE(sword.getDurability() == 10);
-    // REQUIRE(sword.getRange() == 1);
+    sword.setDamage(150);
+    REQUIRE(sword.getDamage() == 150);
+    sword.setDurability(10);
+    REQUIRE(sword.getDurability() == 10);
+    sword.setRange(1);
+    REQUIRE(sword.getRange() == 1);
     REQUIRE(sword.getType() == ESword);
-    // sword.setDamage(1);
-    // REQUIRE(sword.getDamage() == 1);
 }
 
-TEST_CASE("MagicWand", "[MagicWand]")
+TEST_CASE("MagicWand - type", "[MagicWand]")
 {
     MageWand wand;
     REQUIRE(wand.getType() == EMagicWand);
+    wand.setDamage(50);
+    REQUIRE(wand.getDamage() == 50);
+    wand.setDurability(1);
+    REQUIRE(wand.getDurability() == 1);
+    wand.setRange(3);
+    REQUIRE(wand.getRange() == 3);
 }
 
-TEST_CASE("Bow", "[Bow]")
+TEST_CASE("Bow - type", "[Bow]")
 {
     Bow bow;
-    // Bow bow(11, 30, 2);
     REQUIRE(bow.getType() == EBow);
-    // REQUIRE(bow.getDamage() == 11);
-    // REQUIRE(bow.getDurability() == 30);
-    // REQUIRE(bow.getRange() == 2);
+    bow.setDamage(100);
+    REQUIRE(bow.getDamage() == 100);
+    bow.setDurability(10);
+    REQUIRE(bow.getDurability() == 10);
+    bow.setRange(3);
+    REQUIRE(bow.getRange() == 3);
 }
 
-TEST_CASE("IceDruidStaff", "[IceDruidStaff]")
+TEST_CASE("IceDruidStaff - type", "[IceDruidStaff]")
 {
     IceDruidStaff ice_druid_staff;
     REQUIRE(ice_druid_staff.getType() == EIceDruidStaff);
+    ice_druid_staff.setLockedFields(3);
+    REQUIRE(ice_druid_staff.getLockedFields() == 3);
+    ice_druid_staff.setFreezeTime(2);
+    REQUIRE(ice_druid_staff.getFreezeTime() == 2);
 }
 
-TEST_CASE("MedicalBox", "[IceDruidStaff]")
+TEST_CASE("MedicalBox - type", "[IceDruidStaff]")
 {
     MedicalBox medicalbox;
     REQUIRE(medicalbox.getType() == EMedicalBox);
+    medicalbox.setMedicalHealth(10);
+    REQUIRE(medicalbox.getHealPoints() == 10);
+    medicalbox.subtractMedicalHealth(5);
+    REQUIRE(medicalbox.getHealPoints() == 5);
 }
 
-TEST_CASE("Stone", "[Stone]")
+TEST_CASE("Stone - type", "[Stone]")
 {
     Stone stone;
     REQUIRE(stone.getType() == EStone);
