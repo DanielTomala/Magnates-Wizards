@@ -197,6 +197,8 @@ Nasz projekt testowaliśmy zarówno za pomocą testów jednostkowych (folder tes
  - W całym programie wykorzystujemy sprytne wskaźniki (shared_ptr), zamiast podstawowych wskaźników, w celu zapobiegnięcia wyciekom pamięci w trakcie działania programu. Jedynym miejscem, w którym pojawia się zwykły wskaźnik, jest zmienna *window* z biblioteki SFML. Zastosowanie zwykłego wskaźnika w tym miejscu, było wymuszone implementacją biblioteki SFML.
  - Między innymi w klasach field czy hero pojawiają się pola typu *optional*, pozwalają one w prosty sposób na obsługę sytuacji, w której dana zmienna nie została jeszcze przypisana (np. *Hero* nie posiada jeszcze żadnej *Weapon*), wtedy taka zmienna będzie miała wartość *null_opt*.
  - Wyrażenie lambda, które pojawia się w conajmniej jednym miejscu (*game_state.cpp* -> *unfreezeHeroes()* ), dzięki utworzeniu wewnątrz wyrażenia, krótkiej anonimowej funkcji, wykonanie zamierzonej akcji (usunięcie *Hero* z wektora oraz zmiana jego koloru na domyślny) dużo prostsze i bardziej zwięzłe.
+ - Polimorfizm - klasy *Hero* oraz *Weapon* posiadają pewne metody wirtualne, które następnie są nadpisywane w klasach dziedziczących w zależności od zapotrzebowania.
+ - Enkapsulacja - zabezpieczenie pól w klasach przed niepożądanymi zmianami, poprzez dostęp i edycję za pomocą getterów i setterów.
 
 ## Znane błędy i problemy
 - Gra nie jest najlepiej zoptymalizowana, czasem zdażają się spadki klatek na sekundę, a gra po prostu działa wolniej.

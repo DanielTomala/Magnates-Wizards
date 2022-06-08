@@ -23,8 +23,9 @@ TEST_CASE("Get field by coordinate. Proper coordinates", "[Board]")
 	Board board;
 	REQUIRE(board.getFieldByCoordinate(0, 0)->isFree() == true);
 	REQUIRE(board.getFieldByCoordinate(1, 1)->isFree() == true);
-	Archer archer = std::make_shared<Archer>();
-	board.getFieldByCoordinate(1, 1)->addHero(archer);
+	Archer archer;
+	auto archer_ptr = std::make_shared<Archer>(archer);
+	board.getFieldByCoordinate(1, 1)->addHero(archer_ptr);
 	REQUIRE(board.getFieldByCoordinate(1, 1)->isFree() == false);
 }
 
@@ -34,8 +35,8 @@ TEST_CASE("Get field by coordinate. Wrong coordintate", "[Board]")
 	REQUIRE_THROWS_AS(board.getFieldByCoordinate(20, 20), std::invalid_argument);
 	Archer archer(50, 2);
 	Knight knight(120, 1);
-	auto archer_ptr = std::make_shared<Hero>(archer);
-	auto knight_ptr = std::make_shared<Hero>(knight);
+	auto archer_ptr = std::make_shared<Archer>(archer);
+	auto knight_ptr = std::make_shared<Knight>(knight);
 	board.getFields()[0][2]->addHero(archer_ptr);
 	board.getFields()[3][4]->addHero(knight_ptr);
 	REQUIRE(board.getFieldByCoordinate(0, 2)->getHero().value() == archer_ptr);
@@ -45,21 +46,23 @@ TEST_CASE("Get field by coordinate. Wrong coordintate", "[Board]")
 TEST_CASE("Get fields with heroes", "[Board]")
 {
 	Board board;
-	auto knight = std::make_shared<Knight>();
-	auto archer = std::make_shared<Archer>();
+	Knight knight(100, 2);
+	auto knight_ptr = std::make_shared<Knight>(knight);
+	Archer archer(30, 3);
+	auto archer_ptr = std::make_shared<Archer>(archer);
 	std::vector<std::shared_ptr<Field>> fields;
 	fields.push_back(std::move(board.getFieldByCoordinate(0, 0)));
 	fields.push_back(std::move(board.getFieldByCoordinate(1, 1)));
-	board.getFieldByCoordinate(0, 0)->addHero(knight);
-	board.getFieldByCoordinate(1, 1)->addHero(archer);
+	board.getFieldByCoordinate(0, 0)->addHero(knight_ptr);
+	board.getFieldByCoordinate(1, 1)->addHero(archer_ptr);
 	REQUIRE(fields == board.getFieldsWithHeroes());
 }
 
 TEST_CASE("Get fields with bubble boosters", "[Board]")
 {
 	Board board;
-	auto heal = std::make_shared<BubbleBooster>();
-	auto takedmg = std::make_shared<BubbleBooster>();
+	BubbleBooster heal ;
+	BubbleBooster takedmg;
 	std::vector<std::shared_ptr<Field>> fields;
 	fields.push_back(std::move(board.getFieldByCoordinate(0, 0)));
 	fields.push_back(std::move(board.getFieldByCoordinate(1, 1)));
@@ -71,8 +74,8 @@ TEST_CASE("Get fields with bubble boosters", "[Board]")
 TEST_CASE("Get fields with field boosters", "[Board]")
 {
 	Board board;
-	auto heal = std::make_shared<FieldBooster>();
-	auto takedmg = std::make_shared<FieldBooster>();
+	auto heal = FieldBooster();
+	auto takedmg = FieldBooster();
 	std::vector<std::shared_ptr<Field>> fields;
 	fields.push_back(std::move(board.getFieldByCoordinate(0, 0)));
 	fields.push_back(std::move(board.getFieldByCoordinate(1, 1)));
