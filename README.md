@@ -1,6 +1,6 @@
 # Magnates & Wizards
 
-Student project for second semester of Computer Science studies. Project was created by group of four students (Zuzanna Damszel, Ireneusz Okniński, Paweł Rogóż, Daniel Tomala), but I was one of main contributors. Game was created in C++ with usage of SFML library
+Student project for second semester of Computer Science studies. Project was created by group of four students (Zuzanna Damszel, Ireneusz Okniński, Paweł Rogóż, Daniel Tomala), but I was one of main contributors. Game was created in C++ with usage of SFML library.
 It's turn-based game, where two players compete against each other to kill all opponent's heroes. Every player has to choose four heroes out of eight available. Following, player has to choose a style for each hero, there are three of them: long attack range, large damage and balanced. Game ends, when one of the players kills all opponent's heroes.
 
 There are eight heroes classes, which differ from each other:
@@ -21,4 +21,5 @@ There are eight heroes classes, which differ from each other:
   - **Trebuchet** - Trebuchet also can't move, it gives small damage during next two turn at area of nine adjacent fields.
 
 
- ![magantes_wizards](https://user-images.githubusercontent.com/73648335/182908374-b4913609-cc75-4404-9a08-009134700cd0.png)
+![magantes_wizards](https://user-images.githubusercontent.com/73648335/182909315-626b3d70-7bf6-448c-9d2d-68775de5c767.png)
+
