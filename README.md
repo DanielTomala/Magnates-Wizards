@@ -21,4 +21,4 @@ There are eight heroes classes, which differ from each other:
   - **Trebuchet** - Trebuchet also can't move, it gives small damage during next two turn at area of nine adjacent fields.
 
 
-      
+ ![magantes_wizards](https://user-images.githubusercontent.com/73648335/182908374-b4913609-cc75-4404-9a08-009134700cd0.png)
